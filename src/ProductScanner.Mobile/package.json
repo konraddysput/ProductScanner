@@ -1,0 +1,15 @@
+{
+  "name": "productscanner.mobile",
+  "version": "1.0.0",
+  "description": "Product scanner android application. Use mobile application to send data to product scanner API and execute advanced recognition rules",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konraddysput/ProductScanner.git"
+  },
+  "author": "Konrad Dysput",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/konraddysput/ProductScanner/issues"
+  },
+  "homepage": "https://github.com/konraddysput/ProductScanner#readme"
+}

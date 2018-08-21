@@ -1,0 +1,22 @@
+version: '3.4'
+#development docker-compose. 
+#this docker compose contain:
+# ms sql
+# rabbitmq 
+#use this docker compose only for development purpose if you don't have or don't want too install some application dependencies
+services: 
+  mssql:
+        image: "microsoft/mssql-server-linux:latest"
+        ports:
+            - 1433:1433
+        environment:
+            SA_PASSWORD: "DEVeloper!@#"
+            ACCEPT_EULA: "Y"
+  rabbitMq:
+        image: rabbitmq:3-management
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment: 
+            RABBITMQ_DEFAULT_PASS: node
+            RABBITMQ_DEFAULT_USER: node
