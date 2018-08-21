@@ -13,14 +13,17 @@ import { LoginPage } from "../pages/login/login";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/auth-service/auth-service';
+import { RegisterPage } from '../pages/register/register';
+import { WelcomePage } from '../pages/welcome/welcome';
 
 @NgModule({
   declarations: [
     MyApp,
+    WelcomePage,
     LoginPage,
+    RegisterPage,
     AboutPage,
     ContactPage,
-    LoginPage,
     HomePage,
     TabsPage
   ],
@@ -32,9 +35,11 @@ import { AuthService } from '../providers/auth-service/auth-service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    WelcomePage,
+    LoginPage,
+    RegisterPage,
     AboutPage,
     ContactPage,
-    LoginPage,
     HomePage,
     TabsPage
   ],

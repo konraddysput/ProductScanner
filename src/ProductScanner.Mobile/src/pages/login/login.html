@@ -5,22 +5,23 @@
   Ionic pages and navigation.
 -->
 <ion-content padding>
-  <h1>Product Scanner</h1>
+  <h1>Login</h1>
   
   <ion-list>
       <ion-item>
           <ion-label stacked>Username</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" [(ngModel)]="username"></ion-input>
         </ion-item>
       
         <ion-item>
           <ion-label stacked>Password</ion-label>
-          <ion-input type="password"></ion-input>
+          <ion-input type="password" [(ngModel)]="password"></ion-input>
         </ion-item>
   </ion-list>
 
   <div padding>
     <button ion-button color="primary" block (click)="login()">Sign In</button>
   </div>
+  
 
 </ion-content>

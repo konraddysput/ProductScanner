@@ -11,10 +11,10 @@ export class AuthService {
   constructor(public http: HttpClient) {
   }
 
-  public authenticate(userName: string, password: string): Observable<any> {
+  public authenticate(login: string, password: string): Observable<any> {
     const authenticationUrl: string = `${this.apiUrl}/api/auth/token`;
     const data = JSON.stringify({
-      login: userName,
+      login,
       password
     });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -26,6 +26,18 @@ export class AuthService {
         }
         return response;
       })
+  }
+
+  public register(login: string, email: string, password: string) : Observable<any> {
+    const registerUrl: string = `${this.apiUrl}/api/auth/register`;
+    const data = JSON.stringify({
+      login,
+      email,
+      password
+    });
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post<any>(registerUrl, data, {headers});
   }
 
   public logout(){
