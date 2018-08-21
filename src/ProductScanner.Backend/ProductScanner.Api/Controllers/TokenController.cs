@@ -30,6 +30,13 @@ namespace ProductScanner.Api.Controllers
         [HttpPost("token")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(
+                       ModelState.Values.ElementAt(0)
+                       .Errors.ElementAt(0).ErrorMessage);
+            }
+
             var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
             if (!result.Succeeded)
             {
@@ -45,11 +52,19 @@ namespace ProductScanner.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(
+                    ModelState.Values.ElementAt(0)
+                    .Errors.ElementAt(0).ErrorMessage);
+            }
+
             var applicationUser = new ApplicationUser()
             {
-                UserName = model.Login
+                UserName = model.Login,
+                Email = model.Email
             };
 
             var result = await _userManager.CreateAsync(applicationUser, model.Password);
