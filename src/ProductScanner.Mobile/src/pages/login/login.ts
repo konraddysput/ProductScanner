@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { TabsPage } from '../tabs/tabs';
 
@@ -11,17 +11,30 @@ import { TabsPage } from '../tabs/tabs';
 export class LoginPage {
 
   constructor(
-    public navCtrl: NavController, 
-    public authService: AuthService
-  ) {
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public authService: AuthService) {
   }
 
-  public async login(){
-     const result = await this.authService.authenticate("konrad", "test!@#ZXC");
-     
-     if(!result){
-       this.navCtrl.push(TabsPage);
-     }
+  public async login() {
+    const loader = this.loadingCtrl.create({
+      content: "Please wait..."
+    });
+
+    loader.present();
+
+    this.authService.authenticate("konrad", "test!@#ZXC")
+      .subscribe(
+        () => {
+          this.navCtrl.push(TabsPage);
+          loader.dismiss();
+        },
+        err => {
+          console.log(err);
+          loader.dismiss();
+        }
+      )
+
   }
 
 }

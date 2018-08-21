@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProductScanner.Api.Extensions;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
+using System.Text;
 
 namespace ProductScanner.Api
 {
@@ -48,6 +40,8 @@ namespace ProductScanner.Api
             .AddEntityFrameworkStores<ProductScannerDbContext>()
             .AddDefaultTokenProviders();
 
+            services.AddCors();
+
             services.AddServices();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -64,7 +58,8 @@ namespace ProductScanner.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
-                
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -81,6 +76,13 @@ namespace ProductScanner.Api
             }
             app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             app.UseMvc();
             context.Database.EnsureCreated();
         }
