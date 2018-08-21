@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>IMG_20180619_223912.jpg</filename>
+	<path>c:\Users\konra\source\repos\ProductScanner\src\object_detection\images\train\IMG_20180619_223912.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>390</width>
+		<height>520</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>pepsi</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>87</xmin>
+			<ymin>142</ymin>
+			<xmax>224</xmax>
+			<ymax>489</ymax>
+		</bndbox>
+	</object>
+</annotation>

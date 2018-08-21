@@ -1,0 +1,22 @@
+{
+  "name": "path-replace",
+  "version": "1.0.0",
+  "description": "replace all scripts from default tensorflow path to current repo path",
+  "main": "replace.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konraddysput/ProductScanner.git"
+  },
+  "author": "Konrad Dysput",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/konraddysput/ProductScanner/issues"
+  },
+  "homepage": "https://github.com/konraddysput/ProductScanner#readme",
+  "dependencies": {
+    "replace-in-file": "^3.4.2"
+  }
+}

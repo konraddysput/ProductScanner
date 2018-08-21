@@ -1,0 +1,26 @@
+<annotation>
+	<folder>train</folder>
+	<filename>20180617_161932.jpg</filename>
+	<path>c:\Users\konra\source\repos\ProductScanner\src\object_detection\images\train\20180617_161932.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>374</width>
+		<height>664</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>colazero</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1</xmin>
+			<ymin>206</ymin>
+			<xmax>183</xmax>
+			<ymax>601</ymax>
+		</bndbox>
+	</object>
+</annotation>
