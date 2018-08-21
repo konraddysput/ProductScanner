@@ -1,0 +1,7 @@
+{
+  "name": "ProductScanner.Mobile",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
