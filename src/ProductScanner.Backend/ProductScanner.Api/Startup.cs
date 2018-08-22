@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using ProductScanner.Api.Extensions;
+using ProductScanner.Api.Configuration;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
 using System.Text;
@@ -43,6 +43,7 @@ namespace ProductScanner.Api
             services.AddCors();
 
             services.AddServices();
+            services.AddRepositories();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

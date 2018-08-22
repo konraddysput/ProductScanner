@@ -158,6 +158,25 @@ namespace ProductScanner.Database.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ProductScanner.Database.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Path");
+
+                    b.Property<DateTime>("UploadDate");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Photo");
+                });
+
             modelBuilder.Entity("ProductScanner.Database.Identity.ApplicationIdentityRole", b =>
                 {
                     b.Property<int>("Id")
@@ -224,6 +243,14 @@ namespace ProductScanner.Database.Migrations
                 {
                     b.HasOne("ProductScanner.Database.Entities.ApplicationUser")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ProductScanner.Database.Entities.Photo", b =>
+                {
+                    b.HasOne("ProductScanner.Database.Entities.ApplicationUser", "User")
+                        .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

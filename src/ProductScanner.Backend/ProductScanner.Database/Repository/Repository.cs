@@ -15,9 +15,10 @@ namespace ProductScanner.Database.Repository
             _productScannerDbContext = productScannerDbContext;
         }
 
-        public async Task Add(T entity)
+        public async Task<T> Add(T entity)
         {
-            await _productScannerDbContext.Set<T>().AddAsync(entity);
+            var result = await _productScannerDbContext.Set<T>().AddAsync(entity);
+            return result.Entity;
         }
 
         public void Delete(T entity)
@@ -44,6 +45,11 @@ namespace ProductScanner.Database.Repository
         {
             _productScannerDbContext.Entry(entity).State = EntityState.Modified;
             _productScannerDbContext.Set<T>().Update(entity);
+        }
+
+        public async Task SaveChanges()
+        {
+            await _productScannerDbContext.SaveChangesAsync();
         }
     }
 

@@ -13,8 +13,10 @@ namespace ProductScanner.Database.Repository
         IQueryable<T> Get();
         T Get(int id);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
-        Task Add(T entity);
+        Task<T> Add(T entity);
         void Delete(T entity);
         void Update(T entity);
+
+        Task SaveChanges();
     }
 }

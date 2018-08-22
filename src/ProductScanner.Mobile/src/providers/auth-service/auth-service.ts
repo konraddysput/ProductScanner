@@ -2,24 +2,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
+import { GlobalProvider } from '../global/global';
 
 
 @Injectable()
 export class AuthService {
 
-  private readonly apiUrl: string = "https://localhost:44330";
-  constructor(public http: HttpClient) {
-  }
+  constructor(
+    public http: HttpClient,
+    private readonly globals: GlobalProvider) {  }
 
   public authenticate(login: string, password: string): Observable<any> {
-    const authenticationUrl: string = `${this.apiUrl}/api/auth/token`;
     const data = JSON.stringify({
       login,
       password
     });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(authenticationUrl, data, { headers: headers })
+    return this.http.post<any>(this.globals.loginUrl, data, { headers: headers })
       .map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
@@ -29,7 +29,6 @@ export class AuthService {
   }
 
   public register(login: string, email: string, password: string) : Observable<any> {
-    const registerUrl: string = `${this.apiUrl}/api/auth/register`;
     const data = JSON.stringify({
       login,
       email,
@@ -37,7 +36,7 @@ export class AuthService {
     });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(registerUrl, data, {headers});
+    return this.http.post<any>(this.globals.registerUrl, data, {headers});
   }
 
   public logout(){
