@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,8 @@ using ProductScanner.Api.Configuration;
 using ProductScanner.Api.Filters;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
+using ProductScanner.Gateway.Configuration;
+using System;
 using System.Text;
 
 namespace ProductScanner.Api
@@ -25,7 +29,7 @@ namespace ProductScanner.Api
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProductScannerDbContext>(options =>
                    options.UseSqlServer(Configuration["ConnectionStrings:ProductScannerDbContextConnection"]));
@@ -45,6 +49,7 @@ namespace ProductScanner.Api
 
             services.AddServices();
             services.AddRepositories();
+            services.RegisterEventBus(Configuration);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -61,13 +66,18 @@ namespace ProductScanner.Api
                     };
                 });
 
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
                 options.Filters.Add(typeof(ValidateModelStateFilter));
             })
              .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            var container = new ContainerBuilder();
+            container.Populate(services);
+
+            return new AutofacServiceProvider(container.Build());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +94,7 @@ namespace ProductScanner.Api
             app.UseAuthentication();
             app.UseHttpsRedirection();
 
+
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -92,6 +103,7 @@ namespace ProductScanner.Api
 
             app.UseMvc();
             context.Database.EnsureCreated();
+            app.AddEventHandlers();
         }
     }
 }
