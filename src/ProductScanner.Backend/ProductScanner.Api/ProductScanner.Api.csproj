@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductScanner.Database\ProductScanner.Database.csproj" />
+    <ProjectReference Include="..\ProductScanner.Gateway\ProductScanner.Gateway.csproj" />
     <ProjectReference Include="..\ProductScanner.Services\ProductScanner.Services.csproj" />
+    <ProjectReference Include="..\ProductScanner.ViewModels\ProductScanner.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

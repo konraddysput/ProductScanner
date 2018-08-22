@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ProductScanner.Api.ViewModels;
 using ProductScanner.Database.Entities;
 using ProductScanner.Services.Interfaces;
+using ProductScanner.ViewModels.Token;
 using System.Linq;
 using System.Threading.Tasks;
 

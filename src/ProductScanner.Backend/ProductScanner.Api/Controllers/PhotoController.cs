@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProductScanner.Database.Entities;
 using ProductScanner.Services.Interfaces;
 using System.IO;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ProductScanner.Api.Controllers
@@ -47,10 +46,7 @@ namespace ProductScanner.Api.Controllers
             {
                 return NotFound();
             }
-            using (FileStream stream = new FileStream(path, FileMode.Open))
-            {
-                return new FileStreamResult(stream, "image/jpeg");
-            }
+            return new FileStreamResult(new FileStream(path, FileMode.Open), "image/jpeg");
         }
     }
 }

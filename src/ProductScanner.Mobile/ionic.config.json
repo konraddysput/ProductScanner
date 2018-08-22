@@ -1,5 +1,5 @@
 {
-  "name": "ProductScanner.Mobile",
+  "name": "ProductScanner",
   "integrations": {
     "cordova": {}
   },

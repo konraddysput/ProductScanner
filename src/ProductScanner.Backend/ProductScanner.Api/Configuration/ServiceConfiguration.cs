@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ProductScanner.Services.Interfaces;
 using ProductScanner.Services.Services;
-using ProductScanner.Services.Services.Base;
 
 namespace ProductScanner.Api.Configuration
 {

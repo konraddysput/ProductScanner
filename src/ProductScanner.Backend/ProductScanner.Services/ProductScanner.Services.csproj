@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductScanner.Database\ProductScanner.Database.csproj" />
+    <ProjectReference Include="..\ProductScanner.ViewModels\ProductScanner.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

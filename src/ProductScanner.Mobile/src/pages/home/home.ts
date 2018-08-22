@@ -47,7 +47,6 @@ export class HomePage {
     this.photoService.sendPhoto(file)
       .subscribe(
         () => {
-          debugger;
           this._loader.dismiss();
           this.photo = "";
         },
