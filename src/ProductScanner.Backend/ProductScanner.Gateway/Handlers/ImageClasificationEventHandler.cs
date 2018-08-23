@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProductScanner.Gateway.Handlers
 {
-    public class ImageClasificationEventHandler : IIntegrationEventHandler<ImageClasificationIntegrationEvent>
+    public class ImageClasificationEventHandler : IIntegrationEventHandler<ImageClasificationResultIntegrationEvent>
     {
 
         //public ProductPriceChangedIntegrationEventHandler(IBasketRepository repository)
@@ -15,7 +15,7 @@ namespace ProductScanner.Gateway.Handlers
         //    _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         //}
 
-        public async Task Handle(ImageClasificationIntegrationEvent @event)
+        public async Task Handle(ImageClasificationResultIntegrationEvent @event)
         {
             //logic here
             await Task.CompletedTask;

@@ -4,7 +4,7 @@ namespace ProductScanner.Gateway.Events
 {
     public class IntegrationEvent
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public int Id { get; set; }
         public DateTime CreationDate { get; } = DateTime.UtcNow;
     }
 }

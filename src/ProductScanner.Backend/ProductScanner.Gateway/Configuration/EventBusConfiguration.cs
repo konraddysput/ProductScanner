@@ -31,7 +31,7 @@ namespace ProductScanner.Gateway.Configuration
                 return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
             });
 
-            var subscriptionClientName = configuration["RabbitMq:SubscriptionName"];
+            var queueName = configuration["RabbitMq:SubscriptionName"];
 
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
             {
@@ -41,7 +41,7 @@ namespace ProductScanner.Gateway.Configuration
                 var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
                 var retryCount = int.Parse(configuration["RabbitMq:RetryCount"]);
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubcriptionsManager, queueName, retryCount);
             });
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
@@ -54,7 +54,7 @@ namespace ProductScanner.Gateway.Configuration
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
-            eventBus.Subscribe<ImageClasificationIntegrationEvent, ImageClasificationEventHandler>();
+            eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationEventHandler>();
             return app;
         }
     }

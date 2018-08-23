@@ -12,7 +12,6 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +20,8 @@ namespace ProductScanner.Gateway.EventBus
 {
     public class EventBusRabbitMQ : IEventBus, IDisposable
     {
-        const string BROKER_NAME = "product-scanner-event-bus";
+        private const string BROKER_NAME = "product-scanner-event-bus";
+        private const string CHANNEL_TYPE = "direct";
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<EventBusRabbitMQ> _logger;
@@ -34,11 +34,11 @@ namespace ProductScanner.Gateway.EventBus
         private string _queueName;
 
         public EventBusRabbitMQ(
-            IRabbitMQPersistentConnection persistentConnection, 
+            IRabbitMQPersistentConnection persistentConnection,
             ILogger<EventBusRabbitMQ> logger,
-            ILifetimeScope autofac, 
-            IEventBusSubscriptionsManager subsManager, 
-            string queueName = null, 
+            ILifetimeScope autofac,
+            IEventBusSubscriptionsManager subsManager,
+            string queueName = null,
             int retryCount = 5)
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
@@ -90,9 +90,9 @@ namespace ProductScanner.Gateway.EventBus
             {
                 var eventName = @event.GetType()
                     .Name;
-
-                channel.ExchangeDeclare(exchange: BROKER_NAME,
-                                    type: "direct");
+                channel.ExchangeDeclare(
+                    exchange: BROKER_NAME,
+                    type: CHANNEL_TYPE);                
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
@@ -178,11 +178,10 @@ namespace ProductScanner.Gateway.EventBus
 
             var channel = _persistentConnection.CreateModel();
 
-            channel.ExchangeDeclare(exchange: BROKER_NAME,
-                                 type: "direct");
+            channel.ExchangeDeclare(exchange: BROKER_NAME, type: CHANNEL_TYPE);
 
             channel.QueueDeclare(queue: _queueName,
-                                 durable: true,
+                                 durable: false,
                                  exclusive: false,
                                  autoDelete: false,
                                  arguments: null);
