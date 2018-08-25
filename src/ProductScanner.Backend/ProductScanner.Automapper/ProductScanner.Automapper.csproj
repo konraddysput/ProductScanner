@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProductScanner.Database\ProductScanner.Database.csproj" />
+    <ProjectReference Include="..\ProductScanner.Gateway\ProductScanner.Gateway.csproj" />
+    <ProjectReference Include="..\ProductScanner.ViewModels\ProductScanner.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

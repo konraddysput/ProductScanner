@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,15 +13,18 @@ namespace ProductScanner.Api.Controllers
     [Route("api/auth")]
     public class TokenController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJwtService _jwtService;
 
         public TokenController(
+            IMapper mapper,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IJwtService jwtService)
         {
+            _mapper = mapper;
             _signInManager = signInManager;
             _userManager = userManager;
             _jwtService = jwtService;
@@ -47,12 +51,7 @@ namespace ProductScanner.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            var applicationUser = new ApplicationUser()
-            {
-                UserName = model.Login,
-                Email = model.Email
-            };
-
+            var applicationUser = _mapper.Map<ApplicationUser>(model);
             var result = await _userManager.CreateAsync(applicationUser, model.Password);
             if (result.Succeeded)
             {

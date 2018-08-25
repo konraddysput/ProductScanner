@@ -27,12 +27,11 @@ namespace ProductScanner.Services.Services
         {
             var filePath = await SavePhoto(file);
 
-            var photo = new Photo()
+            var result = await _photoRepository.Add(new Photo()
             {
                 Path = filePath,
                 UserId = userId
-            };
-            var result = await _photoRepository.Add(photo);
+            });
             return result;
         }
 

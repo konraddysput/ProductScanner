@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /src/ProductScanner.Backend/ProductScanner.Api/wwwroot/images
+/src/object_detection/test_images

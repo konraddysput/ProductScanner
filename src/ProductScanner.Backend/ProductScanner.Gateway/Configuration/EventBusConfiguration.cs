@@ -45,7 +45,7 @@ namespace ProductScanner.Gateway.Configuration
             });
 
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
-            services.AddTransient<ImageClasificationEventHandler>();
+            services.AddTransient<ImageClasificationResultEventHandler>();
             return services;
         }
 
@@ -54,7 +54,8 @@ namespace ProductScanner.Gateway.Configuration
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
-            eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationEventHandler>();
+            //eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationEventHandler>();
+            eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationResultEventHandler>();
             return app;
         }
     }

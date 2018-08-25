@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ProductScanner.Api.Configuration;
 using ProductScanner.Api.Filters;
+using ProductScanner.Automapper.Configuration;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
 using ProductScanner.Gateway.Configuration;
@@ -73,7 +75,7 @@ namespace ProductScanner.Api
             })
              .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-
+            services.AddMapperConfiguration();
             var container = new ContainerBuilder();
             container.Populate(services);
 

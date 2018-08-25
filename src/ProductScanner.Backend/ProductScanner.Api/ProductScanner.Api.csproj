@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductScanner.Automapper\ProductScanner.Automapper.csproj" />
     <ProjectReference Include="..\ProductScanner.Database\ProductScanner.Database.csproj" />
     <ProjectReference Include="..\ProductScanner.Gateway\ProductScanner.Gateway.csproj" />
     <ProjectReference Include="..\ProductScanner.Services\ProductScanner.Services.csproj" />

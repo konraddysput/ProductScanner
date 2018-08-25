@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductScanner.Gateway", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductScanner.Database", "ProductScanner.Database\ProductScanner.Database.csproj", "{994781B2-52B3-4A42-86CA-9CEFB2A74AD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductScanner.ViewModels", "ProductScanner.ViewModels\ProductScanner.ViewModels.csproj", "{D37B38AD-1511-44BA-9CDA-8A13A4987727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductScanner.ViewModels", "ProductScanner.ViewModels\ProductScanner.ViewModels.csproj", "{D37B38AD-1511-44BA-9CDA-8A13A4987727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductScanner.Automapper", "ProductScanner.Automapper\ProductScanner.Automapper.csproj", "{025CEBF6-8EC6-47A4-A87A-85FB2BAACA0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D37B38AD-1511-44BA-9CDA-8A13A4987727}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D37B38AD-1511-44BA-9CDA-8A13A4987727}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D37B38AD-1511-44BA-9CDA-8A13A4987727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{025CEBF6-8EC6-47A4-A87A-85FB2BAACA0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{025CEBF6-8EC6-47A4-A87A-85FB2BAACA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{025CEBF6-8EC6-47A4-A87A-85FB2BAACA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{025CEBF6-8EC6-47A4-A87A-85FB2BAACA0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

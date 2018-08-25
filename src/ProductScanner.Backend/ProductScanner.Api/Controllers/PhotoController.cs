@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +18,17 @@ namespace ProductScanner.Api.Controllers
     public class PhotoController : Controller
     {
         private readonly IPhotoService _photoService;
+        private readonly IMapper _mapper;
         private readonly IEventBus _eventBus;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public PhotoController(
+            IMapper mapper,
             IEventBus eventBus,
             UserManager<ApplicationUser> userManager,
             IPhotoService photoService)
         {
+            _mapper = mapper;
             _eventBus = eventBus;
             _userManager = userManager;
             _photoService = photoService;
@@ -40,12 +44,8 @@ namespace ProductScanner.Api.Controllers
             var userId = int.Parse(_userManager.GetUserId(User));
             var result = await _photoService.Create(file, userId);
             await _photoService.SaveChanges();
-
-            var integrationEvent = new ImageClasificationIntegrationEvent()
-            {
-                Id = result.Id,
-                Path = result.Path
-            };
+            
+            var integrationEvent = _mapper.Map<ImageClasificationIntegrationEvent>(result);
             _eventBus.Publish(integrationEvent);
 
             return Ok(new { id = result.Id });
