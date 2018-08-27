@@ -38,6 +38,7 @@ class Communication:
 
     def callback(self, ch, method, properties, data):
         body = str(data, "utf-8")
+        print('Received new message with data: ' + body)
         model = json.loads(body)
         classification_result = self.objectDetection.analyse(model['Path'], False)
         classification_result.set_id((model['Id']))

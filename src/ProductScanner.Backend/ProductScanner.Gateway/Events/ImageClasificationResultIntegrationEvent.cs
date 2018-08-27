@@ -11,7 +11,8 @@ namespace ProductScanner.Gateway.Events
             public string Category { get; set; }
         }
         public string Path { get; set; }
+        public string AnalysedFilePath { get; set; }
 
-        public ImageClassificationResultIntegrationEventEntry[] Result { get; set; }
+        public IEnumerable<ImageClassificationResultIntegrationEventEntry> Result { get; set; }
     }
 }

@@ -54,7 +54,7 @@ namespace ProductScanner.Api.Controllers
         [HttpGet("{fileId}")]
         public IActionResult Get(int fileId)
         {
-            string path = _photoService.GetById(fileId);
+            string path = _photoService.GetPathById(fileId);
             if (string.IsNullOrEmpty(path))
             {
                 return NotFound();

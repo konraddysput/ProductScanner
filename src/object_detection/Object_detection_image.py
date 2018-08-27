@@ -23,14 +23,6 @@ class ObjectDetection:
     IMAGE_NAME = 'test1.jpg'
     NUM_CLASSES = 3
 
-    image_tensor = None
-    session = None
-    category_index = None
-    image_tensor = None
-    detection_boxes = None
-    detection_scores = None
-    detection_classes = None
-
     def __init__(self):
         # Grab path to current working directory
         cwd_path = os.getcwd()
@@ -119,7 +111,8 @@ class ObjectDetection:
                 scores=np.squeeze(scores),
                 classes=np.squeeze(classes).astype(np.int32),
                 category_index=self.category_index,
-                positions=np.squeeze(boxes)
+                positions=np.squeeze(boxes),
+                source_path=path_to_image
             )
 
     def save(self, path_to_image, image):

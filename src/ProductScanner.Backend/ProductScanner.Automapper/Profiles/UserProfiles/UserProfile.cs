@@ -2,7 +2,7 @@
 using ProductScanner.Database.Entities;
 using ProductScanner.ViewModels.Token;
 
-namespace ProductScanner.Automapper.Profiles.User
+namespace ProductScanner.Automapper.Profiles.UserProfiles
 {
     public class UserProfile : Profile
     {
