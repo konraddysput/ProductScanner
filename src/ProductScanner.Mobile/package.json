@@ -19,6 +19,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@aspnet/signalr": "^1.0.3",
     "@ionic-native/camera": "^4.12.0",
     "@ionic-native/core": "~4.11.0",
     "@ionic-native/splash-screen": "~4.11.0",

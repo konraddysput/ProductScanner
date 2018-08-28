@@ -42,6 +42,11 @@ namespace ProductScanner.Database.Repository
             return _productScannerDbContext.Set<T>().Where(predicate);
         }
 
+        public async Task<bool> Any(Expression<Func<T, bool>> predicate)
+        {
+            return await _productScannerDbContext.Set<T>().AnyAsync(predicate);
+        }
+
         public void Update(T entity)
         {
             _productScannerDbContext.Entry(entity).State = EntityState.Modified;

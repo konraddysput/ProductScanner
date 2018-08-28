@@ -5,27 +5,34 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import {Camera} from '@ionic-native/camera';
-
+// pages
 import { ContactPage } from '../pages/contact/contact';
 import { HistoryPage } from '../pages/history/history'
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from "../pages/login/login";
+import { PhotoDescriptionPage } from '../pages/photo-description/photo-description';
+
+// components
+import { PhotoDetailComponent } from '../components/photo-detail/photo-detail';
+import { RegisterPage } from '../pages/register/register';
+import { WelcomePage } from '../pages/welcome/welcome';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+// services
 import { AuthService } from '../providers/auth-service/auth-service';
-import { RegisterPage } from '../pages/register/register';
-import { WelcomePage } from '../pages/welcome/welcome';
 import { PhotoService } from '../providers/photo-service/photo-service';
-import { GlobalProvider } from '../providers/global/global';
-import { PhotoDetailComponent } from '../components/photo-detail/photo-detail';
+import { HubService } from '../providers/hub-service/hub-service';
+import { ApiService } from '../providers/api-service/api-service';
 
 @NgModule({
   declarations: [
     MyApp,
     WelcomePage,
     LoginPage,
+    PhotoDescriptionPage,
     RegisterPage,
     HistoryPage,
     ContactPage,
@@ -43,6 +50,7 @@ import { PhotoDetailComponent } from '../components/photo-detail/photo-detail';
     MyApp,
     WelcomePage,
     LoginPage,
+    PhotoDescriptionPage,
     RegisterPage,
     HistoryPage,
     ContactPage,
@@ -50,14 +58,15 @@ import { PhotoDetailComponent } from '../components/photo-detail/photo-detail';
     TabsPage
   ],
   providers: [
-    GlobalProvider,
+    ApiService,
     StatusBar,
     SplashScreen,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     PhotoService,
-    GlobalProvider
+    ApiService,
+    HubService
   ]
 })
 export class AppModule {}

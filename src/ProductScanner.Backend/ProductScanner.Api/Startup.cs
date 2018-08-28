@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ProductScanner.Api.Configuration;
 using ProductScanner.Api.Filters;
+using ProductScanner.Api.Hubs;
 using ProductScanner.Automapper.Configuration;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
@@ -71,12 +72,14 @@ namespace ProductScanner.Api
                 });
 
             services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-                options.Filters.Add(typeof(ValidateModelStateFilter));
-            })
-             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                {
+                    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+                    options.Filters.Add(typeof(ValidateModelStateFilter));
+                })
+                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
+            services.AddSignalR();
             services.AddMapperConfiguration();
             var container = new ContainerBuilder();
             container.Populate(services);
@@ -104,6 +107,11 @@ namespace ProductScanner.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<PreprocesingHub>("/preprocesingHub");
+            });
 
             app.UseMvc();
             context.Database.EnsureCreated();

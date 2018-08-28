@@ -1,15 +1,10 @@
 ﻿using ProductScanner.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+using ProductScanner.Services.Interfaces.Base;
+using ProductScanner.ViewModels.PhotoObject;
 
 namespace ProductScanner.Services.Interfaces
 {
-    public interface IPhotoObjectService
+    public interface IPhotoObjectService : IServiceBase<PhotoObjectViewModel, PhotoObject>
     {
-        Task<PhotoObject> Add(PhotoObject @object);
-        Task<IEnumerable<PhotoObject>>  Add(IEnumerable<PhotoObject> objects);
-        Task SaveChanges();
     }
 }

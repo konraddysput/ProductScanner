@@ -9,6 +9,7 @@ namespace ProductScanner.Api.Configuration
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IRepository<Photo>, Repository<Photo>>();
+            services.AddScoped<IRepository<PhotoObject>, Repository<PhotoObject>>();
             return services;
         }
     }

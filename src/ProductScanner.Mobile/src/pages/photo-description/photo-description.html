@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col col-8>
+        <ion-title>
+          Photo Description
+        </ion-title>
+      </ion-col>
+      <ion-col col-4 text-right>
+        <button ion-button (click)="dismiss()" clear>
+          <span ion-text showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="photo">
+    <img [src]="analysedPhotoUrl(id)">
+    <ion-row >
+      <ion-note style="width:100%" text-center>
+        {{hoursAgo()}}
+      </ion-note>
+    </ion-row>
+    <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
+      <h4 text-center>Find <b style="color:red">{{photo.photoObjects.length}}</b> invalid objects!</h4>
+
+      <ion-grid text-center>
+        <!-- header -->
+        <ion-row>
+          <ion-col col-1>#</ion-col>
+          <ion-col col-3>Classifier</ion-col>
+          <ion-col col-2>X(1)</ion-col>
+          <ion-col col-2>Y(1)</ion-col>
+          <ion-col col-2>X(2)</ion-col>
+          <ion-col col-2>Y(2)</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let photoObject of photo.photoObjects; let i = index">
+          <ion-col col-1>{{i}}</ion-col>
+          <ion-col col-3>{{photoObject.category}}</ion-col>
+          <ion-col col-2>{{photoObject.PositionXL}}</ion-col>
+          <ion-col col-2>{{photoObject.PositionYL}}</ion-col>
+          <ion-col col-2>{{photoObject.PositionXR}}</ion-col>
+          <ion-col col-2>{{photoObject.PositionYR}}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </div>
+
+
+
+    <ion-row text-center>
+      <ion-col col-6>
+        <button ion-button icon-start clear small>
+          <ion-icon name="trash"></ion-icon>
+          <div (click)="delete()">Remove</div>
+        </button>
+      </ion-col>
+      <ion-col col-6 >
+        <button ion-button icon-start clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div (click)="dismiss()">Ok</div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

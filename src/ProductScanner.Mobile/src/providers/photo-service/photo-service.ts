@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from "@ionic-native/camera";
-import { GlobalProvider } from '../global/global';
 import { Observable } from 'rxjs/Observable';
 import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
+import { ApiService } from '../api-service/api-service';
 @Injectable()
 export class PhotoService {
   constructor(
-    private readonly global: GlobalProvider,
+    private readonly apiService: ApiService,
     private readonly camera: Camera,
     public http: HttpClient) { }
 
@@ -29,10 +29,10 @@ export class PhotoService {
     const formData: FormData = new FormData();
     formData.append('file', file, "product-scanner.jpeg");
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.global.token}`
+      'Authorization': `Bearer ${this.apiService.token}`
     });
 
-    return this.http.post<boolean>(this.global.photoUploadUrl, formData, { headers: headers });
+    return this.http.post<any>(this.apiService.photoUploadUrl, formData, { headers: headers });
   }
 
   public toFile(photoImage: string) {
@@ -43,14 +43,21 @@ export class PhotoService {
   }
 
   public getPhotos(page: number, limit: number): Observable<PhotoDetailViewModel[]> {
-    const photoUrl: string = `${this.global.apiBaseUrl}api/photo?page=${page}&limit=${limit}`;
-    const headers = this.global.authenticationHeader;
+    const photoUrl: string = `${this.apiService.apiBaseUrl}api/photo?page=${page}&limit=${limit}`;
+    const headers = this.apiService.authenticationHeader;
     return this.http.get<PhotoDetailViewModel[]>(photoUrl, { headers });
   }
 
+  public getPhoto(id: number): Observable<PhotoDetailViewModel> {
+    const photoUrl: string = `${this.apiService.apiBaseUrl}api/photo/${id}`;
+    const headers = this.apiService.authenticationHeader;
+    return this.http.get<PhotoDetailViewModel>(photoUrl, { headers });
+  }
+
+
   public deletePhoto(id: number): Observable<void> {
-    const deletePhotoUrl: string = `${this.global.apiBaseUrl}api/photo/${id}`;
-    const headers = this.global.authenticationHeader;
+    const deletePhotoUrl: string = `${this.apiService.apiBaseUrl}api/photo/${id}`;
+    const headers = this.apiService.authenticationHeader;
 
     return this.http.delete<void>(deletePhotoUrl, { headers });
   }

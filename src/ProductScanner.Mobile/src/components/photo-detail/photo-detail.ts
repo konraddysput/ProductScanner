@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
-import { GlobalProvider } from '../../providers/global/global';
-import { AlertController } from 'ionic-angular';
+import { AlertController, ModalController } from 'ionic-angular';
+import { ApiService } from '../../providers/api-service/api-service';
+import { PhotoDescriptionPage } from '../../pages/photo-description/photo-description';
 
 @Component({
   selector: 'photo-detail',
@@ -16,16 +17,17 @@ export class PhotoDetailComponent {
   removeEvent = new EventEmitter<number>();
 
   constructor(
+    public modalCtrl: ModalController,
     public alertCtrl: AlertController,
-    public global: GlobalProvider
+    public apiService: ApiService
   ) { }
 
   public photoUrl(id:number): string {
-    return `${this.global.apiBaseUrl}api/photo/${id}/image`;
+    return `${this.apiService.apiBaseUrl}api/photo/${id}/image`;
   }
 
   public analysedPhotoUrl(id: number): string {
-    return `${this.global.apiBaseUrl}api/photo/${id}/analyse`;
+    return `${this.apiService.apiBaseUrl}api/photo/${id}/analyse`;
   }
 
   public hoursAgo(){
@@ -54,6 +56,10 @@ export class PhotoDetailComponent {
     // what's left is seconds
     var seconds = delta % 60; 
     return `uploaded ${seconds} minutes ago`;
+  }
+  public details(): void{
+    const modal = this.modalCtrl.create(PhotoDescriptionPage, {id: this.photo.id, ready: true});
+    modal.present();
   }
   public delete(): void{
     const confirm = this.alertCtrl.create({

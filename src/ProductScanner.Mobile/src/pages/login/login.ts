@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, ToastController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { TabsPage } from '../tabs/tabs';
-import { GlobalProvider } from '../../providers/global/global';
+import { ApiService } from '../../providers/api-service/api-service';
+import { ExceptionFormater } from '../../helpers/exception-formater';
 
 @IonicPage()
 @Component({
@@ -19,7 +20,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    public global: GlobalProvider,
+    public apiService: ApiService,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public authService: AuthService) {
@@ -38,7 +39,7 @@ export class LoginPage {
           loader.dismiss();
         },
         (ex) => {
-          const msg = this.global.exceptionMsg(ex);
+          const msg = ExceptionFormater.exceptionMsg(ex);
           const toast = this.toastCtrl.create({
             message: msg,
             duration: 10000,

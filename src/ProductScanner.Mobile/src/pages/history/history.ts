@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, Loading, ToastController } from 'ionic-angular';
 import { PhotoService } from '../../providers/photo-service/photo-service';
 import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
-import { GlobalProvider } from '../../providers/global/global';
-// import { PhotoDetailComponent } from '../../components/photo-detail/photo-detail';
+import { ApiService } from '../../providers/api-service/api-service';
+import { ExceptionFormater } from '../../helpers/exception-formater';
 
 @IonicPage()
 @Component({
@@ -20,7 +20,7 @@ export class HistoryPage {
   private _loader: Loading;
 
   constructor(
-    public global: GlobalProvider,
+    public apiService: ApiService,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
@@ -39,7 +39,7 @@ export class HistoryPage {
 
   public getPhotoUrl(id: number): string {
     console.log("photoUrl");
-    return `${this.global.apiBaseUrl}api/photo/${id}/image`;
+    return `${this.apiService.apiBaseUrl}api/photo/${id}/image`;
   }
 
   public next(){
@@ -60,7 +60,7 @@ export class HistoryPage {
           this._loader.dismiss();
         },
         (ex) => {
-          const msg = this.global.exceptionMsg(ex);
+          const msg = ExceptionFormater.exceptionMsg(ex);
           const toast = this.toastCtrl.create({
             message: msg,
             duration: 10000,
@@ -85,7 +85,7 @@ export class HistoryPage {
           this._loader.dismiss();
         },
         (ex) => {
-          const msg = this.global.exceptionMsg(ex);
+          const msg = ExceptionFormater.exceptionMsg(ex);
           const toast = this.toastCtrl.create({
             message: msg,
             duration: 10000,

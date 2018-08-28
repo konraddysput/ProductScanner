@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
-export class GlobalProvider {
+export class ApiService {
   //base 
   //base url require / in the end of uri
   // public readonly apiBaseUrl = "https://192.168.1.66:44330/";
@@ -31,13 +31,4 @@ export class GlobalProvider {
   set token(value: string) {
     localStorage.setItem(this.localStorageTokenKey, value);
   }
-
-  public exceptionMsg(ex: any): string{
-    console.warn(ex);
-    return typeof (ex.error) !== "string" 
-    ? "Something goes wrong. Please try again" 
-    : ex.error;
-  }
-
-
 }

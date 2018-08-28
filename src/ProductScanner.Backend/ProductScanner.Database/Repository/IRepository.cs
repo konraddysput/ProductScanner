@@ -16,6 +16,7 @@ namespace ProductScanner.Database.Repository
         Task<T> Add(T entity);
         void Delete(T entity);
         void Update(T entity);
+        Task<bool> Any(Expression<Func<T, bool>> predicate);
 
         Task SaveChanges();
     }

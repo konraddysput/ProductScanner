@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
-import { GlobalProvider } from '../global/global';
+import { ApiService } from '../api-service/api-service';
 
 
 @Injectable()
@@ -10,7 +10,7 @@ export class AuthService {
 
   constructor(
     public http: HttpClient,
-    private readonly globals: GlobalProvider) {  }
+    private readonly apiService: ApiService) {  }
 
   public authenticate(login: string, password: string): Observable<any> {
     const data = JSON.stringify({
@@ -19,7 +19,7 @@ export class AuthService {
     });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(this.globals.loginUrl, data, { headers: headers })
+    return this.http.post<any>(this.apiService.loginUrl, data, { headers: headers })
       .map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
@@ -36,7 +36,7 @@ export class AuthService {
     });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(this.globals.registerUrl, data, {headers});
+    return this.http.post<any>(this.apiService.registerUrl, data, {headers});
   }
 
   public logout(){

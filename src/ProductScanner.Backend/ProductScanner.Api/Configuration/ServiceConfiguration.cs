@@ -10,6 +10,7 @@ namespace ProductScanner.Api.Configuration
         {
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IPhotoObjectService, PhotoObjectService>();
             return services;
         }
     }

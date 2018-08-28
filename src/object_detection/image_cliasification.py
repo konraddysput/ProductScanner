@@ -51,8 +51,6 @@ class Communication:
         )
 
 
-
-
 def main():
     Communication()
 

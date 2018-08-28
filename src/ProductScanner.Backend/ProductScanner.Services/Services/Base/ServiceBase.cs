@@ -3,8 +3,10 @@ using ProductScanner.Database.Entities.Base;
 using ProductScanner.Database.Repository;
 using ProductScanner.Services.Interfaces.Base;
 using ProductScanner.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ProductScanner.Services.Services.Base
@@ -43,6 +45,17 @@ namespace ProductScanner.Services.Services.Base
             entity.Id = viewModel.Id;
             Repository.Update(entity);
         }
+
+        public virtual async Task<bool> Any(Expression<Func<M, bool>> predicate)
+        {
+            return await Repository.Any(predicate);
+        }
+
+        public virtual async Task<bool> Any(int id)
+        {
+            return await Any(n => n.Id == id);
+        }
+
 
         public virtual IEnumerable<VM> Get()
         {

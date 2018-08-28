@@ -81,6 +81,7 @@ namespace ProductScanner.Api.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet("{fileId}/Image")]
         public async Task<IActionResult> GetImage(int fileId)
         {
@@ -92,6 +93,7 @@ namespace ProductScanner.Api.Controllers
             return new FileStreamResult(new FileStream(path, FileMode.Open), "image/jpeg");
         }
 
+        [AllowAnonymous]
         [HttpGet("{fileId}/Analyse")]
         public async Task<IActionResult> GetAnalysed(int fileId)
         {
