@@ -16,7 +16,7 @@ namespace ProductScanner.Automapper.Profiles.PhotoObjectProfiles
                 .ForMember(n => n.PositionXL, m => m.MapFrom(g => g.Position[0])) 
                 .ForMember(n => n.PositionYL, m => m.MapFrom(g => g.Position[1]))
                 .ForMember(n => n.PositionXR, m => m.MapFrom(g => g.Position[2]))
-                .ForMember(n => n.PositionYL, m => m.MapFrom(g => g.Position[3]));
+                .ForMember(n => n.PositionYR, m => m.MapFrom(g => g.Position[3]));
         }
     }
 }

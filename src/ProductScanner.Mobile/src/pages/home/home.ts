@@ -22,16 +22,36 @@ export class HomePage {
     public apiService: ApiService,
     public toastCtrl: ToastController,
     private readonly photoService: PhotoService) {
+
     this._loader = this.loadingCtrl.create({
       content: "Please wait..."
     });
-
-    const modal = this.modalCtrl.create(PhotoDescriptionPage, {id: 23, ready: false});
-          modal.present();
   }
 
   public takePhoto() {
-    this.photoService.takePhoto()
+    const cameraSourceType = 1;
+    this.photoService.takePhoto(cameraSourceType)
+      .then(
+        imageData => {
+          const base64Image = "data:image/jpeg;base64," + imageData;
+          this.photo = base64Image;
+        },
+        (ex) => {
+          const msg = ExceptionFormater.exceptionMsg(ex);
+          const toast = this.toastCtrl.create({
+            message: msg,
+            duration: 10000,
+            showCloseButton: true,
+            closeButtonText: 'Ok'
+          });
+          toast.present();
+        }
+      );
+  }
+
+  public selectPhotoFromGallery(){
+    const gallerySourceType = 0;
+    this.photoService.takePhoto(gallerySourceType)
       .then(
         imageData => {
           const base64Image = "data:image/jpeg;base64," + imageData;
@@ -59,7 +79,7 @@ export class HomePage {
         (data) => {
           this._loader.dismiss();
           this.deletePhoto();
-          const modal = this.modalCtrl.create(PhotoDescriptionPage, {id: data.id, ready: false});
+          const modal = this.modalCtrl.create(PhotoDescriptionPage, { id: data.id, ready: false });
           modal.present();
         },
         (ex) => {
@@ -80,7 +100,7 @@ export class HomePage {
     this.photo = "";
   }
 
-  public logout(){
+  public logout() {
     this.authService.logout();
     window.location.reload();
   }

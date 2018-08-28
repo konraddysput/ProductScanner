@@ -20,9 +20,9 @@
   <div *ngIf="photo">
     <img [src]="analysedPhotoUrl(id)">
     <ion-row >
-      <ion-note style="width:100%" text-center>
+      <!-- <ion-note style="width:100%" text-center>
         {{hoursAgo()}}
-      </ion-note>
+      </ion-note> -->
     </ion-row>
     <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
       <h4 text-center>Find <b style="color:red">{{photo.photoObjects.length}}</b> invalid objects!</h4>
@@ -40,10 +40,10 @@
         <ion-row *ngFor="let photoObject of photo.photoObjects; let i = index">
           <ion-col col-1>{{i}}</ion-col>
           <ion-col col-3>{{photoObject.category}}</ion-col>
-          <ion-col col-2>{{photoObject.PositionXL}}</ion-col>
-          <ion-col col-2>{{photoObject.PositionYL}}</ion-col>
-          <ion-col col-2>{{photoObject.PositionXR}}</ion-col>
-          <ion-col col-2>{{photoObject.PositionYR}}</ion-col>
+          <ion-col col-2>{{photoObject.positionXL}}</ion-col>
+          <ion-col col-2>{{photoObject.positionYL}}</ion-col>
+          <ion-col col-2>{{photoObject.positionXR}}</ion-col>
+          <ion-col col-2>{{photoObject.positionYR}}</ion-col>
         </ion-row>
       </ion-grid>
 

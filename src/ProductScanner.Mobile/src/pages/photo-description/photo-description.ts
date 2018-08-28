@@ -53,8 +53,9 @@ export class PhotoDescriptionPage {
   }
 
   private async setupHub(){
+    const huburl: string  = this.apiService.hubUrl;
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:44330/preprocesingHub')
+      .withUrl(huburl)
       .build();
 
       this._hubConnection.on("DataReady", (id, ready) =>  {
@@ -104,6 +105,7 @@ export class PhotoDescriptionPage {
 
 
   public hoursAgo(){
+    try{
     //detect minutes
     const date = new Date(this.photo.uploadDate);
     var delta = Math.abs((date as any) - (new Date() as any)) / 1000;
@@ -129,6 +131,10 @@ export class PhotoDescriptionPage {
     // what's left is seconds
     var seconds = delta % 60; 
     return `uploaded ${seconds} minutes ago`;
+  }
+  catch(err){
+    console.error(err);
+  }
   }
 
 }

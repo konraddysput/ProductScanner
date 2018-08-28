@@ -5,9 +5,11 @@ import { HttpHeaders } from '@angular/common/http';
 export class ApiService {
   //base 
   //base url require / in the end of uri
-  // public readonly apiBaseUrl = "https://192.168.1.66:44330/";
+  public readonly apiBaseUrl = "https://192.168.1.66:44330/";
 
-  public readonly apiBaseUrl = "https://localhost:44330/";
+  // public readonly apiBaseUrl = "https://localhost:44330/";
+
+  public hubUrl = `${this.apiBaseUrl}preprocesingHub`
   //photo upload 
   public photoUploadUrl = `${this.apiBaseUrl}api/photo`;
 

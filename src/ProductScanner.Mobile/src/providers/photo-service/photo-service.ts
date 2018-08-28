@@ -11,7 +11,7 @@ export class PhotoService {
     private readonly camera: Camera,
     public http: HttpClient) { }
 
-  public async takePhoto(): Promise<any> {
+  public async takePhoto(sourceType: number): Promise<any> {
     const options: CameraOptions = {
       quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -19,6 +19,8 @@ export class PhotoService {
       mediaType: this.camera.MediaType.PICTURE,
       targetWidth: 600,
       targetHeight: 600,
+      correctOrientation:true,
+      sourceType:sourceType,
       saveToPhotoAlbum: false
     };
 

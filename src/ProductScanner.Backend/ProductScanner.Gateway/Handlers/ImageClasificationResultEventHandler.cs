@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using ProductScanner.Gateway.Events;
+using ProductScanner.Gateway.Hubs;
 using ProductScanner.Gateway.Interfaces.Events;
 using ProductScanner.Services.Interfaces;
 using ProductScanner.ViewModels.Photo;
@@ -9,13 +11,16 @@ namespace ProductScanner.Gateway.Handlers
 {
     public class ImageClasificationResultEventHandler : IIntegrationEventHandler<ImageClasificationResultIntegrationEvent>
     {
+        private readonly IHubContext<PreprocesingHub> _hub;
         private readonly IPhotoService _photoService;
         private readonly IMapper _mapper;
 
         public ImageClasificationResultEventHandler(
             IPhotoService photoService,
+            IHubContext<PreprocesingHub> hub,
             IMapper mapper)
         {
+            _hub = hub;
             _photoService = photoService;
             _mapper = mapper;
         }
@@ -32,6 +37,7 @@ namespace ProductScanner.Gateway.Handlers
             photoViewModel.UserId = model.UserId;
             await _photoService.Update(photoViewModel);
             await _photoService.SaveChanges();
+            await _hub.Clients.All.SendAsync("DataReady", model.Id, true);
         }
     }
 }

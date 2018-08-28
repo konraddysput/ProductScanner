@@ -17,6 +17,10 @@
     <ion-icon name="camera"></ion-icon>&nbsp;Take Photo
   </button>
 
+  <button ion-button full (click)="selectPhotoFromGallery()">
+      <ion-icon name="camera"></ion-icon>&nbsp;Select from gallery
+    </button>
+  
 
   <ion-grid  *ngIf="photo">
     <ion-row>

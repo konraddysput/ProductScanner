@@ -2,7 +2,7 @@
 using ProductScanner.Services.Interfaces;
 using System.Threading.Tasks;
 
-namespace ProductScanner.Api.Hubs
+namespace ProductScanner.Gateway.Hubs
 {
     public class PreprocesingHub : Hub
     {

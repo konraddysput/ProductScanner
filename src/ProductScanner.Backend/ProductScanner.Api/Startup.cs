@@ -12,11 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ProductScanner.Api.Configuration;
 using ProductScanner.Api.Filters;
-using ProductScanner.Api.Hubs;
 using ProductScanner.Automapper.Configuration;
 using ProductScanner.Database;
 using ProductScanner.Database.Entities;
 using ProductScanner.Gateway.Configuration;
+using ProductScanner.Gateway.Hubs;
 using System;
 using System.Text;
 
