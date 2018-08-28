@@ -29,16 +29,16 @@ namespace ProductScanner.Services.Services.Base
             return Mapper.Map<VM>(result);
         }
 
-        public virtual void Delete(VM viewModel)
+        public virtual async Task Delete(int id)
         {
-            var model = Mapper.Map<M>(viewModel);
+            var model = await Repository.Get(id);
             Repository.Delete(model);
         }
 
-        public virtual void Update(VM viewModel)
+        public virtual async Task Update(VM viewModel)
         {
             var mappedModel = Mapper.Map<M>(viewModel);
-            var entity = Repository.Get(viewModel.Id);
+            var entity = await Repository.Get(viewModel.Id);
             Mapper.Map(mappedModel, entity);
             entity.Id = viewModel.Id;
             Repository.Update(entity);
@@ -50,9 +50,9 @@ namespace ProductScanner.Services.Services.Base
             return Mapper.Map<IEnumerable<VM>>(result);
         }
 
-        public virtual VM Get(int id)
+        public virtual async Task<VM> Get(int id)
         {
-            var result = Repository.Get(id);
+            var result = await Repository.Get(id);
             return Mapper.Map<VM>(result);
         }
 

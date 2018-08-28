@@ -7,7 +7,10 @@ using ProductScanner.Database.Entities;
 using ProductScanner.Gateway.Events;
 using ProductScanner.Gateway.Interfaces;
 using ProductScanner.Services.Interfaces;
+using ProductScanner.ViewModels.Photo;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProductScanner.Api.Controllers
@@ -34,6 +37,15 @@ namespace ProductScanner.Api.Controllers
             _photoService = photoService;
         }
 
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<PhotoDetailsViewModel>>> Get(
+            [FromQuery(Name = "page")] int page, 
+            [FromQuery(Name = "limit")] int limit)
+        {
+            var data = await _photoService.Get(page, limit);
+            return _mapper.Map<IEnumerable<PhotoDetailsViewModel>>(data).ToArray();
+        }
+
         [HttpPost("")]
         public async Task<IActionResult> Create(IFormFile file)
         {
@@ -44,17 +56,47 @@ namespace ProductScanner.Api.Controllers
             var userId = int.Parse(_userManager.GetUserId(User));
             var result = await _photoService.Create(file, userId);
             await _photoService.SaveChanges();
-            
+
             var integrationEvent = _mapper.Map<ImageClasificationIntegrationEvent>(result);
             _eventBus.Publish(integrationEvent);
 
             return Ok(new { id = result.Id });
         }
 
-        [HttpGet("{fileId}")]
-        public IActionResult Get(int fileId)
+        [HttpGet("{photoId}")]
+        public async Task<ActionResult<PhotoDetailsViewModel>> Details(int photoId)
         {
-            string path = _photoService.GetPathById(fileId);
+            var data = await _photoService.Get(photoId);
+            if (data == null)
+            {
+                return NotFound();
+            }
+            return _mapper.Map<PhotoDetailsViewModel>(data);
+        }
+
+        [HttpDelete("{photoId}")]
+        public IActionResult Delete(int photoId)
+        {
+            _photoService.Delete(photoId);
+            return Ok();
+        }
+
+        [HttpGet("{fileId}/Image")]
+        public async Task<IActionResult> GetImage(int fileId)
+        {
+            string path = await _photoService.GetPathById(fileId);
+            if (string.IsNullOrEmpty(path))
+            {
+                return NotFound();
+            }
+            return new FileStreamResult(new FileStream(path, FileMode.Open), "image/jpeg");
+        }
+
+        [HttpGet("{fileId}/Analyse")]
+        public async Task<IActionResult> GetAnalysed(int fileId)
+        {
+            var photo = await _photoService.Get(fileId);
+            var path = photo.AnalysedFilePath;
             if (string.IsNullOrEmpty(path))
             {
                 return NotFound();

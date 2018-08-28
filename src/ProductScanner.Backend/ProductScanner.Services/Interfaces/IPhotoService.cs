@@ -12,6 +12,7 @@ namespace ProductScanner.Services.Interfaces
     public interface IPhotoService: IServiceBase<PhotoViewModel, Photo>
     {
         Task<Photo> Create(IFormFile file, int userId);
-        string GetPathById(int id);
+        Task<string> GetPathById(int id);
+        Task<IEnumerable<PhotoViewModel>> Get(int page, int limit);
     }
 }

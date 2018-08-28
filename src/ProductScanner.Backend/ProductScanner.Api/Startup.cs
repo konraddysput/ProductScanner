@@ -34,7 +34,9 @@ namespace ProductScanner.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ProductScannerDbContext>(options =>
-                   options.UseSqlServer(Configuration["ConnectionStrings:ProductScannerDbContextConnection"]));
+                   options
+                   .UseLazyLoadingProxies()
+                   .UseSqlServer(Configuration["ConnectionStrings:ProductScannerDbContextConnection"]));
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {

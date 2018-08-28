@@ -5,10 +5,10 @@ namespace ProductScanner.Services.Interfaces.Base
 {
     public interface IServiceBase<VM, M>
     {
-        VM Get(int id);
+        Task<VM> Get(int id);
         IEnumerable<VM> Get();
-        void Update(VM viewModel);
-        void Delete(VM viewModel);
+        Task Update(VM viewModel);
+        Task Delete(int id);
         Task<VM> Create(VM viewModel);
         Task SaveChanges();
     }

@@ -31,9 +31,10 @@ namespace ProductScanner.Database.Repository
             return _productScannerDbContext.Set<T>();
         }
 
-        public T Get(int id)
+        public async Task<T> Get(int id, params string[] includes)
         {
-            return _productScannerDbContext.Set<T>().FirstOrDefault(n => n.Id == id);
+            var entity = _productScannerDbContext.Set<T>().FirstOrDefault(n => n.Id == id);
+            return await Task.FromResult(entity);
         }
 
         public IQueryable<T> Get(Expression<Func<T, bool>> predicate)

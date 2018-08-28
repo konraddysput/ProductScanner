@@ -1,13 +1,17 @@
-﻿using ProductScanner.Database.Entities.Base;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
+using ProductScanner.Database.Entities.Base;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProductScanner.Database.Entities
 {
-    public class PhotoObject: EntityBase
+    public class PhotoObject : EntityBase
     {
+        public PhotoObject() { }
+        public PhotoObject(ILazyLoader lazyLoader)
+        {
+            LazyLoader = lazyLoader;
+        }
         public double Score { get; set; }
         public string Category { get; set; }
 
@@ -19,6 +23,17 @@ namespace ProductScanner.Database.Entities
 
         [ForeignKey(nameof(Photo))]
         public int PhotoId { get; set; }
-        public virtual Photo Photo { get; set; }
+        private Photo _photo;
+        public virtual Photo Photo
+        {
+            get
+            {
+                return LazyLoader.Load(this, ref _photo);
+            }
+
+            set { _photo = value; }
+        }
+
+        private ILazyLoader LazyLoader { get; set; }
     }
 }

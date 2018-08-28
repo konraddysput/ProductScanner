@@ -12,10 +12,12 @@ namespace ProductScanner.Automapper.Profiles.PhotoProfiles
     {
         public PhotoProfile()
         {
+            CreateMap<PhotoViewModel, PhotoDetailsViewModel>();
             CreateMap<Photo, Photo>();
             CreateMap<Photo, ImageClasificationIntegrationEvent>();
             CreateMap<PhotoViewModel, Photo>();
-            CreateMap<Photo, PhotoViewModel>();
+            CreateMap<Photo, PhotoViewModel>()
+                .ForMember(m => m.PhotoObjects, p => p.MapFrom(s => s.PhotoObjects));
             CreateMap<ImageClasificationResultIntegrationEvent, PhotoViewModel>()
                 .ForMember(m => m.UserId, p => p.Ignore())
                 .ForMember(m => m.PhotoObjects,

@@ -11,7 +11,7 @@ namespace ProductScanner.Database.Repository
     public interface IRepository<T> where T : EntityBase
     {
         IQueryable<T> Get();
-        T Get(int id);
+        Task<T> Get(int id, params string[] includes);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> Add(T entity);
         void Delete(T entity);

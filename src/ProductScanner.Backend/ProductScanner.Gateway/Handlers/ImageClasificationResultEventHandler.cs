@@ -23,14 +23,14 @@ namespace ProductScanner.Gateway.Handlers
         public async Task Handle(ImageClasificationResultIntegrationEvent @event)
         {
             var photoViewModel = _mapper.Map<PhotoViewModel>(@event);
-            var model = _photoService.Get(photoViewModel.Id);
+            var model = await _photoService.Get(photoViewModel.Id);
             if (model == null)
             {
                 return;
             }
 
             photoViewModel.UserId = model.UserId;
-            _photoService.Update(photoViewModel);
+            await _photoService.Update(photoViewModel);
             await _photoService.SaveChanges();
         }
     }
