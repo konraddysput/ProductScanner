@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController, Loading } from 'ionic-angular';
 import { PhotoService } from '../../providers/photo-service/photo-service';
+import { AuthService } from '../../providers/auth-service/auth-service';
+import { WelcomePage } from '../welcome/welcome';
 
 @Component({
   selector: 'page-home',
@@ -11,6 +13,7 @@ export class HomePage {
   private readonly _loader: Loading;
 
   constructor(
+    public authService: AuthService,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
@@ -68,4 +71,8 @@ export class HomePage {
     this.photo = "";
   }
 
+  public logout(){
+    this.authService.logout();
+    window.location.reload();
+  }
 }
