@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      History
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+
+  <ion-grid *ngIf="photos" style="height:70vh">
+    <ion-content class="card-background-page">
+      <photo-detail *ngFor="let photo of photos" (removeEvent)="remove($event)" [photo]="photo"></photo-detail>
+    </ion-content>
+
+  </ion-grid>
+
+  <ion-grid *ngIf="!photos" style="height:70vh">
+    <ion-row>
+      <ion-content padding style=height:50vh>
+        <h2>No data found!</h2>
+        <p>
+          Please make your first photo and upload it to our service!
+        </p>
+      </ion-content>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Navigation -->
+  <ion-row text-center>
+    <ion-col col-4>
+      <button ion-button [attr.disabled]="page === 0 ? '': null" color="default" outline (click)="previous()">Previous</button>
+    </ion-col>
+
+    <ion-col col-4>
+        <button ion-button color="default" outline (click)="refresh()">Refresh</button>
+      </ion-col>
+
+    <ion-col col-4 center *ngIf="photos">
+      <button ion-button [attr.disabled]="photos && photos.length !== limit ? '': null" color="default" outline (click)="next()">Next</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

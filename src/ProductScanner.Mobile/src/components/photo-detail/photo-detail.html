@@ -1,0 +1,27 @@
+<ion-card>
+<img [src]="photoUrl(photo.id)">
+
+<ion-card-content>
+  <p>Find {{photo.photoObjects.length}} invalid objects!</p>
+</ion-card-content>
+
+<ion-row>
+  <ion-col>
+    <button ion-button icon-start clear small>
+      <ion-icon name="trash"></ion-icon>
+      <div (click)="delete()">Remove</div>
+    </button>
+  </ion-col>
+  <ion-col>
+    <button ion-button icon-start clear small>
+      <ion-icon name="thumbs-up"></ion-icon>
+      <div>Check details</div>
+    </button>
+  </ion-col>
+  <ion-col center text-center>
+    <ion-note>
+      {{hoursAgo()}}
+    </ion-note>
+  </ion-col>
+</ion-row>
+</ion-card>

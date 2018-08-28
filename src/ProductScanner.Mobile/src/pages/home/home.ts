@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController, ToastController, Loading } from 'ionic-angular';
 import { PhotoService } from '../../providers/photo-service/photo-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { WelcomePage } from '../welcome/welcome';
+import { GlobalProvider } from '../../providers/global/global';
 
 @Component({
   selector: 'page-home',
@@ -16,6 +16,7 @@ export class HomePage {
     public authService: AuthService,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
+    public globalService: GlobalProvider,
     public toastCtrl: ToastController,
     private readonly photoService: PhotoService) {
     this._loader = this.loadingCtrl.create({
@@ -31,7 +32,7 @@ export class HomePage {
           this.photo = base64Image;
         },
         (ex) => {
-          const msg = typeof (ex.error) !== "string" ? "Something goes wrong. Please try again" : ex.error;
+          const msg = this.globalService.exceptionMsg(ex);
           const toast = this.toastCtrl.create({
             message: msg,
             duration: 10000,

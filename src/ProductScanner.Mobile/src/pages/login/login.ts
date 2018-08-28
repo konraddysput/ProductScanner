@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, LoadingController, ToastController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { TabsPage } from '../tabs/tabs';
+import { GlobalProvider } from '../../providers/global/global';
 
 @IonicPage()
 @Component({
@@ -18,6 +19,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
+    public global: GlobalProvider,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public authService: AuthService) {
@@ -36,7 +38,7 @@ export class LoginPage {
           loader.dismiss();
         },
         (ex) => {
-          const msg = !ex.error? "Invalid login or password" : ex.error;
+          const msg = this.global.exceptionMsg(ex);
           const toast = this.toastCtrl.create({
             message: msg,
             duration: 10000,

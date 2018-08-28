@@ -6,8 +6,8 @@ import { MyApp } from './app.component';
 
 import {Camera} from '@ionic-native/camera';
 
-import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
+import { HistoryPage } from '../pages/history/history'
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from "../pages/login/login";
@@ -19,6 +19,7 @@ import { RegisterPage } from '../pages/register/register';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { PhotoService } from '../providers/photo-service/photo-service';
 import { GlobalProvider } from '../providers/global/global';
+import { PhotoDetailComponent } from '../components/photo-detail/photo-detail';
 
 @NgModule({
   declarations: [
@@ -26,10 +27,11 @@ import { GlobalProvider } from '../providers/global/global';
     WelcomePage,
     LoginPage,
     RegisterPage,
-    AboutPage,
+    HistoryPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    PhotoDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { GlobalProvider } from '../providers/global/global';
     WelcomePage,
     LoginPage,
     RegisterPage,
-    AboutPage,
+    HistoryPage,
     ContactPage,
     HomePage,
     TabsPage

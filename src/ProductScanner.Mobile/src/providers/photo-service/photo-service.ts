@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import { GlobalProvider } from '../global/global';
+import { Observable } from 'rxjs/Observable';
+import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
 @Injectable()
 export class PhotoService {
   constructor(
@@ -23,14 +25,14 @@ export class PhotoService {
     return this.camera.getPicture(options);
   }
 
-  public sendPhoto(file:File) {
-      const formData: FormData = new FormData();
-      formData.append('file', file, "product-scanner.jpeg");
-      const headers = new HttpHeaders({ 
-        'Authorization' : `Bearer ${this.global.token}`
-      });
+  public sendPhoto(file: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', file, "product-scanner.jpeg");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.global.token}`
+    });
 
-     return this.http.post<boolean>(this.global.photoUploadUrl, formData, { headers: headers});
+    return this.http.post<boolean>(this.global.photoUploadUrl, formData, { headers: headers });
   }
 
   public toFile(photoImage: string) {
@@ -38,6 +40,19 @@ export class PhotoService {
       .then(function (res) { return res.arrayBuffer(); })
       .then(function (buf) { return new File([buf], "filename", { type: "image/jpeg" }); })
     );
+  }
+
+  public getPhotos(page: number, limit: number): Observable<PhotoDetailViewModel[]> {
+    const photoUrl: string = `${this.global.apiBaseUrl}api/photo?page=${page}&limit=${limit}`;
+    const headers = this.global.authenticationHeader;
+    return this.http.get<PhotoDetailViewModel[]>(photoUrl, { headers });
+  }
+
+  public deletePhoto(id: number): Observable<void> {
+    const deletePhotoUrl: string = `${this.global.apiBaseUrl}api/photo/${id}`;
+    const headers = this.global.authenticationHeader;
+
+    return this.http.delete<void>(deletePhotoUrl, { headers });
   }
 
 }
