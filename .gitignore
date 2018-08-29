@@ -261,3 +261,11 @@ __pycache__/
 *.pyc
 /src/ProductScanner.Backend/ProductScanner.Api/wwwroot/images
 /src/object_detection/test_images
+
+
+/docs/master_thesis.aux
+/docs/master_thesis.synctex.gz
+/docs/master_thesis.toc
+/docs/master_thesis.bbl
+/docs/master_thesis.blg
+/docs/master_thesis.pdf

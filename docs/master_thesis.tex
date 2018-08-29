@@ -1,0 +1,99 @@
+\documentclass[12pt,a4paper,leqno,oneside,titlepage]{mwrep}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{tabularx,ragged2e,booktabs,caption}
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{import}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{ucs}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\setlength{\oddsidemargin}{0.5in}
+\setlength{\textwidth}{5.7in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+\linespread{1.05}
+
+%imported packages settings
+
+%1. listings
+\lstset{language=[Sharp]C,captionpos=b,tabsize=3,frame=lines,extendedchars=true,inputencoding=utf8x,
+keywordstyle=\color{blue},commentstyle=\color{darkgreen},stringstyle=\color{red},
+numbers=left,numberstyle=\tiny,numbersep=5pt,breaklines=true,showstringspaces=false,basicstyle=\footnotesize,emph={label},extendedchars=\true,
+literate={ą}{{\k{a}}}1
+{Ą}{{\k{A}}}1
+{ę}{{\k{e}}}1
+{Ę}{{\k{E}}}1
+{ó}{{\'o}}1
+{Ó}{{\'O}}1
+{ś}{{\'s}}1
+{Ś}{{\'S}}1
+{ł}{{\l{}}}1
+{Ł}{{\L{}}}1
+{ż}{{\.z}}1
+{Ż}{{\.Z}}1
+{ź}{{\'z}}1
+{Ź}{{\'Z}}1
+{ć}{{\'c}}1
+{Ć}{{\'C}}1
+{ń}{{\'n}}1
+{Ń}{{\'N}}1}
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+{\large POLITECHNIKA POZNAŃSKA\\ WYDZIAŁ ELEKTRYCZNY\\ INSTYTUT AUTOMATYKI I INŻYNIERII INFORMATYCZNEJ\par}
+\end{center}
+\vspace{1.5cm plus 1fill}
+\begin{center}
+{\bf \Large Konrad Dysput\par}
+\end{center}
+\vspace{1.5cm plus 1mm minus 2mm}
+\begin{center}
+{\large PRACA DYPLOMOWA MAGISTERSKA\par}
+\end{center}
+\vspace{1.5cm plus 1mm minus 2mm}
+\begin{center}
+{\huge\textbf{Klasyfikacja produktów na podstawie analizy zdjęć półek sklepowych }\par}
+\vspace{1.5cm plus 1.5fill}
+\begin{flushright}
+{\large Promotor: dr Jarosław Bąk}
+\end{flushright}
+\vspace{4cm plus .1fill}
+{\large Poznań,\space 2017\par}
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\chapter{Wstęp}
+\import{sections/}{Wstep.tex}
+
+\chapter{Koncepcja rozwiazań}
+\import{sections/}{Funkcjonalnosc.tex}
+
+\chapter{Projekt przetwarzania obrazu kamery}
+\import{sections/}{Projekt.tex}
+
+\chapter{Architektura systemu}
+\import{sections/}{Architektura.tex}
+
+\chapter{Implementacja}
+\import{sections/}{Implementacja.tex}
+
+\chapter{Testy, wdrożenia oraz scenariusze użycia}
+\import{sections/}{Testy.tex}
+
+\chapter{Zakończenie}
+\import{sections/}{Zakonczenie.tex}
+
+\import{sections/}{Bibliografia.tex}
+\end{document}

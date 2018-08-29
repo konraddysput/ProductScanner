@@ -1,0 +1,36 @@
+Celem rozdziału jest przedstawienie istniejących systemów plików w systemach operacyjnych oraz protokołach udostępnienia zasobów. Zastosowane w nich rozwiązania stanowią podstawę do stworzenia alternatywy w postaci strony WWW.
+\section{Systemów plików FAT32} 
+Następca FAT16 \cite{FAT16:limitation} wprowadzony do systemów operacyjnych Windows 95 w 1996r. Jego znaczenie podkreśla fakt, że mimo dynamicznego rozwoju informatyki oraz wielu alternatyw, stanowi on nieodłączny element najnowszych systemów operacyjnych (Windows 10). Jest to spowodowane kompatybilnością z ogromną liczbą urządzeń. FAT32 jest obsługiwany przez systemy operacyjne Windows, Linux oraz Mac OS. Jego wykorzystanie znajdziemy również w konsolach do gier takich jak Xbox lub Playstation oraz dyskach przenośnych USB. 
+
+System zakładał wykorzystanie 32 bitów na jeden klaster w tablicy alokacji. Umożliwia to zapis plików o maksymalnej wielkości 4GB danych oraz w teorii, możliwość opisu do 268 435 438 klastrów. Wynika z tego że FAT32 można użyć na 16 TB dyskach twardych o sektorach 512-bajtowych. Ze względu na konfigurację sektora uruchomieniowego, w którym zostało ograniczone pole rozmiaru partycji w sektorach, rozmiar ten nie może przekroczyć 2 TB danych dla 512-bajtowych sektorów. FAT32 nie pozwala na zapis plików o nazwie większej niż 255 znaków. Partycja w strukturze FAT składa się z 4 części: 
+\\
+\begin{itemize}  
+	\item \textbf{Regionu zarezerwowanego}, w którego skład wchodzi część uruchomieniowa systemu operacyjnego oraz informacje o partycji takie jak: wielkość sektora oraz partycji, ilość dostępnych sektorów, czy typ partycji.
+	\\
+	\item \textbf{Tablicy alokalicji FAT}, która jest przechowywana zaraz po regionie zarezerwowany. Zawiera ona informacje o relacjach klastrów w systemie operacyjnym. Na jego podstawie możemy zlokalizować plik lub katalog w regionie danych. Każdy element tablicy FAT odpowiada jednemu klastrowi. Na partycji zalecane jest przechowywanie kopii tablicy FAT. Możliwe jest posiadanie więcej niż jednej kopii.
+	\\
+	\item \textbf{Katalog główny}, który jest tworzony automatycznie wraz z uruchomieniem procedury tworzenia systemu plików.
+	\\
+	\item \textbf{Region danych}, w którym znajdują się pliki oraz katalogi użytkownika systemu operacyjnego. Dane te podzielone są na logiczne sektory nazywane klastrami.\\
+\end{itemize}
+
+FAT32 jest systemem plików podatnym na awarie oraz fragmentacje. Do jego wad należy zaliczyć brak systemu uprawnień. Najnowsze systemy informatyczne często korzystają ze zbiorów danych, których wielkość przekracza dopuszczalne 4GB, co powoduje wybór systemu NTFS na rzecz FAT32. 
+\section{Systemów plików NTFS}
+Nowe wymagania stawiane kolejnym wersjom systemów plików sprawiły, że możliwość spełnienia ich przez FAT32 nie była możliwa. W związku z tym stworzono zupełnie nowy system zarządzania plikami. Cele, które postawiono przed NTFS, dotyczyły minimalizacji utraty danych oraz zabezpieczenie ich przed nieautoryzowanym dostępem. Został on stworzony przez firmę Microsoft oraz wdrożony do systemów Windows począwszy od wersji NT 3.1 w 1993r.
+
+NTFS zakłada składowanie wszystkich danych w postaci plików. Zasada ta dotyczy nie tylko ich zawartości, ale również indeksów, bitmap oraz metadanych. Najmniejszą jednostką logiczną na dysku jest klaster. Zastosowanie w systemie wirtualnych oraz logicznych numerów klastrów umożliwia wyznaczenie adresu fizycznego danych.
+
+NTFS jest obiektowym systemem plików. Każdy obiekt odwzorowujący plik, składa się z atrybutów takich jak: nazwa, uprawnienia, dane, deskryptor bezpieczeństwa. Na szczególną uwagę zasługuje fakt, że atrybutem obiektu są również dane pliku. System plików NTFS zapewnia mechanizmy kompresji oraz dekompresji danych możliwe do wykonania na katalogach oraz plikach. Operacja wykonywana na folderze może umożliwić jego kompresję, bez uwzględniania plików znajdującym się w nim. Danych poddanych metodzie kompresji nie można zaszyfrować.
+
+Do wad systemu NTFS należy zaliczyć brak kompatybilności z systemami DOS oraz problemy z wydajnością w przypadku korzystania z nośników danych o pojemności mniejszej niż 400MB. Powodem spadku wydajności jest wykorzystanie przestrzeni nośnika do organizacji systemu plików.
+
+
+\section{Systemów plików SMB}
+SMB\cite{SMB:limitation} jest protokołem o architekturze klient-serwer używany do udostępnienia zasobów w postaci plików lub drukarek. Został on opracowany przez firmę IBM w latach 80. Następnie był rozwijany przez Microsoft, dzięki czemu stał się podstawowym elementem otoczenia sieciowego systemu Windows. Wykorzystuje on dwa inne protokoły niższych rzędów takie jak: NetBIOS w warstwie sesji oraz NetBEUI w warstwie sieci w modelu OSI \cite{ISOOSI:limitation}.
+
+ Zadaniem SMB jest wymiana komunikatów pomiędzy komputerem, pełniącym funkcję klienta, a serwerem. Dzięki nim jesteśmy w stanie korzystać z udostępnionych danych. Nieodpowiednie korzystanie z protokołu może wiązać się z poważnymi konsekwencjami. Należą do nich między innymi: odczytanie obowiązującej polityki haseł, zasad blokady konta oraz informacji dotyczących kont poszczególnych użytkowników (nazwa użytkownika, lokalizacja folderu domowego, dacie ostatniej zmiany hasła oraz logowania). Alternatywnym rozwiązaniem wymienionych problemów może być zablokowanie portów 139 oraz 445 protokołu TCP. Blokada może spowodować ograniczenie funkcjonalności komputera oraz możliwość udostępnienia zasobów lokalnych.
+
+\section{Azure Blob Storage}
+Usługa chmury Microsoft Azure\cite{BlobAzureTutorial:limitation} umożliwiająca przechowywanie plików w postaci danych niestrukturalnych. Magazyn, oferowany w usłudze, umożliwia zarządzanie danymi dowolnego typu takimi jak: dokumenty, pliki binarne lub multimedialne. Dane przechowywane w chmurze mogą być rozmiarów oraz typów nieokreślonych. Azure Blob Storage\cite{MicrosoftAzureBlobStorage} charakteryzuje się możliwością dostępu do danych za pośrednictwem protokołu HTTP lub HTTPS. Dane przechowywane w chmurze mogą posłużyć do rozproszonego przetwarzania lub przechowywania ich jako kopii zapasowych. W przypadku internetowego systemu plików usługa może posłużyć jako miejsce fizycznego zapisu danych użytkownika aplikacji. 
+
+Alternatywą do kontenera danych Azure Blob Storage jest Azure File Storage\cite{MicrosoftAzureFileStorage}. Przewagę rozwiązania opartego na niestrukturalnych danych jest znacznie mniejsza cena usługi oraz zoptymalizowane rozwiązanie losowego dostępu do danych. Azure File Storage używa protokołu SMB oraz umożliwia na łatwiejszą migracje danych.

@@ -1,0 +1,579 @@
+\section{Środowisko programistyczne}
+W celu realizacji poszczególnych założeń projektowych został wykonany złożony program przy użyciu platformy .NET w wersji 4.6. Część serwerowa aplikacji została napisana w języku C\# 6.0, a widoki użytkownika stworzono przy pomocy języków SCSS, JavaScript oraz HTML przy użyciu ASP.NET MVC. Całość oprogramowania powstała z wykorzystaniem programu Visual Studio 2015\cite{MicrosoftVS} w wersji Community oraz systemu automatyzacji zadań Gulp\cite{Gulp:limitation} w środowisku Node.js, służącemu do minifikacji oraz konkatenacji stylów i skryptów. Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server oraz dowolnej przeglądarki internetowej z uruchomioną obsługą języka JavaScript. Środowisko Node.js oraz wszystkie pakiety z nim związane nie są wymagane do dalszej kontynuacji, lecz w znaczny sposób mogą przyspieszyć dalszą pracę. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman:limitation} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler:limitation}. Narzędzia te mogą posłużyć do wywoływania akcji kontrolerów poprzez odpowiednie adresy URL. W celu udostępnienia funkcjonalności zapisywania plików w chmurze Azure, należy skorzystać z konta portalu Azure oraz usługi magazynu. Aplikacja została stworzona przy użyciu systemu Windows 10 oraz można ją uruchomić przy pomocy programu Internet Information Service\cite{IIS:limitation}.
+
+\newpage
+
+\section{Biblioteki}
+
+W celu stworzenia funkcjonalności określonej w pracy użyto liczny zestaw bibliotek platformy .NET oraz interfejsu użytkownika. Wykorzystanie wymienionych poniżej komponentów przyspieszyło w znaczący sposób pracę oraz umożliwiło wykonanie funkcjonalności zgodnie z założoną architekturą systemu.
+
+\begin{center}
+    \begin{longtable}{ | p{2.2cm} | p{5cm} | p{6.5cm} |}
+   	\caption{Użyte biblioteki platformy .NET oraz interfejsu użytkownika} \\
+    \hline Biblioteka & Moduły & Opis \\ \hline    
+    \hline Automapper &  
+    	\begin{itemize} 
+   			 \item aplikacji użytkownika
+   			 \item aplikacji biznesowej	
+   		\end{itemize} 
+    & Biblioteka umożliwiająca mapowanie pomiędzy obiektami odmiennego typu, dzięki której między innymi dokonywana jest zamiana modelu bazodanowego na model widoku.\\ \hline
+    
+    \hline Unity &	
+    \begin{itemize} 
+   			 \item aplikacji użytkownika
+    \end{itemize}
+   			 & Biblioteka umożliwiająca wstrzykiwanie struktur danych. Została użyta w związku z zastosowaniem wzorca architektonicznego odwróconego sterowania, aby wstrzykiwać modele danych do przetwarzania logiki biznesowej aplikacji do konstruktorów kontrolerów. Biblioteka umożliwia również wstrzykiwanie repozytoriów do serwisów danych.	\\ \hline
+    
+        \hline Entity \mbox{Framework} &  
+    	\begin{itemize} 
+   			  \item aplikacji użytkownika
+ 			  \item logiki biznesowej
+			  \item dostępu do danych
+   		\end{itemize} 
+    &  Biblioteka umożliwiająca operacje na kolekcjach danych oraz tworzenie struktur bazodanowych poprzez zastosowanie koncepcji utworzenia klas oraz na ich podstawie wygenerowaniu bazy danych.\\ \hline
+    
+        \hline Microsoft Identity & 
+         \begin{itemize} 
+   			 \item aplikacji użytkownika
+    	\end{itemize} & Biblioteka zapewniająca aplikacji użytkownika zestaw metody umożliwiających autoryzacje oraz uwierzytelnienie. Komponenty zestawu ponadto rozbudowują bazę danych o dodatkowe tabele oraz kolumny przechowujace poufne dane. \\ \hline
+    
+    \hline Windows Azure Storage &  
+    \begin{itemize} 
+    	\item logiki biznesowej
+    \end{itemize} 
+    & Biblioteka umożliwiająca komunikację z magazynem danych w chmurze Azure.\\ \hline
+    
+        \hline Newtonsoft Json.NET  &
+        \begin{itemize} 
+   			 \item aplikacji użytkownika
+   		 \end{itemize}
+    & Biblioteka umożliwiająca zamianę obiektu dowolnego typu  na tekst w formacie JSON oraz danych w postaci JSON na modele używane w aplikacji.		\\ \hline
+    
+    \hline jQuery &  
+    \begin{itemize} 
+    	\item aplikacji użytkownika
+    \end{itemize} 
+    & Biblioteka skryptowa operująca na komponentach graficznych oraz definiująca działanie interfejsu użytkownika w dowolnej przeglądarce internetowej z włączoną obsługą języka JavaScript. \\ \hline
+    
+    
+    \hline Bootstrap Material Design &  
+    \begin{itemize} 
+    	\item testów
+    \end{itemize} 
+    & Biblioteka zawierająca kaskadowe arkusze stylów oraz skrypty implementuje wygląd i zachowanie komponentów zaprojektowanych przez wzorzec Material Design firmy Google. \\ \hline
+    
+    
+    \hline PostSharp &  
+    \begin{itemize} 
+    	\item logiki biznesowej
+    \end{itemize} 
+    & Biblioteka umożliwiająca stworzenie własnych atrybutów klas lub metod. Język C\# nie zapewnia takiej możliwości poprzez zastosowanie dostępnych mechanizmów platformy .NET. Kod stworzony w ramach atrybutu w trakcie kompilacji zostanie dodany w miejsce określone przy konfiguracji aspektu. \\ \hline
+    
+      \hline DotNetZip &  
+    \begin{itemize} 
+    	\item logiki biznesowej
+    \end{itemize} 
+    & Biblioteka umożliwiająca dynamiczne tworzenie plików zip w oparciu o pliki w postaci strumienia lub tablicy bajtów. \\ \hline
+    
+    \hline MOQ &  
+    \begin{itemize} 
+    	\item testów
+    \end{itemize} 
+    & Biblioteka umożliwiająca imitowanie struktur danych używanych w testach jednostkowych. \\ \hline
+    
+     \hline xUnit &  
+    \begin{itemize} 
+    	\item testów
+    \end{itemize} 
+    & Biblioteka umożliwiająca pisanie metod testujących funkcjonalności napisane w programie.  \\ \hline
+	\end{longtable}
+\end{center}
+
+\newpage
+\section{Konfiguracja}
+Aplikacja użytkownika zaimplementowana w ASP.NET MVC charakteryzuje się wykorzystaniem trzech wzorców architektonicznych - Model-Widok-Kontroler, Odwrotnego sterowania oraz wstrzykiwania zależności. Każda z klas pełniących funkcję kontrolerów wykorzystuje zasady zdefiniowane w każdym z wymienionych wzorców. W celu implementacji założeń wykorzystano bibliotekę Unity platformy .NET umożliwiającą wstrzykiwanie złożonych struktur danych - serwisów, do konstruktorów kontrolerów. Konfiguracja zakłada stworzenie kontenera danych oraz zdefiniowanie w nim klas serwisów oraz ich interfejsów, które mogą zostać wykorzystane w argumentach metody inicjalizującej klasę.
+\\
+
+\begin{lstlisting}[caption=Konfiguracja kontenera Odwrotnego sterowania ]
+public class IoCConfiguration
+{
+	public static void ConfigureIocUnityContainer()
+	{
+		IUnityContainer container = new UnityContainer();
+		RegisterServices(container);
+		DependencyResolver.SetResolver(new
+		 WebDiskDependencyResolver(container));
+	}
+
+	private static void RegisterServices(IUnityContainer container)
+	{
+		container.RegisterType<ISpaceService, SpaceService>();
+		container.RegisterType<IDirectoryService, DirectoryService>();
+		container.RegisterType<IFieldService, FieldService>();
+	}
+}
+\end{lstlisting}
+
+Biblioteka Automapper wymaga zdefiniowania typów konwersji danych źródłowych na dane docelowe. W związku z tym stworzono metodę w klasie statycznej, zawierającą dozwolone ścieżki konwersji. Funkcja, uruchamiana jest jednorazowo wraz ze startem aplikacji. Konwersja przykładowych modeli danych znajduje się w Listingu 5.2. 
+\newpage
+
+\begin{lstlisting}[caption=Konfiguracja biblioteki Automapper]
+public static class MapperConfig
+{
+	public static void RegisterMaps()
+	{
+		AutoMapper.Mapper.Initialize(n =>
+		{
+			n.CreateMap<Field, FieldViewModel>();
+			n.CreateMap<HttpPostedFileBase, FileViewModel>();
+			
+			n.CreateMap<FieldInformation, FieldInformation>()
+			.ForMember(dest => dest.FieldInformationId,
+					 opts => opts.MapFrom(from => Guid.NewGuid()))
+			.ForMember(dest => dest.Field, 
+						opts => opts.Ignore());
+						
+			.....
+		}
+	}
+}
+
+\end{lstlisting}
+
+Wszystkie funkcje konfigurujące aplikację ASP.NET MVC wykonywane są w klasie Global.asax podczas uruchamiania aplikacji. Pojedyncze wykonanie zapisuje konfigurację na cały czas działania aplikacji internetowej. 
+
+
+\begin{lstlisting}[caption=Konfiguracja aplikacji]
+
+ public class MvcApplication : System.Web.HttpApplication
+{
+	protected void Application_Start()
+	{
+		AreaRegistration.RegisterAllAreas();
+		FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+		RouteConfig.RegisterRoutes(RouteTable.Routes);
+		BundleConfig.RegisterBundles(BundleTable.Bundles);
+		IoCConfiguration.ConfigureIocUnityContainer();
+		MapperConfig.RegisterMaps();
+	}
+	...
+}
+\end{lstlisting}
+
+\section{Atrybuty}
+
+W celu łatwiejszego użytkowania wymienionych bibliotek zostały stworzone pomocnicze atrybuty. Wykorzystanie ich zmniejsza złożoność kodu oraz przyspiesza pracę programisty. Do listy nowo utworzonych atrybutów należy zaliczyć:
+\begin{itemize}
+  \item \textbf{AutomapAttribute} - służy on do konwersji modeli danych po przetworzeniu logiki znajdującej się w akcji. Umożliwia zamianę modelu bazodanowego na model widoku.
+  \\
+  \begin{lstlisting}[caption=Kod atrybutu Automap]
+  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+  public class AutoMapAttribute : ActionFilterAttribute
+  {
+  	private readonly Type _sourceType;
+  	private readonly Type _destType;
+  	
+  	public AutoMapAttribute(Type sourceType, Type destType)
+  	{
+  		_sourceType = sourceType;
+  		_destType = destType;
+  	}
+  	
+  	public override void OnActionExecuted
+  									(ActionExecutedContext filterContext)
+  	{
+  		var filter = new AutoMapFilter(SourceType, DestType);
+  		
+  		filter.OnActionExecuted(filterContext);
+  	}
+  \end{lstlisting}
+  
+  Atrybut ten może być wykonywany tylko na akcji znajdującej się w klasie pełniącej rolę kontrolera. W widoku dla danej akcji należy pamiętać o zadeklarowaniu modelu dla widoku, ponieważ w innym przypadku otrzymamy błąd niezgodności typów przy generowaniu strony. Dane zwracane z akcji powinny być typu określonego w atrybucie Automap.
+  \\
+  \begin{lstlisting}[caption=Wykorzystanie atrybutu AutoMap]
+  [AutoMap(typeof(IEnumerable<Field>),
+			  typeof(IEnumerable<FieldViewModel>))]
+  public ActionResult Index()
+  {
+  	....
+  	return PartialView("_Directory", availableFields);
+  }
+  \end{lstlisting}
+  
+  \item \textbf{AjaxActionAttribute} - atrybut umożliwiający dostęp do akcji tylko poprzez użycie asynchronicznego zapytania AJAX (Asynchronous JavaScript and XML).
+   \\
+  \begin{lstlisting}[caption=Kod atrybutu Automap]
+  public class AjaxActionAttribute : ActionMethodSelectorAttribute
+  {
+  	public override bool IsValidForRequest(
+				  	ControllerContext controllerContext, 
+				  	System.Reflection.MethodInfo methodInfo)
+  	{
+  		return controllerContext.RequestContext
+  					.HttpContext.Request.IsAjaxRequest();
+  	}
+  }
+   \end{lstlisting}
+  Ma on za zadanie zablokować wysyłanie żądań pobrania danych bezpośrednio z przeglądarki użytkownika lub poprzez narzędzia takie jak Postman lub Fiddler.
+  \\
+  \begin{lstlisting}[caption=Wykorzystanie atrybutu AjaxAction]
+  [AjaxAction]
+   public ActionResult Create(Guid rootId, string directoryName)
+  {
+ 		...
+  		return IndexDetails(rootId);  	
+  }
+  
+  \end{lstlisting}
+  \item \textbf{PermissionAttribute} - atrybut sprawdzający, czy aktualnie zalogowana osoba ma dostęp do wykonywania operacji na pliku lub katalogu. Jest on używany w projekcie biblioteki klas w serwisach odpowiadających za logikę plików oraz katalogów. W celu jego implementacji zastosowano bibliotekę PostSharp. Wykorzystanie jej umożliwia wprowadzanie atrybutów w klasach nie będących kontrolerami w aplikacjach ASP.NET MVC. Atrybut wymaga, aby w argumentach metody przyjmowane były zmienne oznaczające identyfikator użytkownika oraz pola, na których ma zostać wykonana operacja. W celu implementacji aspektu, nowo utworzona klasa musi być oznaczona atrybutem [Serializable]. Jest to jedno z wymagań biblioteki Postsharp. Kod znajdujący się w atrybucie wykonywany jest przed wywołaniem metody docelowej.
+  \newpage
+  \begin{lstlisting}[caption=Aspekt potwierdzający uprawnienia zalogowanego użytkownik do wykonywania operacji na pliku lub katalogu ]
+  [Serializable]
+  public class Permission : MethodInterceptionAspect
+  {
+  	public override void OnInvoke(MethodInterceptionArgs args)
+  	{
+  		Guid userId = args.GetAttributeValue<Guid>("userId");
+  		Guid fieldId = args.GetAttributeValue<Guid>("fieldId");
+  		var serviceInstance = (ServiceBase)args.Instance;
+  		bool hasUserRights = serviceInstance
+  								._authManager
+  								.IsUserHasRights(userId,fieldId);
+  		if (!hasUserRights)
+  		{
+  			throw new UnauthorizedAccessException("..");
+  		}
+  		base.OnInvoke(args);
+  	}	
+  }
+  \end{lstlisting}
+  \item \textbf{DataChangeAttribute} - atrybut zapisujący dane w metodach wykonujących zmiany w bazie danych. Wywołanie go następuje po zakończeniu całej funkcji. Atrybut jest używany w bibliotece klas dzięki wykorzystaniu biblioteki Postsharp. Aspekt korzysta z metody zaimplementowanej w abstrakcyjnej klasie bazowej serwisu.
+  \\
+\begin{lstlisting}[caption=Aspekt zapisujący dane w bazie danych]
+  
+  [Serializable]
+  public class DataChangeAttribute : OnMethodBoundaryAspect
+  {
+  	public override void OnExit(MethodExecutionArgs args)
+  	{
+  		((ServiceBase)args.Instance).Save();
+  		base.OnExit(args);
+  	}
+  }
+  \end{lstlisting}  
+\end{itemize}
+\newpage
+
+\section{Zaimplementowane metody}
+Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalności uwzględnionych w wymaganiach programu. Omawiane funkcje pokazują sposób komunikacji poszczególnych modułów aplikacji. Metody nieomówione w dokumencie znajdują się w kodzie źródłowym aplikacji dołączonym w załączniku. W celu ich analizy należy udać się do katalogu kontrolerów aplikacji ASP.NET MVC.
+\\
+\begin{itemize}
+\item \textbf{Wykorzystanie wzorca odwrotnego sterowania oraz wstrzykiwania zależności} - wstrzykiwanie serwisów danych do repozytorium odbywa się przy użyciu biblioteki Unity. Konstruktor kontrolera przyjmuje jako argumenty serwisy, od których dana klasa jest zależna. Długość życia wstrzykniętych modeli danych jest określona w konfiguracji biblioteki. Dane przyjęte jako argumenty konstruktora są zapisywane w zmiennych prywatnych kontrolera, a następnie wykorzystywane w poszczególnych akcjach.
+
+\begin{lstlisting}[caption=Wstrzyknięcie serwisów danych do konstruktora kontrolera]
+[Authorize]
+[RoutePrefix("Field")]
+public class FieldController : Controller
+{
+	private readonly DirectoryService _directoryService;
+	private readonly FieldService _fieldService;
+	public FieldController(DirectoryService directoryService, 
+									FieldService fieldService)
+	{
+		_directoryService = directoryService;
+		_fieldService = fieldService;
+	}
+...}
+\end{lstlisting}  
+
+\item \textbf{Repozytorium dostępu do danych} - klasa odpowiedzialna za wykonywanie operacji na obiekcie bazy danych. Charakteryzuje się ona wykorzystaniem mechanizmu generyczności w celu zastosowania jej do operacji na dowolnej tabeli. Repozytorium implementuje wszystkie podstawowe operacje bazodanowe, określone w interfejsie IRepository.
+\begin{lstlisting}[caption=Interfejs repozytorium dostępu do danych]
+public interface IRepository<TEntity>
+{
+	IEnumerable<TEntity> Get(...);	
+	TEntity GetByID(object id);
+	void Insert(TEntity entity);
+	void Delete(object id);
+	void Delete(TEntity entityToDelete);
+	void Update(TEntity entityToUpdate);
+}
+\end{lstlisting}  
+
+Implementacja repozytorium zawiera metody wykorzystujące kontekst bazodanowy w celu operacji na danych. Dodanie dodatkowych funkcji do klasy wiąże się z udostępnieniem ich dla wszystkich repozytoriów danych.
+Klasa posiada dwa konstruktory - parametrowy i bezparametrowy. Wersja bezparametrowa używana jest na potrzeby testów jednostkowych, zaś parametrowa wykorzystywana jest przez serwisy logiki biznesowej.
+
+\begin{lstlisting}[caption=Metoda usuwania zaimplementowana w repozytorium danych]
+public virtual void Delete(object id)
+{
+	TEntity entityToDelete = dbSet.Find(id);
+	Delete(entityToDelete);
+}
+public virtual void Delete(TEntity entityToDelete)
+{
+	if(_context.Entry(entityToDelete).State== EntityState.Detached)
+	{
+		dbSet.Attach(entityToDelete);
+	}
+	dbSet.Remove(entityToDelete);
+}
+\end{lstlisting}
+
+W celu odseparowania metod zbędnych dla niektórych repozytoriów zdecydowano się wykorzystać metody rozszerzeń w języku C\#
+\begin{lstlisting}[caption=Klasa rozszerzająca metody możliwe do wykonania na repozytorium Katalogów]
+public static class DirectoryExtensions
+{
+	public static IEnumerable<Field> GetFields(
+									this Repository<Field> source,
+							      Guid directoryId)
+	{
+		return source.Get(n => n.ParentDirectoryId == directoryId);
+	}	
+	public static Field GetFieldRoot(this Repository<Field> source,
+												 Guid fieldId)
+	{
+		Field root = source.GetByID(fieldId);
+		if (root == null)
+		{
+			throw new ArgumentException("There is no root folder");
+		}           
+		return root.ParentDirectoryId.HasValue
+			 	 ? GetFieldRoot(source, root.ParentDirectoryId.Value)
+			    : root;
+	}
+\end{lstlisting}
+\item \textbf{Pobranie plików oraz katalogów użytkownika} - akcja odpowiedzialna za stworzenie strony przedstawiającej aktualny stan katalogu, w którym znajduje się użytkownik. Na stronie HTML wygenerowane zostaną ikony przedstawiające pliki i podfoldery. Akcja pobrania plików oraz katalogów jest metodą przeciążona, możliwą do wykonania poprzez dwa różne adresy URL. Bezparametrowa wersja wygeneruje rezultat dla katalogu domowego użytkownika. Akcja z parametrem stworzy widok zawierający stan dla katalogu o podanym identyfikatorze.
+\begin{lstlisting}[caption=Akcje odpowiedzialne za wyświetlenie plików i katalogów na interfejsie użytkownika]
+[HttpGet]
+[Route("")]
+[AutoMap(typeof(IEnumerable<Field>),
+			typeof(IEnumerable<FieldViewModel>))]
+public ActionResult Index()
+{
+	var userId = Identity.GetUserId(User.Identity);
+	ViewBag.DirectoryId = _directoryService.GetRootField(userId)
+																		.FieldId;
+	return PartialView("_Directory", _directoryService
+										.GetAvailableFields(userId));
+}
+[HttpGet]
+[Route("{directoryId}")]
+[AutoMap(typeof(IEnumerable<Field>),
+		 typeof(IEnumerable<FieldViewModel>))]
+public ActionResult IndexDetails(Guid directoryId)
+{
+	...
+	return PartialView("_Directory", 
+								_directoryService
+								.GetAvailableFields(userId, directoryId));
+}
+\end{lstlisting}
+
+Kontroler w akcji Index wywołuje metodę serwisu odpowiedzialną za sterowanie logiką biznesową związaną z zarządzaniem katalogami. Wywoływana funkcja jest funkcją przeciążoną i w przypadku wywołania jej bez identyfikatora folderu, zostaną pobrane dane dla katalogu domowego użytkownika. W innym przypadku zwracane dane zależne są od identyfikatora katalogu podanego jako argument. Metoda bezparametrowa wywołuje wersję z parametrem po otrzymaniu identyfikatora folderu domowego użytkownika.
+\newpage
+\begin{lstlisting}[caption=Akcje odpowiedzialne za wyświetlenie plików i katalogów na interfejsie użytkownika]
+public IEnumerable<Field> GetAvailableFields(Guid userId)
+{
+	
+	var defaultDirectoryId = SpaceRepository
+											.GetDefaultSpaceDirectory(userId)
+											.FieldId;
+	
+	return GetAvailableFields(userId, defaultDirectoryId);
+}
+
+[Permission]
+public IEnumerable<Field> GetAvailableFields(Guid userId,
+														   Guid fieldId)
+{
+	return FieldRepository.GetFields(fieldId);
+}
+\end{lstlisting}
+
+W celu pobrania danych wykonywana jest operacja na metodzie rozszerzającej repozytorium plików. Funkcja ta odpowiedzialna jest za pobranie wszystkich dzieci (plików i katalogów podrzędnych) dla katalogu podanego jako argument funkcji. Pobrane dane są wynikiem wykonania metody. Na ich podstawie realizowana jest zamiana na model widoku przy pomocy atrybutu Automap.
+\\
+\item \textbf{Dodawanie plików} -
+Internetowy system plików umożliwia zapisywanie danych w aplikacji poprzez skorzystanie z menu kontekstowego strony www. Wybranie opcji "Dodaj" uruchomi dialog wyszukiwania plików na dysku twardym użytkownika. Funkcjonalność umożliwia dodawania wielu plików naraz. Przesłanie ich w sposób asynchroniczny odbywa się przy użyciu biblioteki jQuery oraz operacji AJAX (Asynchronous JavaScript and XML). W celu wysłania danych do serwera należy przygotować obiekt symulujący rolę formularza w języku JavaScript. Elementami, które wchodzą w skład obiektu, są pliki wybrane przez użytkownika w menu dialogowym. Wszystkie informacje o nich znajdują się w ukrytej kontrolce na stronie HTML. Sposób tworzenia obiektu formularza w funkcji języka JavaScript znajduje się w listingu \ref{form}.
+
+\newpage
+\begin{lstlisting}[caption={Tworzenie obiektu formularza z plikami wybranymi przez użytkownika}\label{form}]
+var formData = new FormData(),
+directoryId = getCurrentDirectoryId(),
+fileLength = document.getElementById("file").files.length;
+if (!directoryId) {
+	displayToast("Napotkano na problemy. Odswież stronę",
+	 toastType.ERROR);
+}
+for (var i = 0; i < fileLength; i++) {
+	formData.append("files[" + i + "]",
+					 document.getElementById("file").files[i]);
+}
+\end{lstlisting}
+Stworzony formularz jest wykorzystywany w zapytaniu AJAX wysyłającym pliki użytkownika do serwera.Dane wysyłane są na adres URL zależny od identyfikatora katalogu, w którym aktualnie znajduje się użytkownik. Przesłanie plików wiąże się ze stworzeniem zapytania HTTP typu POST. W celu aktualizacji widoku oraz ewentualnym powiadomieniu użytkownika o błędzie w trakcie przetwarzania żądania, stworzone zostały dwie funkcje anonimowe.
+\begin{lstlisting}[caption=Tworzenie obiektu formularza z plikami wybranymi przez użytkownika]
+  $.ajax({
+	url: 'Field/Update/' + directoryId,
+	type: 'POST',
+	data: formData,
+	success: function (data) {
+		displayToast("Dodano pliki", toastType.SUCCESS);
+		$("#fields").html(data);		
+	},
+	error: function (data) {
+		displayToast("Nie dodano danych", toastType.ERROR);
+	},
+	contentType: false,
+	processData: false
+});
+\end{lstlisting}
+
+ Dane wybrane przez użytkownika zostają odebrane w akcji Tworzenia plików w kontrolerze. Argumentem wywoływanej funkcji jest kolekcja danych w formacie HttpPostedFileBase oraz identyfikator katalogu, w którym aktualnie znajduje się użytkownik. Zastosowanie własnej ścieżki wywołania umożliwiło, na podstawie adresu URl, otrzymanie identyfikatora w argumencie funkcji. 
+ \newpage
+ \begin{lstlisting}[caption=Akcja otrzymująca plik użytkownika]
+ [HttpPost]
+ [Route("Update/{directoryId}")]
+ public ActionResult Create(IEnumerable<HttpPostedFileBase> files,
+ 											 Guid directoryId)
+ {
+ 	var fileModel = Mapper.Map<IEnumerable<FileViewModel>>(files);
+ 	Guid userId = Identity.GetUserId(User.Identity);
+ 	_fieldService.CreateField(userId, directoryId, fileModel);
+ 	return RedirectToAction("IndexDetails", "Directory",
+ 													 new { directoryId });
+ }
+\end{lstlisting}
+Dane plików zostają przetworzone przy pomocy biblioteki Automapper. Operacja ta umożliwi interpretacje obiektu przez bibliotekę logiki biznesowej, w której zdefiniowany jest model pośredni. Dane oraz informacje o identyfikatorach aktualnie zalogowanego użytkownika i bieżącego katalogu służą jako argumenty metody zapisu plików w logice biznesowej aplikacji.
+\\
+\begin{lstlisting}[caption=Przetwarzanie pliku w bibliotece logiki biznesowej]
+public void CreateField(Guid userId,
+								Guid fieldId,
+								IEnumerable<FileViewModel> fileViewModels)
+{
+	foreach (var fileViewModel in fileViewModels)
+	{
+		CreateField(userId, fieldId, fileViewModel);
+	}
+}
+[DataChangeAttribute]
+[Permission]
+public void CreateField(Guid userId, 
+								Guid fieldId,
+								FileViewModel fileViewModel)
+{
+	var field = AutoMapper.Mapper.Map<Field>(fileViewModel);
+	var fileStream = fileViewModel.InputStream;
+	FieldRepository
+			.CreateField(userId, fieldId, field, fileStream);
+}
+
+\end{lstlisting}
+\newpage
+Każdy element modelu pośredniego znajdujący się w argumencie metody, wykorzystywany jest w operacji zapisu. Wykonywana operacja zabezpieczona jest przed  nieuprawnionym dostępem do katalogów poprzez wykorzystanie atrybutu uprawnień. Do bazy danych dodane zostaną rekordy plików dzięki skorzystaniu z atrybutu zapisu danych. Operacja dodania odbywa się w metodzie rozszerzeń repozytorium plików. W jej ciele wykonywane jest przesyłanie danych do chmury Azure przy pomocy klasy pomocniczej. Pomyślne odebranie informacji w kontenerze plików umożliwi utworzenie adresu URL przechowywanego w bazie danych aplikacji, który pozwoli na pobranie pliku. Rezultatem wykonanej operacji dodawania jest zapis danych do bazie danych.
+
+\begin{lstlisting}[caption=Zapis danych w chmurze oraz bazie danych]
+public static void CreateField(this Repository<Field> fieldRepository,
+											 Guid userId, 
+											 Guid parentDirectoryId, 
+											 Field field, 
+											 Stream inputStream)
+{
+	string pathToAzureFile = new AzureManager()
+	.UploadFile(inputStream);
+	
+	field.FieldInformation.Localisation = pathToAzureFile;
+	field.ParentDirectoryId = parentDirectoryId;
+	field.LastModifiedById = userId;
+	
+	fieldRepository.Insert(field);
+}
+\end{lstlisting}
+
+Zapis plików w chmurze Azurze wykonywany jest przy wykorzystaniu bibliotek WindowsAzure.Storage. Dane do magazynu danych zdefiniowane są w portalu. Informacje te należy użyć do stworzenia bezpiecznego połączenia pomiędzy aplikacją kliencką, a serwerem. 
+
+\begin{lstlisting}[caption={Konfiguracja połączenia z chmurą Azure},label={azureconstr:label}]
+private readonly CloudBlobClient _blobClient;
+public AzureManager()
+{
+	CloudStorageAccount storageAccount =
+	 CloudStorageAccount.Parse(AzureKeys.CloudStorageAccountConn3String);
+	_blobClient = storageAccount.CreateCloudBlobClient();
+	CloudBlobContainer container = _blobClient
+									.GetContainerReference(AzureKeys.ContainerName);
+	...
+}
+\end{lstlisting}
+
+W celu przesłania danych należy połączyć się z kontem magazynu. Dzięki niemu możemy wybrać kontener danych, w którym znajdą się pliki użytkownika. 
+\begin{lstlisting}[caption=Przesłanie plików do chmury Azure]
+public string UploadFile(Stream content)
+{
+	CloudBlobContainer container = 
+		_blobClient.GetContainerReference(AzureKeys.ContainerName);	
+	var blobId = $"{Guid.NewGuid()}{Guid.NewGuid()}";
+	CloudBlockBlob blockBlob = container
+											.GetBlockBlobReference(blobId);	
+	blockBlob.UploadFromStream(content);
+	return blobId;
+}
+\end{lstlisting}
+\item \textbf{Pobieranie danych} - Użytkownik korzystając z menu aplikacji może pobrać pliki oraz katalogi. Opcja pobierz kieruje żądanie do serwera pod adres URL zależny od typu pobieranych danych. Operacja pobrania danych z serwera wykonywana jest w sposób asynchroniczny. Żądanie odebrane w kontrolerze, przekierowuje identyfikator użytkownika oraz pola, na którym ma wykonywana jest operacja. Biblioteka logiki biznesowej wykonuje metodę pobrania danych na obiekcie pola. Ze względu na funkcję obiekt bazodanowego, wbrew dobrym praktykom jest tworzenie dodatkowych metod wewnątrz tej klasy. W związku z tym dla metod wykonywanych na tego typu obiektach wykorzystano metody rozszerzeń. 
+Funkcja pobrania, sprawdza jakiego rodzaju dane użytkownik zamierza pobrać. W przypadku pobrania pliku metoda przekazuje jako rezultat funkcji, dane znajdujące się w chmurze Azure pod adresem zachowanym w bazie danych. 
+
+\begin{lstlisting}[caption=Pobranie pliku z chmury Azure]
+private static FileViewModel DownloadFile(this Field source)
+{
+	if (source.Type != FieldType.File)
+	{
+		throw new InvalidOperationException();
+	}
+	var file = AzureManager
+					.Download(source.FieldInformation.Localisation);
+	var fileStream = ByteHelper.ByteArrayToStream(file);
+	var result = AutoMapper.Mapper.Map<FileViewModel>(source);
+	result.InputStream = fileStream;
+	return result;
+}
+\end{lstlisting}
+Dane z chmury Azure pobierane są za pomocą klasy pomocniczej. Jej konstruktor znajduje się w listingu \ref{azureconstr:label}. Metoda jako argument przyjmuje identyfikator w postaci napisu. Na jego podstawie określone jest położenie oraz pobierana jest zawartość pliku. Dane z kontenera Azure możemy wczytać przy pomocy strumienia danych. Wynikiem wykonania funkcji jest tablica bajtów wczytanych z kontenera chmury.
+\begin{lstlisting}[caption=Metoda pobierania danych z chmury Azure]
+public byte[] Download(string blobId)
+{
+	CloudBlobContainer container =
+	 _blobClient.GetContainerReference(AzureKeys.ContainerName);
+	
+	CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobId);
+	
+	using (var memoryStream = new MemoryStream())
+	{
+		blockBlob.DownloadToStream(memoryStream);
+		return ByteHelper.ReadToEnd(memoryStream);
+	}
+}
+\end{lstlisting}
+
+Chęć pobrania katalogu wiąże się z pobraniem wszystkich plików znajdujących się w nim oraz spakowaniu danych do formatu .zip. W związku z tym zastosowano bibliotekę DotNetZip oraz funkcję pobrania danych z chmury Azure. Wszystkie pliki, znajdujące się w folderze umieszczane są w dynamicznie stworzonym archiwum danych. Napotkanie katalogu wymusza stworzenie podfolderów w utworzonym archiwum oraz umieszczenie w nim plików znajdujących się w tym katalogu.
+
+\begin{lstlisting}[caption=Pobranie folderu z danymi]
+private static FileViewModel DownloadDirectory(this Field source)
+{
+	var outputStream = new MemoryStream();	
+	using (var zip = new ZipFile())
+	{
+		ZipDirectory(source, zip, string.Empty);
+		zip.Save(outputStream);
+	}
+	
+	outputStream.Position = 0;
+	var result = AutoMapper.Mapper.Map<FileViewModel>(source);
+	result.InputStream = outputStream;
+	result.FileName = result.FileName + "zip";
+	return result;	
+}
+\end{lstlisting}
+
+Strumień danych oraz informację o pliku przekazywane są do kontrolera poprzez model pośredni, a następnie zwracane jako rezultat.
+\item \textbf{Kopiowanie danych} -
+
+
+\end{itemize}
+
+

@@ -1,0 +1,46 @@
+Celem rozdziału jest przedstawienie idei zarządzania plikami oraz katalogami w internetowym systemie plików. Na ich podstawie została wykonana architektura oraz implementacja aplikacji umożliwiającej zarządzanie danymi. 
+\section{System katalogów}
+Usługa Azure Blob Storage umożliwia przechowywanie danych w postaci niestrukturalnych obiektów w chmurze. Dzięki wykorzystaniu usługi, pliki użytkownika, dodawane w trakcie działania aplikacji, zapisywane są w fizycznym magazynie danych. Rozwiązuje to problemy związane z uprawnieniami dostępów do plików i katalogów oraz zasobami pamięci dyskowej dostępnej na serwerze docelowym. Wykorzystanie rozwiązanie chmurowego wiąże się ze stworzeniem kolejnej warstwy abstrakcji aplikacji. Wymusza to również na programiście znajomość bibliotek programistycznych platformy .NET umożliwiających zapis danych w chmurze. 
+
+Zastosowana usługa nie zapewnia odpowiedniego interfejsu programistycznego służącego zarządzaniu katalogami w magazynie danych. W związku z tym system katalogów został oparty o struktury bazodanowe. Stworzony schemat bazy danych aplikacji zakłada możliwość przechowywania struktur odzwierciedlających pliki i foldery. Zauważono, żę modele katalogów mają budowę zbliżoną do tych odpowiadających plikom. W związku z tym informacje te zostały sprowadzone do jednej struktury. Wprowadzenie w nich, typu danych w postaci wyliczenia umożliwia bardzo szybkie ich rozróżnienie. 
+
+Sprowadzenie schematu bazodanowego do pierwszej postaci normalnej poskutkowało wyodrębnieniem modelu odpowiedzialnego za przechowywanie informacji dotyczących plików. Dane te mogą posłużyć użytkownikowi, w celu określenia podstawowych parametrów. 
+
+Struktura bazodanowa zakłada możliwość wielopoziomowego systemu plików. Została ona zrealizowania dzięki przechowywaniu identyfikatora katalogu nadrzędnego dla każdego modelu pod katalogu i pliku. Wyjątkiem jest folder domowy użytkownika, który nie ma wskazanego rodzica. Rozwiązanie te spowoduje wykorzystanie struktury drzewa do zarządzania systemem plików, których fizyczna zawartość znajduje się w magazynie danych w chmurze Azure. 
+
+\section{Menadżer danych}
+
+W celu udostępnienia metod zarządzania plikami oraz katalogami założono stworzenie aplikacji internetowej. Stanowi ona warstwę pośredniczącą pomiędzy graficznym interfejsem użytkownika, a magazynem danych oraz strukturą bazodanową. Jest ona odpowiedzialna za przyjmowanie kolejnych żądań użytkownika oraz ich przetwarzanie. Użytkownik w celu zarządzania danymi może skorzystać z dowolnej przeglądarce internetowej z włączoną obsługą języka JavaScript. W celu łatwiejszego poruszania się w aplikacji, wykorzystano interfejs graficzny zbliżony do oferowanych w systemach operacyjnych z rodziny Windows. Użytkownik w celu dokonywania operacji może skorzystać z menu kontekstowego uruchamianego za pomocą prawego przycisku myszy w dowolnym miejscu aplikacji.
+
+Wykorzystanie integracji z chmurą Azure wymusza zastosowanie mechanizmów optymalizujących dokonywane operacje. Ograniczenie te jest wymuszone przez koszta związane z korzystania z chmury danych. Większa liczba operacji wykonywanych w magazynie plików powoduje większe koszty utrzymania aplikacji w chmurze. Warunkiem wykorzystania interfejsu magazynu danych Azure jest wykonywanie operacji na fizycznych pliku w aplikacji (np. dodanie pliku do programu, pobranie, lub jego usunięcie). Menadżer danych chmury zakłada tylko operacje na fizycznych niestrukturalnych obiektach znajdujących się w magazynie. Nie zawierają one informacji o dacie utworzenia, ostatniej modyfikacji, czy jego rozszerzeniu. W celu wykonania operacji na pliku należy znać jego adres URL oraz uprawnienia do jego odczytu. W związku z tym konieczne jest wykorzystanie informacji przechowywanych w bazie danych. Mogą one posłużyć w znalezieniu jego lokalizacji oraz dopasowaniu informacji do niego. Pliki w postaci strumieni danych otrzymywane są z interfejsu programistycznego zapewnionego przez firmę Microsoft na platformie .NET. 
+
+\section{Udostępniane funkcje}
+Aplikacja zakłada wykonywanie podstawowych operacji na plikach oraz katalogach. Dostępne funkcjonalności zostały stworzone na podstawie popularnych serwisów przechowywania danych takich jak: Google Drive, OneDrive, DropBox, Owncloud lub Mega. Graficzny interfejs użytkownika udostępnia opcje występujące w eksploratorze plików systemu Windows. 
+Aplikacja w celu zablokowania dostępu do danych przez niepowołanych użytkowników zakłada funkcje logowania, przypomnienia hasła oraz rejestracji.  
+\newpage
+System udostępnia użytkownikowi następujący zestaw funkcjonalności możliwy do wykonania na plikach i katalogach:
+\begin{itemize}[align=left]
+	\item Dodawanie plików 
+	\item Tworzenie Katalogów
+	\item Kopiowanie plików i folderów
+	\item Wycinanie plików i folderów
+	\item Usuwanie
+	\item Pobieranie plików na dysk twardy użytkownika
+	\item Pobranie plików oraz pod katalogów danego folderu.
+	\item Podgląd zawartości pliku 
+	\item Podgląd folderu
+	\item Podgląd szczegółów plików
+\end{itemize}
+
+System udostępnia użytkownikowi zestaw funkcji  służący zarządzaniem kontem, do których należą:
+\begin{itemize}[align=left]
+	\item Rejestracja
+	\item Przypomnienie Hasła
+	\item Logowanie
+	\item Wylogowanie
+	
+	
+\end{itemize}
+
+
+W rozdziale 5 przedstawiono szczegółową implementacje wybranych funkcji przedstawionych w spisie.
