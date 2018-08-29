@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ProductScanner.Gateway.Events
 {
-    public class ImageClasificationIntegrationEvent : IntegrationEvent
+    public class ImageClasificationEvent : IntegrationEvent
     {
         public string Path { get; set; }
     }

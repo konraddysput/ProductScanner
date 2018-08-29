@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProductScanner.Gateway.Handlers
 {
-    public class ImageClasificationResultEventHandler : IIntegrationEventHandler<ImageClasificationResultIntegrationEvent>
+    public class ImageClasificationResultEventHandler : IIntegrationEventHandler<ImageClasificationResultEvent>
     {
         private readonly IHubContext<PreprocesingHub> _hub;
         private readonly IPhotoService _photoService;
@@ -25,7 +25,7 @@ namespace ProductScanner.Gateway.Handlers
             _mapper = mapper;
         }
 
-        public async Task Handle(ImageClasificationResultIntegrationEvent @event)
+        public async Task Handle(ImageClasificationResultEvent @event)
         {
             var photoViewModel = _mapper.Map<PhotoViewModel>(@event);
             var model = await _photoService.Get(photoViewModel.Id);

@@ -57,7 +57,7 @@ namespace ProductScanner.Api.Controllers
             var result = await _photoService.Create(file, userId);
             await _photoService.SaveChanges();
 
-            var integrationEvent = _mapper.Map<ImageClasificationIntegrationEvent>(result);
+            var integrationEvent = _mapper.Map<ImageClasificationEvent>(result);
             _eventBus.Publish(integrationEvent);
 
             return Ok(new { id = result.Id });

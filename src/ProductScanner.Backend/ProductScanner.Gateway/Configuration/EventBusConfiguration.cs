@@ -55,7 +55,7 @@ namespace ProductScanner.Gateway.Configuration
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
 
             //eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationEventHandler>();
-            eventBus.Subscribe<ImageClasificationResultIntegrationEvent, ImageClasificationResultEventHandler>();
+            eventBus.Subscribe<ImageClasificationResultEvent, ImageClasificationResultEventHandler>();
             return app;
         }
     }
