@@ -7,6 +7,18 @@
     <groupId>com.productScanner</groupId>
     <artifactId>ProductScanner.WebSemantic</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -21,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
-            <artifactId>jena</artifactId>
+            <artifactId>apache-jena-libs</artifactId>
             <version>3.8.0</version>
             <type>pom</type>
         </dependency>

@@ -19,8 +19,7 @@ public class EventBusService {
 
     private WebSemanticService _service;
 
-    public  EventBusService() throws java.util.concurrent.TimeoutException, java.io.IOException
-    {
+    public  EventBusService() throws java.util.concurrent.TimeoutException, java.io.IOException, IllegalAccessException {
         setupExchange(getConnectionFactory());
         _service = new WebSemanticService();
     }
