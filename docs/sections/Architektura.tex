@@ -1,48 +1,81 @@
-
 \section{Podział projektu}
-{W celu zmniejszenia złożoności oraz kosztów utrzymania projektu zdecydowano się na rozbicie architektury na cztery moduły. Każdy z wyodrębnionych modułów ma za zadanie spełniać określoną czynność w architekturze systemu. Rozbicie projektu pozwala  na prostsze zarządzanie kodem. Zastosowanie warstw projektowych bardzo dobrze sprawdza się w przypadku, gdy programista dąży do rozłożenia odpowiedzialności komponentów w poszczególnych modułach.
-W związku z podziałem projektu na podmoduły można wyróżnić rozbudowaną architekturę systemu oraz widoczny zakres obowiązków poszczególnych podprojektów. Zbiór oraz opis wszystkich podprojektów znajduje się w tabeli 4.1.ls }
+{Wykorzystanie wielu języków programowania (Java, C\#, Python, JavaScript, Android, TypeScript) wymagało podziału projektów ze względu użyte technologie oraz ich zastosowania w aplikacji. Miało to między innymi duży wpływ na szybszą fazę wytwarzania oprogramowania jak i łatwość w zrozumieniu kodu. Wykorzystanie innej koncepcji mogłoby spowodować bardzo wolne dzialanie środowiska programistycznego lub problemy z późniejszą naprawą błędów.Każda z aplikacji poprzez strukturę katalogową lub podprojektową wydzielała logiczne części podprojektu.	
+		\begin{table}[htbp]
+		\caption{Podział technologii}
+		\label{sys-architecture}
+		\begin{center}
+			\begin{tabular}{ | p{4cm}| p{3cm} | p{6cm} |}
+				\hline Nazwa podprojektu & Technologia &  Zastosowanie \\ \hline   
+				\hline  Aplikacja mobilna &  Ionic - TypeScript & Aplikacja mobilna służąca do tworzenia oraz przesyłania zdjęć półek sklepowych oraz prezentację danych wynikowych.\\ \hline
+				
+				\hline  Mikroserwis przetwarzania obrazu & Python & Mikroserwis służący klasyfikacji obiektów występujących na obrazie oraz informacji o nich - pozycji, nazwie.\\ \hline
+				
+				\hline Mikroserwis zasad obiektów klasyfikacji  \mbox{bazodanowy} & Java & Mikroserwis służący do przetwarzania wyników otrzymanych z mikroserwisu analizy obrazu przy użyciu sieci semantycznej.\\ \hline
+				
+				\hline Aplikacja internetowa & ASP.NET Core & Aplikacja internetowa, odpowiedzialna za przetwarzanie żądań kierowanych z aplikacji mobilnych oraz zarządzanie przepływem danycb pomiędzy mikroserwisami.\\ \hline
+			\end{tabular}
+		\end{center}
+	\end{table}	
+	
+	
+Projekt zarządzający komunikacją pomiędzy aplikacją mobilną, a mikroserwisami wymagał dodatkowego użycia podmodułów. Wartwy aplikacji w tym przypadku tworzyły logiczną całość aplikacji internetowej oraz umożliwiały łatWość we wprowadzaniu nowych zmian lub zrozumieniu kodu przez innych.
+
 
 \begin{table}[htbp]
-	\caption{Podział architektury systemu}
-	\label{sys-architecture}
+	\caption{Podział technologii}
+	\label{project-architecture}
 	\begin{center}
-    \begin{tabular}{ | p{3cm}| p{3cm} | p{6cm} |}
-    \hline Nazwa & Typ &  Opis \\ \hline   
-    \hline  Moduł aplikacji użytkownika &  Aplikacja \mbox{internetowa} ASP.NET MVC & Aplikacja internetowa odpowiedzialna za sterowanie komunikacji pomiędzy interfejsem użytkownika na stronie internetowej a logiką aplikacji.\\ \hline
-	\hline  Moduł logiki biznesowej & Biblioteka klas & Aplikacja biblioteczna kontrolująca przepływ informacji pomiędzy aplikacją internetową, do której użytkownik wysyła żądania, a bazą danych, na której wykonywane są operacje pobrania danych niezbędnych do stworzenie i wyświetlenia widoku użytkownikowi.\\ \hline
-	\hline Moduł  \mbox{bazodanowy} & Biblioteka klas & Aplikacja zawierająca modele bazodanowe potrzebne do stworzenia bazy danych oraz operacji na nich przy użycia języka zapytań funkcyjnych.\\ \hline
-		\hline Moduł testów & Projekt testów jednostkowych & Aplikacja zawierająca scenariusze testowe oraz testy sprawdzające poprawność działania kodu poprzez sprawdzanie oczekiwanego wyjścia z metod.\\ \hline
-	\end{tabular}
-\end{center}
-\end{table}
+		\begin{tabular}{ | p{3cm}| p{3cm} | p{6cm} |}
+			\hline Nazwa modułu & Typ &  Opis \\ \hline   
+			
+			\hline  Moduł aplikacji internetowej REST \cite{REST} &  Aplikacja ASP.NET Core MVC & Moduł odpowiedzialny za przechwytywanie oraz przetwarzanie żądań HTTP kierowanych z aplikacji mobilnej. Jest to moduł uruchamiający pozostałe podmoduły oraz zawierający ich konfigurację.\\ \hline
+			
+			\hline  Moduł logiki biznesowej & Biblioteka klas & Moduł zawierający klasy odpowiedzialne za przetwarzanie danych odbieranych w punktach dostępowych aplikacji internetowych. \\ \hline
+			
+			\hline Moduł struktur bazodanowych  \mbox{bazodanowy} & Biblioteka klas & Moduł zawierający deklarację tabel bazodanowych oraz konfigurację bazy danych.\\ \hline
+			
+			\hline Moduł komunikacji & Biblioteka klas & Moduł zawierający konfigurację połączeń z pozostałymi mikroserwisami oraz modele komunikacji pomiędzy nimi.\\ \hline
+			
+			\hline Moduł modeli & Biblioteka klas & Moduł zawierający przetwarzane modele aplikacji.\\ \hline
+			
+			
+			\hline Moduł konwersji danych & Biblioteka klas & Moduł zawierający logikę umożliwiających konwersję modeli przetwarzanych przez aplikację na modele bazodanowe lub komunikacyjne wykorzystywane przez Mikroserwisy\\ \hline
 
-\section{Wzorce architektoniczne}
-{W celu poprawnej integracji modułów skorzystano z wielu wzorców architektonicznych oraz projektowych. Jednym z najpopularniejszych wzorców architektonicznych w aplikacjach internetowych jest wzorzec Model-Widok-Kontroler (eng. Model-View-Controller, MVC) zakładający rozkład podziału obowiązków na trzy główne człony programu. Kontroler we wzorcu pełni funkcję klasy zajmującej się przyjmowaniem żądań użytkownika w celu pobrania strony, danych lub uzyskania dostępu. Jest to część modułu odpowiedzialna za zarządzanie przepływem informacji pomiędzy modelami a widokami. Kontroler w przypadku aplikacji z tak rozbitą architekturą przekierowuje dane otrzymane od użytkownika do modułu odpowiedzialnego za logikę biznesową. Rezultatem wykonania metod na modułach jest otrzymanie wynikowego modelu bazodanowego, który następnie jest przekazywany do widoku pod postacią Modelu Widoku (eng. ViewModel). Transformacja modelów jest niezbędna ze względu na bardzo dużą ilość danych zwracanych z serwisu, które nie zawsze są potrzebne przy tworzeniu widoku użytkownika oraz możliwość zmniejszenia złożoności operowanego modelu. Dane przekazywane do widoków przy pomocy silnika Razor tworzą stronę \mbox{w} formacie HTML z nałożonymi informacjami zwróconymi z bazy danych.
-\newpage
-W wielu aplikacjach internetowych w architekturze Model-Widok-Kontroler programista dąży do uzależnienia nowo utworzonych klas kontrolerów od pewnych, już utworzonych w aplikacji składowych, jakimi są serwisy. Umożliwiają one wydzielenie logiki biznesowej do osobnych klas oraz zmniejszają ilość kodu napisanego w kontrolerze, przez co klasa ta pełni funkcję pośrednika pomiędzy widokiem a modelem bazodanowym. Niepotrzebne operacje bazodanowe w kontrolerze oraz duża ich złożoność powoduje duże trudności w późniejszym rozwoju aplikacji oraz brak możliwości ponownego użycia kodu. 
+		\end{tabular}
+	\end{center}
+\end{table}	
 
-Nowo tworzone kontrolery mogą w bardzo szybkim czasie zyskać dużą liczbę funkcjonalności dzięki zastosowaniu wzorców architektonicznych "odwróconego sterowania" oraz "wstrzykiwania zależności ". Skorzystanie z nich umożliwia uzyskanie funkcjonalności, w której można swobodnie podłączać oraz odłączać kolejne moduły, wpływając na zwiększenie lub ograniczenie funkcjonalności w programie. Dobrą praktyką programisty jest również ponowne używanie raz napisanego kodu w wielu miejscach. Operacje, które są wykonywane na katalogach oraz plikach są do siebie zbliżone, mimo że korzystają z dwóch różnych kontrolerów odpowiedzialnych za przepływ informacji. Kontrolery te, mimo innych zastosowań, korzystają z tych samych metod napisanych w serwisie logiki biznesowej. Zastosowanie wzorców spowoduje wzbogacenie kontrolera na początku jego istnienia o stworzone wcześniej funkcjonalności, które mogą zostać wykorzystane ponownie. Zabieg ten zmniejszy złożoność kodu oraz ułatwi jego późniejszą modyfikację bądź rozwój. 
+W związku z podziałem projektu na podprojektu oraz podmoduły można wyróżnić rozbudowaną architekturę systemu oraz widoczny zakres obowiązków poszczególnych podprojektów. Zbiór poszczególnych podprojektów oraz opis ich architektury wraz z wykorzystaną technologią został dokładnie opisany w kolejnych podrozdziałach.}
 
-Szczególnie wartym uwagi wzorcem architektury jest "wstrzykiwanie zależności ". Kontroler mógł zostać uzależniony od pewnego rodzaju klas przy wykorzystaniu biblioteki Unity dla języka C\#. Polega ono na przesyłaniu do konstruktora kontrolera obiektów zdefiniowanych przez programistę w konfiguracji biblioteki. Bez mechanizmu Unity, byłoby to zadanie bardzo trudne do zrealizowania. Klasy pełniące funkcje kontrolerów w aplikacjach internetowych są wywoływane poprzez skierowanie żądania pod odpowiedni adres witryny. Czynność ta spowoduje automatyczne uruchomienie konstruktora kontrolera, co uniemożliwi przekazanie parametrów do niego, a jedynie do wywoływanej metody nazywanej akcją. Aby móc wstrzyknąć strukturę danych jako parametr metod inicjalizujących, należy przygotować interfejs określający jego funkcjonalność. Kolejnym krokiem jest powiadomienie biblioteki Unity w konfiguracji o możliwości "wstrzykiwania" podanego typu danych do kontrolera. Operacja w bardzo wielu miejscach zmniejsza złożoność kodu. To rozwiązanie dla programistów niezaznajomionych ze wzorcem Wstrzykiwania zależności może sprawić wiele problemów w przypadku dodawania funkcjonalności do kontrolera uzależnionego od pewnych struktur danych.
 
-Ostatnim wzorcem architektonicznym użytym w projekcie jest Odwrócone sterowanie. Bardzo częstym błędem programistów, tworzących aplikacje internetowe, jest pisanie zaawansowanej oraz złożonej logiki w klasach kontrolera. Kod napisany w akcji jest niemożliwy do ponownego użycia w innych miejscach aplikacji, ponieważ niezalecane jest tworzenie obiektów kontrolerów w innych kontrolerach. Ponadto kontroler pełni funkcję pośredniczącą pomiędzy logiką bazodanową a użytkownikiem. Tak więc tworzenie złożonych operacji na danych w akcjach w znacznym stopniu narusza dobre praktyki tworzenia kontrolerów. Stosowanym podejściem w takich sytuacjach jest wydzielanie logiki do osobnych klas odpowiedzialnych za przepływ informacji. W przypadku złożonych aplikacji internetowych zalecane jest wydzielenie klas odpowiedzialnych za przetwarzanie danych do osobnych projektów. Rozwiązanie to powoduje łatwiejszą orientację w kodzie oraz utrzymuje porządek w strukturze projektowej.
+\section{Komunikacja}
+{Wykorzystanie wielu technologii oraz języków programowania uniemożliwiało skorzystanie ze wzorca projektowego zwanego monolitem. Zakładał on między innymi przepływ danych w obrębie jednej aplikacji, co w tym przypadku spowodowałoby duże problemy z obsługą błędów, przetwarzaniem wyników bibliotek oraz zwiększyło by znacząco czas wytwarzania oprogramowania. W związku z tym zdecydowano się na zastosowanie architektury mikroserwisów, w których każda z aplikacji stanowi osobny niezależny byt w hierarchi. W przypadku gdy jedna z aplikacji zostanie wyłączona lub napotka na nieoczekiwany błąd uniemożliwiający jej pracę, całość projektu może dalej przetwarzać dane, a użytkownik końcowy może nie dostrzec błędów. Wykorzystanie architektury mikroserwisów wymusza komunikację aplikacji przy pomocy wybranego protokołu komunikacyjnego, którym może być HTTP lub AMQP(Advanced Message Queuing Protocol)\cite{AMQP}. Jednym z priorytetów, stawianych podczas projektowania aplikacji, była szybkość przetwarzania danych. W związku z tym uznano, że protokół AMQP, który jest przystosowany do rozwiązań Internetu Rzeczy, umożliwi znacznie szybszą komunikację niż konieczność przetwarzania żądań HTTP. 
+	
+	
+Rozwiązanie oparte o architekturę rozproszoną mikroserwisów pozwala nie tylko na wykorzystanie dowolnego języka programowania lub środowiska uruchomieniowego. Dzięki niemu możliwe jest zwiększenie mocy obliczeniowej dostępnej podczas przetwarzania danych w aplikacji poporzez wykorzystanie więcej niż jednej maszyny. W przypadku braku odpowiedniej ilości zasobów na jednym z komputerów, architektura zakłada możliwość podpięcia kolejnych agentów, które mogą przetwarzać dane oraz dostarczyć rezultat. W tym przypadku, każdy z nich musi połączyć się do jednego centralnego węzła komunikacyjnego tworzonego przez RabbitMQ \cite{RabbitMQ} - systemu kolejkowego.
+
+Każdy z mikroserwisów korzysta z jednej zdefiniowanej kolejki, do której przesyłane są wiadomości wraz z danymi - product-scanner-api. Aby wiadomość trafiła do odpowiedniego mikroserwisu, wykorzystywany jest tak zwany routing-key, czyli wskazanie agentów, które nasłuchują w określonym celu. System oparty jest o konieczność potwierdzeń odebrania oraz przetworzenia danych przez pozostałe mikroserwisy. W przypadku napotkania awarii, system spróbuje co najmniej dwa razy ponownie wysłać wiadomość. Dane przesyłane pomiędzy serwisami są przekazywane w postaci bajtów, w których znajduje się plik formatu JSON \cite{JSON}. 
+}
+	
+	
+\section{Aplikacja internetowa - Gateway}	
+{	Rozbicie architektury aplikacji internetowej na kilka podmodułów wymagało zastosowania odpowiednich wzorców projektowych oraz przemyślanej struktury aplikacji. Jednym z wzorców projektowych, który świetnie sprawdza się w tego typu przypadku aplikacjach jest wzorzec "odwróconego sterowania", znany pod nazwą "dependency injection". Umożliwia on między innymi na przekazywanie do konstruktorów klas, stworzonych wcześniej instancji obiektów. Umożliwiało to między innymi storzenie obiektu połączenia bazy danych, który mógł być używany w pozostałych projektach. Zastosowanie wzorca architektonicznego, umożliwiło zmniejszenie rendundancji kodu, która powstała by na skutek konieczności ciągłej inicjalizacji obiektów. Ponadto dobrą praktyką, do której powinien stosować się każdy programista, jest możliwość reużywalności kodu, na co z pewnością pozwala zastosowany wzorzec. 
+
+Aplikacji mobilna w celu komunikacji używa protokołu HTTP. W związku z tym 	 przygotowano moduł umożliwiający przetwarzanie kierowanych żądań HTTP zgodnie z wzorcem architektonicznym REST(Representational State Transfer). Aplikacja internetowa zawiera bezstanowe kontrolery, które zkonwertują dane w postaci JSON wysłane z telefonu oraz przekażą je do dalszego przetwarzania przez aplikację. Wzorzec architektoczniczny zakłada między innymi sposób tworzenia adresów URL według dostępów do zasobów oraz zgodnie z metodą HTTP. Żądanie kierowane pod odpowiedni zasób, powoduje przekazanie zależności odpowiedniego punktu docelowego do konstruktora kontrolera przetwarzającego dane oraz przekazanie informacji do serwisu odpowiedzialnego za zasób. Odpowiedź kontrolera jest zależna od typu przesłanego zapytania. W przypadku utworzenia zasobów może być nią status kod 201 oznaczający pomyślnie stworzony zasób w systemie. Ze względu na bardzo istotną rolę jaką pełnią kontrolery w aplikacjach internetowych, ilość kodu znajdującego się w nich powinna być zmniejszona do minimum. Ich przeznaczeniem jest przyjęcie żądania oraz przekazanego do dalszego przetwarzania stąd nacisk na przeniesienie logiki biznesowej aplikacji do osobnego modułu.
+
+Dalsze przetwarzanie danych aplikacji odbywa się w serwisach, czyli klasach odpowiedzialnych za przetwarzanie logiki biznesowej. Do ich odpowiedzialności należy między innymi może należeć zapis danych w bazie danych, lub przesłanie danych do mikroserwisów. Serwisy, tak samo jak i kontrolery, wykorzystując wzorzec odwróconego sterowania aby otrzymać niezbędne zależności konieczne do poprawnego przetworzenia danych. W celu zmniejszenia redundancji kodu wykorzystano typy generyczne oraz stworzono bazowe implementację serwisów. Zawiera ona kod, powtarzalny dla każdego serwisu - między innymi konwersję plików lub zapis danych w tabeli bazodanowej. 
+
+Logika serwisu może zawierać wywołanie mikroserwisu w innej technologii. W tym przypadku pomyślne zapisanie w bazie danych może powodować zgłoszenie do mikroserwisu gotowości do możliwości przetwarzania obrazu lub informacji. W tym celu mechanizm odwróconego sterowania do konstruktora serwisu przekazuje obiekt komunikacji AMQP. Nazwa przekazanego obiekt do metody publikacji wiadomości przy użyciu mechanizmu refleksji umożliwia wskazanie pasma komunikacyjnego (routing-key), na który zostanie wysłana wiadomość. W przypadku otrzymania wiadomości zwrotnej, moduł zarządzania komunikacyją mikroserwisów posiada klasy odpowiadające za przechwytanie zdarzeń przesłanych do aplikacji. 
+
+Komunikacja z aplikacją internetową przy pomocy protokołu REST nie jest umożliwia rozwiązania oczekiwania na przetworzone dane w przypadku zastosowania mikroserwisów. Architektura to umożliwia rozbicie aplikacji na wiele niezależnych podaplikacji, jednak nie umożliwia dostarczenia sprecyzowanej informacji, kiedy dane będą gotowe do dalszego przetwarzania. Zatem tworząc zasób, użytkownik w najgorszym przypadku nie otrzyma wszystkich danych, na których mu zależy. W związku z tym zasosowano komunikację przy użyciu gniazdek www oraz technologię SignalR \cite{SignalR}. Przechwycone zdarzenie umozliwia rozpowszechnienie do wszystkich klientów aplikacji informacji o nowych dancyh oraz możliwości ich wyświetlenia. Połączenie przy użyciu gniazdek wymaga, aby klient - aplikacja mobilna, łączył się do systemu wraz z początkiem korzystania z aplikacji. Umożliwia to komunikację w czasie rzeczywistym pomiędzy dowolną ilością urządzeń mobilnych a serwerem.
 }
 
-\section{Przepływ danych}
+\section{Mikroserwis przetwarzania obrazu}
 
-{W celu komunikacji pomiędzy użytkownikiem a bazą danych, klasy pełniące funkcję kontrolerów przekazują odebrane oraz sprawdzone pod względem poprawności danych modele do serwisów wzorca Odwrotnego sterowania. Cała logika działania aplikacji oraz sposób wykonywanych operacji znajduje się w klasach pełniących funkcję serwisów.
- Każda ze struktur danych musi zostać zaimplementowana na podstawie wcześniej utworzonego interfejsu, który jest wymagany przez mechanizmy Wstrzykiwania zależności. Struktury serwisów używają generycznych repozytoriów w celu dostępu do danych znajdujących się w bazie danych. 
- 
- Każde z repozytoriów inicjalizowane jest w serwisie w momencie potrzeby wykonania operacji bazodanowej na bazie danych. Interfejs, na podstawie którego został stworzony komponent, umożliwia podstawowe operacje na bazie danych, takie jak: tworzenie, czytanie, aktualizacje oraz usuwanie obiektów. Implementacja repozytorium umożliwia wykonanie wymienionych czynności na dowolnym obiekcie bazodanowym. Raz utworzony obiekt, istnieje przez cały okres czasu potrzebnego na przetwarzanie żądania użytkownika. W przypadku potrzeby implementacji dodatkowych funkcji do generycznego repozytorium dodanie ewentualnego kodu do klasy skutkowałoby rozszerzeniem wszystkich pozostałych repozytoriów. W związku z tym zastosowano mechanizm metod rozszerzonych dla określonego typu klasy odpowiedzialnej za komunikację z bazą danych. }
+{ }
 \\
 \begin{center}
 %	\makebox[\textwidth]{	\includegraphics[width=\paperwidth]{images/4.3 przeplyw danych}}
 	\captionof{figure}{Diagram sekwencji tworzenia katalogu}
 
 \end{center}
-
-\section{Komunikacja z chmurą danych Azure}
-{
-Aplikacja, w celu przechowywania przesyłanych przez użytkownika plików, potrzebuje przestrzeni dyskowej, na której istnieje możliwość zapisu danych. Zarządzanie plikami na serwerze może powodować dużą liczbę problemów między innymi z dostępem do plików oraz katalogów na maszynach, na których aplikacja działałaby bez uprawnień administratorskich. Alternatywnym rozwiązaniem jest magazyn danych oferowany przez usługodawców rozwiązań chmurowych. W celu implementacji przechowywania danych na serwerze skorzystano z chmury Azure z usługi konta magazynu. Wszystkie dane przesłane przez użytkownika zostają zapisane w koncie magazynowym, w kontenerze właściciela przestrzeni. Chmura Azure umożliwia podstawowe operacje do zarządzania danymi takie jak: dodawanie, usuwanie oraz pobieranie danych. Informacje na temat przechowywanych plików w magazynie znajdują się w bazie danych aplikacji.
-}
