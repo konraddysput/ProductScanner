@@ -12,16 +12,24 @@
         <j.2:id>1</j.2:id>
         <j.2:rules>
           <rdf:Description rdf:about="http://productScanner/product/cola/rules">
-            <j.1:value>50.0</j.1:value>
-            <j.1:ruleType>OnBottom</j.1:ruleType>
-            <j.1:compared></j.1:compared>
-            <j.1:classifier>colaOnBottom</j.1:classifier>
-            <j.1:ruleType>Close</j.1:ruleType>
-            <j.1:classifier>pepsiCloseToCola</j.1:classifier>
-            <j.1:source>cola</j.1:source>
-            <j.1:compared>cola</j.1:compared>
-            <j.1:source>pepsi</j.1:source>
-            <j.1:value>0.0</j.1:value>
+            <j.2:rules>
+              <rdf:Description rdf:about="http://productScanner/product/cola/rules/1">
+                <j.1:classifier>colaOnBottom</j.1:classifier>
+                <j.1:ruleType>OnBottom</j.1:ruleType>
+                <j.1:value>0.0</j.1:value>
+                <j.1:compared></j.1:compared>
+                <j.1:source>cola</j.1:source>
+              </rdf:Description>
+            </j.2:rules>
+            <j.2:rules>
+              <rdf:Description rdf:about="http://productScanner/product/cola/rules/0">
+                <j.1:classifier>pepsiCloseToCola</j.1:classifier>
+                <j.1:ruleType>Close</j.1:ruleType>
+                <j.1:value>50.0</j.1:value>
+                <j.1:compared>cola</j.1:compared>
+                <j.1:source>pepsi</j.1:source>
+              </rdf:Description>
+            </j.2:rules>
           </rdf:Description>
         </j.2:rules>
       </rdf:Description>
@@ -34,11 +42,15 @@
         <j.2:id>2</j.2:id>
         <j.2:rules>
           <rdf:Description rdf:about="http://productScanner/product/pepsi/rules">
-            <j.1:classifier>ColaZeroOnPicture</j.1:classifier>
-            <j.1:ruleType>InTheSamePicture</j.1:ruleType>
-            <j.1:value>0.0</j.1:value>
-            <j.1:compared>colazero</j.1:compared>
-            <j.1:source>pepsi</j.1:source>
+            <j.2:rules>
+              <rdf:Description rdf:about="http://productScanner/product/pepsi/rules/0">
+                <j.1:classifier>ColaZeroOnPicture</j.1:classifier>
+                <j.1:ruleType>InTheSamePicture</j.1:ruleType>
+                <j.1:value>0.0</j.1:value>
+                <j.1:compared>colazero</j.1:compared>
+                <j.1:source>pepsi</j.1:source>
+              </rdf:Description>
+            </j.2:rules>
           </rdf:Description>
         </j.2:rules>
       </rdf:Description>

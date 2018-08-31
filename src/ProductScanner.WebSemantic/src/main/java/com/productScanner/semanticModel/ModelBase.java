@@ -22,12 +22,6 @@ public abstract  class ModelBase {
         return  uri + classifier;
     }
 
-    public Model load(Model _model) throws IllegalAccessException {
-        Resource resource = _model.createResource(this.getUri());
-        loadResources(resource,_model);
-        return  _model;
-    }
-
     public Resource loadResources(Resource resource, Model model) throws IllegalAccessException {
         //avoid private or protected fields
         Field[] fields = getClass().getFields();
@@ -36,9 +30,15 @@ public abstract  class ModelBase {
             Property modelProperty = model.createProperty(uri, field.getName());
 
             if (Collection.class.isAssignableFrom(field.getType())){
-                Resource nestedResource = model.createResource(this.getUri() + "/"+ field.getName());
+
+                Resource nestedResource = model.createResource(this.getUri() + "/"+ field.getName() );
+                int index=  0;
                 for (ModelBase val : ((List<ModelBase>)field.get(this))) {
-                    nestedResource= val.loadResources(nestedResource, model);
+
+                    Resource listResource = model.createResource(this.getUri() + "/"+ field.getName() + "/" + index);
+                    listResource= val.loadResources(listResource, model);
+                    nestedResource.addProperty(modelProperty, listResource);
+                    index++;
                 }
                 resource.addProperty(modelProperty, nestedResource);
                 continue;

@@ -28,7 +28,7 @@ Projekt zarządzający komunikacją pomiędzy aplikacją mobilną a mikroserwisa
 		\begin{tabular}{ | p{3cm}| p{3cm} | p{6cm} |}
 			\hline Nazwa modułu & Typ &  Opis \\ \hline   
 			
-			\hline  Moduł aplikacji internetowej REST \cite{REST} &  Aplikacja ASP.NET Core MVC & Moduł odpowiedzialny za przechwytywanie oraz przetwarzanie żądań HTTP kierowanych z aplikacji mobilnej. Jest to moduł uruchamiający pozostałe podmoduły oraz zawierający ich konfigurację.\\ \hline
+			\hline  Moduł aplikacji internetowej REST &  Aplikacja ASP.NET Core MVC & Moduł odpowiedzialny za przechwytywanie oraz przetwarzanie żądań HTTP kierowanych z aplikacji mobilnej. Jest to moduł uruchamiający pozostałe podmoduły oraz zawierający ich konfigurację.\\ \hline
 			
 			\hline  Moduł logiki biznesowej & Biblioteka klas & Moduł zawierający klasy odpowiedzialne za przetwarzanie danych odbieranych w punktach dostępowych aplikacji internetowych. \\ \hline
 			
@@ -67,13 +67,21 @@ Dalsze przetwarzanie danych aplikacji odbywa się w serwisach, czyli klasach odp
 
 Logika serwisu może zawierać wywołanie mikroserwisu w innej technologii. W tym przypadku pomyślne zapisanie w bazie danych może powodować zgłoszenie do mikroserwisu gotowości do możliwości przetwarzania obrazu lub informacji. W tym celu mechanizm odwróconego sterowania do konstruktora serwisu przekazuje obiekt komunikacji AMQP. Nazwa przekazanego obiektu do metody publikacji wiadomości przy użyciu mechanizmu refleksji umożliwia wskazanie pasma komunikacyjnego (routing-key), na który zostanie wysłana wiadomość. W przypadku otrzymania wiadomości zwrotnej moduł zarządzania komunikacją mikroserwisów posiada klasy odpowiadające za przechwytywanie zdarzeń przesłanych do aplikacji. 
 
-Komunikacja z aplikacją internetową przy pomocy architektury REST nie umożliwia rozwiązania oczekiwania na przetworzone dane w przypadku zastosowania mikroserwisów. Architektura ta umożliwia rozbicie aplikacji na wiele niezależnych podaplikacji, jednak nie umożliwia dostarczenia sprecyzowanej informacji, kiedy dane będą gotowe do dalszego przetwarzania. Zatem tworząc zasób, użytkownik w najgorszym przypadku nie otrzyma wszystkich danych, na których mu zależy. W związku z tym zastosowano komunikację przy użyciu gniazdek www oraz technologię SignalR \cite{SignalR}. Przechwycone zdarzenie umożliwia rozpowszechnienie do wszystkich klientów aplikacji informacji o nowych danych oraz możliwości ich wyświetlenia. Połączenie przy użyciu gniazdek wymaga, aby klient - aplikacja mobilna, łączył się do systemu wraz z początkiem korzystania z aplikacji. Umożliwia to komunikację w czasie rzeczywistym pomiędzy dowolną ilością urządzeń mobilnych a serwerem.
-} --MINI KOMENTARZ: W TYM AKAPICIE JEST ZDECYDOWANIE ZA DUŻO POWTÓRZEŃ ZE SŁOWEM
-  --UMOŻLIWIAĆ
+Komunikacja z aplikacją internetową przy pomocy architektury REST nie umożliwia wymiany danych w czasie rzeczywistym. Dodatkowo wykorzystanie mikroserwisów umożliwia rozbicie aplikacji na wiele niezależnych podaplikacji, jednak nie pozwala na predykcję czasu przetworzenia danych. Tworząc zasób, użytkownik w najgorszym przypadku nie otrzyma wszystkich danych, na których mu zależy w trakcie pierwszego dostępu do widoku. W związku z tym zastosowano komunikację przy użyciu gniazdek www oraz technologię SignalR \cite{SignalR}. Przechwycone zdarzenie pozwala na rozpowszechnienie danych do wszystkich klientów podłączonych do aplikacji. Połączenie te wymaga, aby klient - aplikacja mobilna, łączył się do systemu wraz z początkiem korzystania z aplikacji. Wykorzystanie technologii gniazdek pozwala na dodatkowe rozproszenie komunikacji oraz obsługę żądań wielu użytkowników w tym samym czasie.
+%sprawdzone /\
 
+\section{Aplikacja mobilna}
+{ Użytkownicy systemu dostarczają zdjęcia poddawane przetwarzaniu przy użyciu aplikacji mobilnej. Tworząc rozwiązanie działające na telefony komórkowe, należy uwzględnić różne platformy oraz architektury urządzeń. Ze względu na wykorzystanie aplikacji do prezentacji danych oraz przesyłanie zdjęć z galerii skorzystano z rozwiązania hybrydowego, kosztem rozwiazania natywnego. Wiąże się to z brakiem dostępu bezpośrednio do bibliotek, które współpracują bezpośrednio z podzespołami urządzenia, lecz przyspiesza w znaczący sposób wytwarzanie oprogramowania na wiele platform. Aplikacja może działać na systemach operacyjnych iOS oraz Android. Stworzono ją przy użyciu bibliotek Ionic \cite{Ionic}, który bazuje na modelu Cordova \cite{Cordova}. W celu prezentacji danych skorzystano z biblioteki Angular\cite{Angular} w wersji 5. 
+	
+Aplikacja mobilna przygotowuje widoki w oparciu o dane dostępne w serwerze. Komunikacja z serwerem odbywa się przy użyciu protokołu HTTP z REST API aplikacji intenretowej. Urządzenia mobilne podłączone do siecii, posiadają swoją własną sieciową oraz adres IP różny od używanego przez serwer. Spowodowało to konieczność odblokowania połączeń do serwera z innych domen, niż ta używana przez aplikację internetową. W związku z tym na serwerze www uruchomiono obsługę CORS \cite{CORS} (Cross-Origin Resource Sharing) co pozwoliło na komunikację HTTP. 
+
+Tworzenie aplikacji mobilnej przy użyciu biblioteki Angular wymusza na programiście znajomość oraz stosowanie wzorców projektowych takich jak reaktynwe programowanie. Dzięki temu zmiana wartości zmiennych klas przypisanych do komponentów drzewie DOM spowoduje zmianę danych wyświetlanych użytkownikowi. Proces wiązania danych poprzez zastosowanie typów obserwowanych może być uciążliwy dla programistów przyzwyczajonych do operacji asynchronicznych używanych na platformach uruchomieniowych .NET lub NodeJS. 
+}
 \section{Mikroserwis przetwarzania obrazu}
+{
+}
 
-{ }
+\section{Mikroserwis reguł semantycznych}
 
 %\begin{center}
 %	\makebox[\textwidth]{	\includegraphics[width=\paperwidth]{images/4.3 przeplyw danych}}

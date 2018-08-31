@@ -1,12 +1,11 @@
 package com.productScanner.services;
 
+import com.productScanner.model.ImageClasificationEventResultEntry;
 import com.productScanner.model.ImagePreprocessingEvent;
 import com.productScanner.semanticModel.Product;
 import com.productScanner.semanticModel.ProductRule;
 import com.productScanner.semanticModel.RuleType;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.util.FileManager;
 
 import java.io.FileNotFoundException;
@@ -99,13 +98,33 @@ public class WebSemanticService {
                 System.out.println("  " + iter.nextStatement());
             }
         } else {
-            System.out.println("No vcards were found in the database");
+            System.out.println("find 0 entries in database");
         }
         return iter.hasNext();
     }
 
 
     public void findInvalidPositions(ImagePreprocessingEvent data){
+        for (ImageClasificationEventResultEntry entry : data.Entries){
+            Resource resource = _model.getResource("http://productScanner/product/" + entry.Category + "/rules");
+            StmtIterator iter= resource.listProperties();
+            while (iter.hasNext()) {
+                System.out.println("    " + iter.nextStatement()
+                        .getObject()
+                        .toString());
+            }
+            System.out.println(resource);
+//            Selector selector = new SimpleSelector(null, property, (RDFNode) null);
+//            StmtIterator iter = _model.listStatements(selector);
+//            if(!iter.hasNext()){
+//                continue;
+//            }
+//            while(iter.hasNext()){
+//                System.out.println("  " + iter.nextStatement());
+//            }
+
+
+        }
         return;
     }
 }
