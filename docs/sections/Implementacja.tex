@@ -1,5 +1,17 @@
 \section{Środowisko programistyczne}
-W celu realizacji poszczególnych założeń projektowych został wykonany złożony program przy użyciu platformy .NET w wersji 4.6. Część serwerowa aplikacji została napisana w języku C\# 6.0, a widoki użytkownika stworzono przy pomocy języków SCSS, JavaScript oraz HTML przy użyciu ASP.NET MVC. Całość oprogramowania powstała z wykorzystaniem programu Visual Studio 2015\cite{MicrosoftVS} w wersji Community oraz systemu automatyzacji zadań Gulp\cite{Gulp:limitation} w środowisku Node.js, służącemu do minifikacji oraz konkatenacji stylów i skryptów. Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server oraz dowolnej przeglądarki internetowej z uruchomioną obsługą języka JavaScript. Środowisko Node.js oraz wszystkie pakiety z nim związane nie są wymagane do dalszej kontynuacji, lecz w znaczny sposób mogą przyspieszyć dalszą pracę. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman:limitation} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler:limitation}. Narzędzia te mogą posłużyć do wywoływania akcji kontrolerów poprzez odpowiednie adresy URL. W celu udostępnienia funkcjonalności zapisywania plików w chmurze Azure, należy skorzystać z konta portalu Azure oraz usługi magazynu. Aplikacja została stworzona przy użyciu systemu Windows 10 oraz można ją uruchomić przy pomocy programu Internet Information Service\cite{IIS:limitation}.
+W celu realizacji poszczególnych założeń projektowych został wykonany złożony program przy użyciu środowisk uruchomieniowych: 
+\begin{itemize}[noitemsep]
+	\item .NET Core w wersji 2.1 przy użyciu języka w C\# w wersji 7 ,
+	\item Java w wersji 8,
+	\item Python w wersji 3.7
+	\item NodeJS w wersji 8,
+	\item Ionic 3 Cordova
+\end{itemize}
+W tym celu skorzystano ze środowisk programistycznych: Visual Studio, IntelliJ, Pycharm oraz Visual Studio Code. W celu przygotowania aplikacji wykorzystano system operacyjny Windows 10.
+
+Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbedne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skrytpów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
+
+Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman:limitation} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler:limitation}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
 
 \newpage
 

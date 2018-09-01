@@ -20,29 +20,29 @@ namespace ProductScanner.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var data = new ImagePreprocessingEvent()
-            {
-                Id = 1,
-                Entries = new List<ImageClasificationEventResultEntry>()
-                {
-                    new ImageClasificationEventResultEntry()
-                    {
-                        Id =1,
-                        Category = "pepsi",
-                        Position= new double[]{1,1,1,1},
-                        Score = 1
-                    },
-                    new ImageClasificationEventResultEntry()
-                    {
-                        Id= 2,
-                        Category = "cola",
-                        Position= new double[]{0,0,1,1},
-                        Score = 1
-                    }
-                }
-            };
+            //var data = new ImagePreprocessingEvent()
+            //{
+            //    Id = 1,
+            //    Entries = new List<ImageClasificationEventResultEntry>()
+            //    {
+            //        new ImageClasificationEventResultEntry()
+            //        {
+            //            Id =1,
+            //            Category = "pepsi",
+            //            Position= new double[]{1,1,1,1},
+            //            Score = 1
+            //        },
+            //        new ImageClasificationEventResultEntry()
+            //        {
+            //            Id= 2,
+            //            Category = "cola",
+            //            Position= new double[]{0,0,1,1},
+            //            Score = 1
+            //        }
+            //    }
+            //};
 
-            _eventBus.Publish(data);
+            //_eventBus.Publish(data);
             return new string[] { "value1", "value2" };
         }
     }

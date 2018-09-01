@@ -18,7 +18,7 @@ export class PhotoDescriptionPage {
   
   public photo: PhotoDetailViewModel;
   
-  private readonly _loader: Loading;
+  private _loader: Loading;
 
   private _hubConnection: HubConnection;
 
@@ -101,6 +101,40 @@ export class PhotoDescriptionPage {
 
   public dismiss(): void {
     this.viewCtrl.dismiss();
+  }
+
+  public delete(): void { 
+    this._loader = this.loadingCtrl.create({
+      content: "Please wait..."
+    });
+    this._loader.present();
+    
+    this.photoService.deletePhoto(this.photo.id)
+      .subscribe(
+        () => {
+          this.dismiss();
+          const toast = this.toastCtrl.create({
+            message: "File deleted successfully",
+            duration: 10000,
+            showCloseButton: true,
+            closeButtonText: 'Ok'
+          });
+          this._loader.dismiss();
+          toast.present();
+        },
+        (ex) => {
+          const msg = ExceptionFormater.exceptionMsg(ex);
+          const toast = this.toastCtrl.create({
+            message: msg,
+            duration: 10000,
+            showCloseButton: true,
+            closeButtonText: 'Ok'
+          });
+          this._loader.dismiss();
+          toast.present();
+
+        }
+      );
   }
 
 

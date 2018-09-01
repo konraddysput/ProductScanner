@@ -8,9 +8,9 @@ W celu dostarczenia intefensu użytkownika umożliwiającego udostępnianie zdj�
 \section{Przetwarzanie danych}{
 Aplikacja wymaga integracji wielu środowisk uruchomieniowych oraz języków programistycznych. Operacje przetwarzania obrazu oraz analizy reguł przynależności otrzymanych danych mogą okazać się czasochłonne. System zakłada możliwość rozproszenia dokonywanych obliczeń na dowolną liczbę węzłów. Dodatkowo, stworzone serwisy są niezależne od siebie, a awaria jednego z nich nie powoduje zatrzymania całego systemu. 
 
-Rozwiązaniem umożliwiającym spełnienie wymienionych założeń jest zastosowanie architektury opartej o wykorzystanie mikroserwisów. Większa liczba dostępnych serwisów może powodować problemy z ewentualnym wdrożeniem aplikacji na dodatkowe serwery. Jednakże uzyskane korzyści poprzez bezawaryjność prac oraz możliwość uruchomienia węzłów obliczeniowych na kolejnych maszynach upewnia w słuszności wybranej architektury. 
+Rozwiązaniem umożliwiającym spełnienie wymienionych założeń jest zastosowanie architektury opartej o wykorzystanie mikroserwisów. Większa liczba dostępnych serwisów może powodować problemy z ewentualnym wdrożeniem aplikacji na dodatkowe serwery. Jednakże uzyskane korzyści poprzez bezawaryjność prac oraz możliwość uruchomienia węzłów obliczeniowych na kolejnych maszynach upewnia w słuszności wybranej architektury. System zakłada możliwość podpięcie większej ilości działających mikroserwisów oraz możliwość ich rozproszenia na różnych maszynach. Aby tego dokonać konieczne jest, aby oprogramowanie służące do wymiany komunikatów było dostępne na każdym z serwerów na których one działają.
 
-System zakłada możliwość wykorzystania dowolnej ilości systemów operacyjncyh, języków programistycznych oraz środowisk uruchomieniowych. Programiści, którzy chcieliby rozwijać system powinni wykorzystywać narzędzia do zarządzania kontenerami - jakim jest Docker \cite{Docker}, które zostaną dostarczone wraz z kodem źródłowym aplikacji.
+System zakłada możliwość wykorzystania dowolnej ilości systemów operacyjncyh, języków programistycznych oraz środowisk uruchomieniowych. Programiści, którzy chcieliby rozwijać system powinni wykorzystywać narzędzia do zarządzania kontenerami - jakim jest Docker \cite{Docker}, które zostaną dostarczone wraz z kodem źródłowym aplikacji. System zakłada możliwość przechowywania danych dotyczących obrazka w bazie danych. W związku z tym wybrano system bazodanowy MS SQL Server. Ontologia wiedzy dotycząca reguł przynależności przedmiotów znajdujących się na przesłanym obrazku nie musi zostać wygenerowana przez mikroserwis. Założeniem jest dostarczenie mikroserwisu ontologii wraz z plikiem z bazą wiedzy. Poszczególne mikroserwisy mogą komunikować się przy pomocy dowolnego protokołu komunikacyjnego. Jednakże założono, że w tym celu do wymiany wiadomośći zostanie zastosowany system zarządzania kolejką RabbitMQ. Moduł detekcji przedmiotów znajdujących się na obrazie wymaga stworzenia modelu używanego przez bibliotekę Tensorflow. W związku z tym założono, że dane umożliwiające pomyślne rozpoznawanie przedmiotów na obrazie zostaną udostępnione na repozytorium. Możliwe jest aby użytkownik w celu dalszych eksperymetnów mógł wzbogadzić istniejące modele. Jednakże wymaga to przebudowy całej struktury modeli oraz dodanie odpowiednich wpisów w mikroserwisach, które przetwarzają ich informacje.
 }
 
 \section{Udostępniane funkcje}
@@ -26,16 +26,18 @@ System udostępnia użytkownikowi następujący zestaw funkcjonalności możliwy
 	\item Historie udostępnionych zdjęć oraz ich danych
 	\item Szczegóły historycznego zdjęcia
 	\item Szczegóły udostępnionego aktualnie zdjecia
+	\item Usunięcie dodanego zdjęcia oraz informacji o nim
+	\item Usunięcie zdjęcia w zakładce historii oraz informacji o nim
+	
 \end{itemize}
 
 System udostępnia użytkownikowi zestaw funkcji`  służący zarządzaniem kontem, do których należą:
 \begin{itemize}[align=left]
 	\item Logowanie
 	\item Rejestracja
-	\item Wylogowanie
-	
-	
+	\item Wylogowanie	
 \end{itemize}
 
+System w celu stworzenia konta wymaga podania przez użytkownika dodatkowo adresu e-mail. Dostęp do funkcjonalności oprogramowania może mieć tylko i wyłącznie zalogowany użytkownik aplikacji. 
 
 W rozdziale 5 przedstawiono szczegółową implementacje wybranych funkcji przedstawionych w spisie.
