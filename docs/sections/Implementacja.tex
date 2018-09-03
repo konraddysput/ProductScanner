@@ -1,107 +1,142 @@
 \section{Środowisko programistyczne}
 W celu realizacji poszczególnych założeń projektowych został wykonany złożony program przy użyciu środowisk uruchomieniowych: 
 \begin{itemize}[noitemsep]
-	\item .NET Core w wersji 2.1 przy użyciu języka w C\# w wersji 7 ,
-	\item Java w wersji 8,
-	\item Python w wersji 3.7
+	\item .NET Core w wersji 2.1 przy użyciu języka w C\# w wersji 7,
+	\item JVM przy użyciu języka Java w wersji 8,
+	\item Python w wersji 3.7,
 	\item NodeJS w wersji 8,
-	\item Ionic 3 Cordova
+	\item Cordova poprzez wykorzystanie biblioteki Ionic.
 \end{itemize}
 W tym celu skorzystano ze środowisk programistycznych: Visual Studio, IntelliJ, Pycharm oraz Visual Studio Code. W celu przygotowania aplikacji wykorzystano system operacyjny Windows 10.
 
 Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbedne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skrytpów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
 
-Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman:limitation} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler:limitation}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
+Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
 
-\newpage
 
 \section{Biblioteki}
 
-W celu stworzenia funkcjonalności określonej w pracy użyto liczny zestaw bibliotek platformy .NET oraz interfejsu użytkownika. Wykorzystanie wymienionych poniżej komponentów przyspieszyło w znaczący sposób pracę oraz umożliwiło wykonanie funkcjonalności zgodnie z założoną architekturą systemu.
+W celu stworzenia systemu skorzystano z szerokiego zakresu bibliotek. Dodano je przy pomocy menadżerów paczek dla poszczególnych języków:
+\begin{itemize}[noitemsep]
+	\item npm dla środowiska uruchomieniowego NodeJS oraz JavaScript,
+	\item Maven dla mikroserwisu stworzonego za pomocą języka Java,
+	\item PIP oraz Anaconda dla mikroserwisu przetwarzania obrazu w środowisku Python,
+	\item Nuget dla aplikacji internetowej w ASP.NET Core.
+\end{itemize}
+
+Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez mandżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu, niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython}, \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach. Rozbicie na tabeli ułatwi zrozumienie ich użycia w przygotowaniu aplikacji .
 
 \begin{center}
-    \begin{longtable}{ | p{2.2cm} | p{5cm} | p{6.5cm} |}
-   	\caption{Użyte biblioteki platformy .NET oraz interfejsu użytkownika} \\
-    \hline Biblioteka & Moduły & Opis \\ \hline    
-    \hline Automapper &  
-    	\begin{itemize} 
-   			 \item aplikacji użytkownika
-   			 \item aplikacji biznesowej	
-   		\end{itemize} 
-    & Biblioteka umożliwiająca mapowanie pomiędzy obiektami odmiennego typu, dzięki której między innymi dokonywana jest zamiana modelu bazodanowego na model widoku.\\ \hline
+    \begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
+   	\caption{Zbiór wykorzystanych bibliotek w aplikacji internetowej}
+   	\label{librariesDotNet} \\
+    %header
+    \hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
+    %header
     
-    \hline Unity &	
-    \begin{itemize} 
-   			 \item aplikacji użytkownika
-    \end{itemize}
-   			 & Biblioteka umożliwiająca wstrzykiwanie struktur danych. Została użyta w związku z zastosowaniem wzorca architektonicznego odwróconego sterowania, aby wstrzykiwać modele danych do przetwarzania logiki biznesowej aplikacji do konstruktorów kontrolerów. Biblioteka umożliwia również wstrzykiwanie repozytoriów do serwisów danych.	\\ \hline
+    \hline AspNetCore &
+   			 Stworzenie aplikacji internetowej
+   		
+    & Biblioteka niezbędna do stworzenia aplikacji w stukturze ASP.NET Core. Umożliwia ona stworzenie całego ekosystemu aplikacji internetowej oraz struktur pomocniczych, które umożliwią np. przetwarzanie żądań HTTP. Dzięki niej stworzona aplikacja konsolowa wywołuje odpowiednie metody w kontrolerze w zalezności od zapytania wysłanego na odpowiedni adres url.\\ \hline
     
-        \hline Entity \mbox{Framework} &  
-    	\begin{itemize} 
-   			  \item aplikacji użytkownika
- 			  \item logiki biznesowej
-			  \item dostępu do danych
-   		\end{itemize} 
-    &  Biblioteka umożliwiająca operacje na kolekcjach danych oraz tworzenie struktur bazodanowych poprzez zastosowanie koncepcji utworzenia klas oraz na ich podstawie wygenerowaniu bazy danych.\\ \hline
+    \hline 
+    Aurofac 
+    & Tworzenie obiektów według wzorca odwróconego sterowania
+    & Biblioteka umożliwiająca wstrzykiwanie struktur danych. Aplikacja w ASP.NET Core zawierają mechanizmu odwróconego sterowania. W przypadku projektu mikroserwisów stworzono własny mechanizm wywoływania odpowiednich metod w zależności od otrzymanych zdarzeń. Domyślne mechanizmy w tym przypadku sprawiały problemy z implementacją.\\ \hline
     
-        \hline Microsoft Identity & 
-         \begin{itemize} 
-   			 \item aplikacji użytkownika
-    	\end{itemize} & Biblioteka zapewniająca aplikacji użytkownika zestaw metody umożliwiających autoryzacje oraz uwierzytelnienie. Komponenty zestawu ponadto rozbudowują bazę danych o dodatkowe tabele oraz kolumny przechowujace poufne dane. \\ \hline
+    \hline Entity \newline Framework
+    & Dostep do danych
+    &  Biblioteka umożliwiająca operacje na danych bazodanowych. Wykorzystanie jej umożliwiło odczyt, edycje, usuwanie oraz zapisywanie danyc w bazie danych. Dzięki niej stworzono również podstawowy szkielet tablet.
+    \\ \hline
     
-    \hline Windows Azure Storage &  
-    \begin{itemize} 
-    	\item logiki biznesowej
-    \end{itemize} 
-    & Biblioteka umożliwiająca komunikację z magazynem danych w chmurze Azure.\\ \hline
+    \hline Microsoft \newline Identity 
+    & Zabezpieczenie \newline aplikacji
+   	& Biblioteka pozwalająca stworzenie struktur bazodanowych, które będą przechowywały dane dotyczace użytkowników w ramach danej sesji. Zawiera ona dużą liczbę pomocnych metod uwierzytelniania, autoryzacji oraz bezpieczeństwa. \\ \hline
     
-        \hline Newtonsoft Json.NET  &
-        \begin{itemize} 
-   			 \item aplikacji użytkownika
-   		 \end{itemize}
-    & Biblioteka umożliwiająca zamianę obiektu dowolnego typu  na tekst w formacie JSON oraz danych w postaci JSON na modele używane w aplikacji.		\\ \hline
+    \hline SignalR 
+    & Komunikacja w czasie rzeczywistym
+    & Biblioteka umożliwiająca komunikację w czasie rzeczywistym z dowolnym klientem uruchomionym w przeglądarce użytkownika. Dzięki niej informujemy użytkownika o skończeniu przetwarzania danych przez mikroserwisy oraz wyłączamy ekran oczekiwania na dane.\\ \hline
     
-    \hline jQuery &  
-    \begin{itemize} 
-    	\item aplikacji użytkownika
-    \end{itemize} 
-    & Biblioteka skryptowa operująca na komponentach graficznych oraz definiująca działanie interfejsu użytkownika w dowolnej przeglądarce internetowej z włączoną obsługą języka JavaScript. \\ \hline
+    \hline Newtonsoft Json.NET  
+    & Serializacja oraz deserializacja danych
+    & Biblioteka umożliwiająca serializację oraz deserializację obiektów aplikacji.\\ \hline
     
+    \hline JWT
+     & Mechanizm autoryzacji i uwierzytelnienia
+    & JWT umożliwia tworzenie tokenów z informacjami na temat użytkownika zaraz po jego zalogowaniu. Dzięki dołączaniu wygenerowanej wartości do żądań aplikacja internetowa wie o tym, który użytkownik przesyła dane.\\ \hline
     
-    \hline Bootstrap Material Design &  
-    \begin{itemize} 
-    	\item testów
-    \end{itemize} 
-    & Biblioteka zawierająca kaskadowe arkusze stylów oraz skrypty implementuje wygląd i zachowanie komponentów zaprojektowanych przez wzorzec Material Design firmy Google. \\ \hline
+     \hline RabbitMQ Client
+    & Wysyłanie \newline wiadomości do \newline mikroserwisów przy użyciu RabbitMQ
+    & Klient oprogramowania RabbitMQ umożliwia tworzenie kolejek wiadomości oraz kanałów komunikacyjnych. Dzięki niemu aplikacja internetowa wysyła dane w zserializowanej formie do mikroserwisów. Klient umożliwia odbieranie danych poprzez zastosowanie zdarzeń. W tej sposób rejestrowane są odpowiedzi mikroserwisów.\\ \hline
     
+     \hline Polly
+    & Zasady ponownego rozesłania wiadomości
+    & Polly umożliwia zdefiniowanie zasad ponownej wysłanie wiadomości na kolejkę. W przypadku gdy żaden z klientów RabbitMQ nie odbierze wiadomości, wówczas możliwe jest ponowne wysłanie wiadomości. Aplikacja wykorzystuja zdefiniowane zasady podczas braku połaczenia z oprogramowaniem RabbitMQ.\\ \hline
     
-    \hline PostSharp &  
-    \begin{itemize} 
-    	\item logiki biznesowej
-    \end{itemize} 
-    & Biblioteka umożliwiająca stworzenie własnych atrybutów klas lub metod. Język C\# nie zapewnia takiej możliwości poprzez zastosowanie dostępnych mechanizmów platformy .NET. Kod stworzony w ramach atrybutu w trakcie kompilacji zostanie dodany w miejsce określone przy konfiguracji aspektu. \\ \hline
-    
-      \hline DotNetZip &  
-    \begin{itemize} 
-    	\item logiki biznesowej
-    \end{itemize} 
-    & Biblioteka umożliwiająca dynamiczne tworzenie plików zip w oparciu o pliki w postaci strumienia lub tablicy bajtów. \\ \hline
-    
-    \hline MOQ &  
-    \begin{itemize} 
-    	\item testów
-    \end{itemize} 
-    & Biblioteka umożliwiająca imitowanie struktur danych używanych w testach jednostkowych. \\ \hline
-    
-     \hline xUnit &  
-    \begin{itemize} 
-    	\item testów
-    \end{itemize} 
-    & Biblioteka umożliwiająca pisanie metod testujących funkcjonalności napisane w programie.  \\ \hline
 	\end{longtable}
 \end{center}
 
-\newpage
+W tabeli nie została opisana żadna biblioteka, która generuje widoki przy użyciu mechanizmów ASP.NET Core. Ze względu na charakterystykę aplikacji oraz wykorzystanie architektury REST, użycie tego typu narzędzi było zbędne. Biblioteki zostały zainstalowane za pomocą narzędzie Nuget w Visual Studio 2017, a informacje o nich przechowywane są w plikach .csproj każdego podmodułu. Aplikacja zakłada automatyczne pobranie bibliotek w przypadku gdy nie znajdują się w katalogu solucji. Wszystkie wybrane biblioteki są zgodne z aplikacjami .NET Core. Oznacza to możliwość uruchomienia oprogramowania na systemach operacyjnych wspieranych przez .NET Core 2.1 - Linux, Windows, MacOS.
+
+\begin{center}
+	\begin{longtable}{ | p{1.7cm} | p{2cm} | p{3.5cm} | p{6cm} |}
+		\caption{Zbiór wykorzystanych bibliotek w aplikacji mobilnej}
+		\label{librariesMobile} \\
+		%header
+		\hline Nazwa & Typ  & Cel & Opis \\ \hline    
+		%header
+		
+  		\hline Angular 5
+  		& Biblioteka JavaScript
+		& Tworzenie widoków aplikacji
+		& Biblioteka umożliwia generowanie widoków na podstawie stworzonych szablonów oraz aktualnego stanu zmiennych. Składa się on z wielu modułów, które razem tworzą dojrzały ekosystem. Jest to jedna z najpopularniejszych bibliotek do tworzenia interfejsów użytkownika.\\ \hline
+	
+		\hline Cordova
+		& Szkielet aplikacji
+		& Stworzenie \newline aplikacji mobilnej
+		& Apache Cordova umożliwia tworzenie hybrydowych aplikacji na platformy mobilne. Tworzy interfejs komunikacyjny pomiędzy widokami w postaci strony www, a urządzeniami peryferyjnymi telefonu.\\ \hline
+		
+		\hline Ionic 3
+		& Szkielet aplikacji
+		& Stworzenie \newline aplikacji mobilnej
+		& Ionic obudowuje szkielet aplikacji Cordova w metody oraz funkcje przyspieszajace prace programisty nad systemami mobilnymi. Zapewnia on składnie tworzenia widoków, komunikację z urządzeniami peryferyjnymi oraz integrację z narzędziami do wytwarzania oprogramowania.\\ \hline
+		
+		\hline Webpack
+		& Budowa aplikacji
+		& Tworzenie wynikowych plików JavaScript oraz CSS
+		& Przeglądarka nie jest w stanie zinterpretować kodu stworzonego przy użyciu języka TypeScript lub SCSS. Webpack jest narzędziem umożliwiającym translację kodu napisanego w wyżej wymienionych językach na pliki wynikowe JavaScript oraz CSS. \\ \hline
+	
+		\hline ASP.NET SignalR klient
+		& Biblioteka JavaScript
+		& Komunikacja w czasie rzeczywistym
+		& W celu odbierania informacji w czasie rzeczywistym z aplikacji internetowej niezbędne jest dołączenie biblioteki ASP.NET SignalR. Zapewnia ona zbiór metod pozwalających na rejestrację klienta w aplikacji oraz swobodną wymianę informacji przy użyciu gniazdek internetowych. \\ \hline
+	
+		\hline Cordova Plugin Camera
+		& Wtyczka do kamery
+		& Komunikacja pomiędzy aplikacją a kamerą
+		& Użytkownik aplikacji może wysłać zdjęcie bezpośrednio z kamery. Oznacza to konieczność integracji z urządzeniem peryferyjym. Zostało to zrealizowane dzięki użyciu wtyczki cordova-plugin-camera, która umożliwia przechwycenie obrazu z kamery oraz zapisanie go w aplikacji. Ponadto wtyczka dostarcza metody integracji z galerią zdjęć.\\ \hline
+	\end{longtable}
+\end{center}
+
+Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz biblioteka webpack, która umożliwia transpilacje do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną.
+
+
+%koniec
+\begin{center}
+	\begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
+		\caption{Zbiór wykorzystanych bibliotek w aplikacji internetowej}
+		\label{librariesPython} \\
+		%header
+		\hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
+		%header
+		
+		\hline AspNetCore &
+		Stworzenie aplikacji internetowej
+		
+		& Biblioteka niezbędna do stworzenia aplikacji w stukturze ASP.NET Core. Umożliwia ona stworzenie całego ekosystemu aplikacji internetowej oraz struktur pomocniczych, które umożliwią np. przetwarzanie żądań HTTP. Dzięki niej stworzona aplikacja konsolowa wywołuje odpowiednie metody w kontrolerze w zalezności od zapytania wysłanego na odpowiedni adres url.\\ \hline
+	\end{longtable}
+\end{center}
+
 \section{Konfiguracja}
 Aplikacja użytkownika zaimplementowana w ASP.NET MVC charakteryzuje się wykorzystaniem trzech wzorców architektonicznych - Model-Widok-Kontroler, Odwrotnego sterowania oraz wstrzykiwania zależności. Każda z klas pełniących funkcję kontrolerów wykorzystuje zasady zdefiniowane w każdym z wymienionych wzorców. W celu implementacji założeń wykorzystano bibliotekę Unity platformy .NET umożliwiającą wstrzykiwanie złożonych struktur danych - serwisów, do konstruktorów kontrolerów. Konfiguracja zakłada stworzenie kontenera danych oraz zdefiniowanie w nim klas serwisów oraz ich interfejsów, które mogą zostać wykorzystane w argumentach metody inicjalizującej klasę.
 \\
