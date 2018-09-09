@@ -8,7 +8,8 @@ class Communication:
 
     exchange_type = 'direct'
     credentials = pika.PlainCredentials('node', 'node')
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', credentials=credentials))
+    conn_param = pika.ConnectionParameters('localhost', credentials)
+    connection = pika.BlockingConnection(conn_param)
     channel = connection.channel()
     queue_name = 'scanner-api-python'
     receive_routing_key = 'ImageClasificationEvent'
@@ -23,7 +24,7 @@ class Communication:
         self.connect()
 
     def connect(self):
-        self.channel.queue_declare(queue=self.queue_name, exclusive=False)
+        self.channel.queue_declare(self.queue_name, False)
         self.channel.queue_bind(exchange=self.exchange_name,
                                 queue=self.queue_name,
                                 routing_key=self.receive_routing_key)

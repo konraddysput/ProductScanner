@@ -24,7 +24,7 @@ W celu stworzenia systemu skorzystano z szerokiego zakresu bibliotek. Dodano je 
 	\item Nuget dla aplikacji internetowej w ASP.NET Core.
 \end{itemize}
 
-Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez mandżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu, niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython}, \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach. Rozbicie na tabeli ułatwi zrozumienie ich użycia w przygotowaniu aplikacji .
+Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez mandżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu, niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython} oraz \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach. Rozbicie na tabeli ułatwi zrozumienie ich użycia w przygotowaniu aplikacji .
 
 \begin{center}
     \begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
@@ -118,509 +118,440 @@ W tabeli nie została opisana żadna biblioteka, która generuje widoki przy uż
 	\end{longtable}
 \end{center}
 
-Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz biblioteka webpack, która umożliwia transpilacje do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną.
+Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz narzędzie webpack, która umożliwia transpilacje do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną. Wymogiem niezbędnym do komunikacji pomiędzy serwerem, a urządzeniem mobilnym jest połączenie aplikacji internetowej oraz mobilnej do tej samej sieci. W przypadku wdrożenia produkcyjnego oraz użycie aplikacji internetowej w Internecie, nie ma potrzeby użycia tej samej siecii WiFi.
 
 
-%koniec
 \begin{center}
 	\begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
-		\caption{Zbiór wykorzystanych bibliotek w aplikacji internetowej}
+		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie przetwarzania obrazu}
 		\label{librariesPython} \\
 		%header
 		\hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
 		%header
 		
-		\hline AspNetCore &
-		Stworzenie aplikacji internetowej
+		\hline Tensorflow 1.8 &
+		Detekcja przedmiotów na obrazie
 		
-		& Biblioteka niezbędna do stworzenia aplikacji w stukturze ASP.NET Core. Umożliwia ona stworzenie całego ekosystemu aplikacji internetowej oraz struktur pomocniczych, które umożliwią np. przetwarzanie żądań HTTP. Dzięki niej stworzona aplikacja konsolowa wywołuje odpowiednie metody w kontrolerze w zalezności od zapytania wysłanego na odpowiedni adres url.\\ \hline
+		& Biblioteka użyta do detekcji przedmiotów znajdujacych się na obrazie, znajdujących się w bazie wiedzy. Dane otrzymane w wyniku działania metod Tensorflow zostały użyte do wnioskowania przeprowadzonego w mikroserwisie reguł semantycznych.\\ \hline
+
+
+	\hline opencv-python &
+	Stworzenie modelu
+	
+	& Biblioteka użyta do stworzenia plików nazywanych TFRecords. Stanowią one dane wejściowe dla metod biblioteki Tensorflow służących do nauczenia modelu oblizceniowego detekcji przedmiotów.\\ \hline	
+	
+	\hline pandas &
+	Stworzenie modelu
+	
+	& Biblioteka użyta do stworzenia plików nazywanych TFRecords.\\ \hline	
+	
+	\hline pika &
+	Komunikacja z \newline RabbitMQ
+	
+	& Klient oprogramowania RabbitMQ. Biblioteka służąca do stworzenia kanału komunikacyjnego oraz odbierania/wysyłania wiadomości do innych mikroserwisów.\\ \hline	
+	
 	\end{longtable}
 \end{center}
 
+W celu uruchomienia mikroserwisu należy zainstalować zbiór bibliotek niezbędny do przetwarzania oraz analizy obrazu. Najważniejsze z nich zostały przedstawione w tabeli \ref{librariesPython}, lecz używane zależności zostały w tym przypadku pominięte. Biblioteka Tensorflow do poprawnego działania wymaga również instalacji: pillow, lxml, Cython, matplotlib, pandas oraz opencv-python. Aby stworzyć model, niezbędny do uzyskania wynikow z programu skorzystano z narzędzia LabelImg, które jest otwartym oprogramowaniem, dostępnym do ściągnięcia na serwisie Github. Przedmiot, który znajduje się na zdjęciu testowym, należy opisać w sposób zrozumiały do załączonych biblioetk. Dzięki narzędziu możliwe jest łatwe oznaczanie przedmiotu na zdjęcia oraz jego opis. 
+
+Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznym. Wynik przetwarzania obrazu przesyłany jest do aplikacji Internetowej. Otrzymanie wyjątku lub pusty wynik mikroserwisu nie spowoduje wywołania serwisu reguł semantycznych. W innym przypadku aplikacja internetowa przekaże dane do przetwarzania przez reguły semantyczne. 
+
+
+\begin{center}
+	\begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
+		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie reguł semantycznych}
+		\label{librariesJava} \\
+		%header
+		\hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
+		%header
+		
+		\hline Apache Jena &
+		Przetwarzanie reguł semantycznych
+		
+		& Jena jest biblioteką umożliwiającą tworzenie siecii semantycznych oraz budowanie relacji pomiedzy danymi. Została wykorzystana w celu przetwarzania istniejącej ontologii. \\ \hline
+		
+		\hline Jackson &
+		Serializacja oraz deserializacja JSON
+		
+		& Biblioteka została użyta w celu dokonywania serializacji istniejących obiektów programu na format JSON oraz deserializacji, czyli zamiany tekstu na instancje klasy.\\ \hline
+		
+		\hline rabbitmq &
+		Klient RabbitMQ
+	
+		& Klient oprogramowania RabbitMQ. Służy do komunikacji przy użyciu wiadomości wysyłanych do kolejek danych. Klient umożliwia komunikację z aplikacją internetową.\\ \hline
+
+	\end{longtable}
+\end{center}
+
+Mikroserwis reguł semantycznych wykorzystują istniejącą ontologię, stworzoną przy użyciu oprogramowania Protege \cite{Protege}. Oprogramowanie zakłada istnienie ontologii przed uruchomieniem aplikacji. W ramach mikroserwisu zostały wykonane dwa serwisy, które służą za komunikację z kolejką danych oraz uruchamianie metod semantycznych. Przetwarzanie ontologii odbywa się z wykorzystaniem biblioteki Jena. Uzyskany wynik umożliwia poznanie informacji na temat przetwarzanego przedmiotu. Reguły zawarte w ontologii wskazują niepoprawności, które zachodzą pomiędzy obiektami poddawanymi analizie. Rezultat serwisu metod semantycznych powoduje wysłanie przez mikroserwis danych do aplikacji internetowej o klasyfikowanym przedmiocie oraz o regułach jego przynależności. 
+Wszystkie z wymienionych bibliotek zostały zainstalowane przy pomocy menadżera paczek - Maven. Definicje niezbędnych do uruchomienia paczek znajdują się w pliku projektowym o nazwie pom.xml. Uruchomienie mikroserwisu spowoduje automatyczne pobranie zależności.
+
+
+\section{Uruchomienie}
+
+Stworzony system zakłada konieczność integracji wielu środowisk uruchomieniowych, języków oprogramowania oraz sposobów komunikacji. Użytkownik poznaje informacje na temat przedmiotów znajdujących na zdjęciu poprzez analize danych otrzymanych z mikroserwisu przetwarzania obrazu oraz reguł semantycznych. Uruchomienie ostatniego jest zależne od wyniku otrzymanego metod klasyfikacji przedmiotów na zdjęciu. 
+
+Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
+
+W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić przy użyciu konsoli - na przykład CMD lub Powershell\cite{Powershell} w Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z wirtualnego środowiska środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
+
+
+\begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
+$ activate dev
+$ conda install -c anaconda protobuf
+$ pip install Cython pillow lxml matplotlib pandas opencv-python
+$ set PYTHONPATH=C:\tensorflow\models;
+	C:\tensotflow\models\research;
+	C:\tensorflow\models\research\slim
+\end{lstlisting}
+
+Programiści, którzy chcą uruchomić bibliotekę korzystając z kodu źródłowego dołączonego wraz z biblioteką Tensorflow, dodatkowo muszą wykonać budowe plików Protobuf. Aby tego dokonać należy wykonać komendę protoc w folderze research katalogu modles z parametrami określającymi ścieżki docelowe wygenerowanych plików ".proto". Zbudowane pliki dołączone wraz z biblioteką mogę generować ewentualne błędy na różnych dystrybucjach oprogramowania lub systemach operacyjnych. Listing \ref{protobufInstallation} przedstawia przykładowe wygenerowanie plików ".proto".
+
+\begin{lstlisting}[caption={generowanie plików protobuf.}, label={protobufInstallation} ]
+$ cd C:\tensorflow\models\research
+$ protoc --python_out=. 
+	.\object_detection\protos\anchor_generator.proto ....
+$ python setup.py build
+$ python setup.py install
+\end{lstlisting}
+
+Wygenerowanie plików protobuf jest ostatnim krokiem niezbędnym do rozpoczęcia nauki modelu klasyfikacji przedmiotów na obrazie. W celu stworzenia niezbędnych danych opisujących obiekty na zdjęciach użyto narzędzia LabelImg, które jest projektem ogólnodostępnym na publicznym repozytorium Github. W celu wyuczenia modelu sklasyfikowano opisano przedmioty zdajdujące się na zdjeciach z katalogu images. Wymagało to dla każdego obrazu zaznaczenia prostokątem pozycji przedmiotu oraz jego klasyfikacji - na przykład puszka pepsi. Dane wejściowe zostały podzielone na dwa zbiory. Pierwszy znich zawiera zdjęcia które posłużą do nauki modelu. W drugim znajdują się obrazki testujące przetworzony model. W trakcie przetwarzania zdjęć natrafiono na problem wysokiej rozdzielczości aparatu. Zauważono, że im wyższa jakość zdjęcia tym dłuższy czas przetwarzania modelu. W tym celu zastosowano skrypt pogarszający jakość zdjęć, a tym samym jego wielkość. 
+
+Przygotowanie zdjęć do procesu nauki modelu jest bardzo istotnym elementem konfiguracji. W zależności od przygotowanych obrazów oraz dokładności ich opisu algorytm uczenia maszynowego stworzy mniej lub bardziej dokładny model. W przypadku zaawansowanych rozwiązań stopień pewności rozwiązania na poziomie 95\% możę wydawać się dużym sukcesem. Łatwo wyobrazić sobie system, który poprzez pomyłkę może doprowadzić do szkody lub wygenerowania niepoprawnych danych. Przed uruchomieniem algorytmu uczenia programista musi wygenerować TFRecords, czyli konkatencja plików XML z informacjami na temat wskazanego przedmiotów na zdjeciach do pliku CSV.W tym celu użyto skryptu, nazywającego się xml\_to\_csv.py. Jego wynikiem będzie utworzenie plików zawierające dane testowe oraz treningowe w formacie CSV. Ostatnim elementem niezbędnym do poprawnego interpretowania wyników uczenia maszynowego jest mapowanie klasyfikatorów algorytmu w postaci tekstu na klasyfikatory w postaci liczb. W tym celu należy edytować pliki generate\_tfrecord.py oraz labelmap z katalogu training i dostosować strukturę klasyfikowanych plików do do klasyfikatorów ze zdjeć. Aby rozpocząć naukę modelu zastosowano skrypt z listingu \ref{machineLearning}. W przypadku nauki modelu używanego w oprogramowaniu, algorytm przetwarzał dane około 2 godziny. 
+
+\begin{lstlisting}[caption={Uruchomienie algorytmu uczenia maszynowego.}, label={machineLearning} ]
+$ python train.py 
+	--logtostderr 
+	--train_dir=training/
+	 --pipeline_config_path=
+	 	training/faster_rcnn_inception_v2_productscanner.config
+\end{lstlisting}
+
+
+Stworzenie modelu jest czynnością opcjonalną. Repozytorium projektu zawiera już wygenerowane pliki w odpowiednich katalogach projektowych. Zostały przedstawione czynności, które programista może podjać aby ewentualnie rozszerzyć projekt o dodatkowe modele. Niezbędne w tym przypadku jest uruchomienie serwera bazodanowego oraz systemu kolejkowego RabbitMQ. W tym celu na rzecz wytwarzania oprogramowania przygotowano pliki Docker. Zawierają one definicję niezbędnych kontenerów z oprogramowaniem, które mogą zostać uruchomione bez konieczności instalacji ich na stacji roboczej. W tym celu należy za pomocą oprogramowania docker oraz konsoli Powershell wykonaj polecenie:
+
+\begin{lstlisting}[caption={Uruchomienie kontenerów docker.} ]
+$ cd ./src/ProductScanner.Backend/
+$ docker-compose up -f ./docker-compose-dev.yml up -d
+\end{lstlisting}
+
+Uruchomienie kontenerów nie jest wymagane. Przygotowując środowisko programistyczne, należy jednak pamietać o konieczności korzystania z bazy danych MS SQL Server oraz RabbitMQ. Wykorzystanie Dockera w tym przypadku nie wymaga instalacji serwera bazodanowego oraz kolejki wiadomośći, co w znaczący sposób może przyspieszyć uruchomienie aplikacji lub wprowadzenie drobnych poprawek. Dobrą praktyką jest każdorazowe wyłączenie uruchomionych kontenerów poprzez zastosowanie polecenia przedstawionego w listingu \ref{dockerDown}, ze względu na integrację danych znajdujących się w kontenerach. 
+
+
+\begin{lstlisting}[caption={Komenda docker-compose down.},label={dockerDown} ]
+$ cd ./src/ProductScanner.Backend/
+$ docker-compose -f ./docker-compose-dev.yml down
+\end{lstlisting}
+
+
 \section{Konfiguracja}
-Aplikacja użytkownika zaimplementowana w ASP.NET MVC charakteryzuje się wykorzystaniem trzech wzorców architektonicznych - Model-Widok-Kontroler, Odwrotnego sterowania oraz wstrzykiwania zależności. Każda z klas pełniących funkcję kontrolerów wykorzystuje zasady zdefiniowane w każdym z wymienionych wzorców. W celu implementacji założeń wykorzystano bibliotekę Unity platformy .NET umożliwiającą wstrzykiwanie złożonych struktur danych - serwisów, do konstruktorów kontrolerów. Konfiguracja zakłada stworzenie kontenera danych oraz zdefiniowanie w nim klas serwisów oraz ich interfejsów, które mogą zostać wykorzystane w argumentach metody inicjalizującej klasę.
-\\
 
-\begin{lstlisting}[caption=Konfiguracja kontenera Odwrotnego sterowania ]
-public class IoCConfiguration
+Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomośći do pozostałych mikroserwisów. Ponadto konfiguracja zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz oraz jej konfiguracji. Wszystkie wymienione założenia sprawiają konieczność zaawansowanej konfiguracji aplikacji. W tym celu w projektach ASP.NET Core dokonano zaawansowen konfiguracji klasy Startup.cs. W metodzie ConfigueServices stworzon kod, który inicjalizuje struktury bazodanowe, który został przedstawiony w listingu \ref{databaseConfiguration}. 
+
+\begin{lstlisting}[caption={Konfiguracja bazy danych oraz obiektu komunikacji bazodanowej.},label={databaseConfiguration} ]
+string connectionString = 
+	Configuration["ConnectionStrings:DbContextConnection"];
+	
+services.AddDbContext<ProductScannerDbContext>(options =>
+	options
+	.UseLazyLoadingProxies()
+	.UseSqlServer(connectionString));
+
+services.AddDefaultIdentity<ApplicationUser>(options =>
 {
-	public static void ConfigureIocUnityContainer()
-	{
-		IUnityContainer container = new UnityContainer();
-		RegisterServices(container);
-		DependencyResolver.SetResolver(new
-		 WebDiskDependencyResolver(container));
-	}
-
-	private static void RegisterServices(IUnityContainer container)
-	{
-		container.RegisterType<ISpaceService, SpaceService>();
-		container.RegisterType<IDirectoryService, DirectoryService>();
-		container.RegisterType<IFieldService, FieldService>();
-	}
-}
+	options.Password.RequireDigit = false;
+	options.Password.RequiredLength = 3;
+	options.Password.RequireNonAlphanumeric = false;
+	options.Password.RequireUppercase = false;
+	options.Password.RequireLowercase = false;
+})
+.AddEntityFrameworkStores<ProductScannerDbContext>()
+.AddDefaultTokenProviders();
 \end{lstlisting}
 
-Biblioteka Automapper wymaga zdefiniowania typów konwersji danych źródłowych na dane docelowe. W związku z tym stworzono metodę w klasie statycznej, zawierającą dozwolone ścieżki konwersji. Funkcja, uruchamiana jest jednorazowo wraz ze startem aplikacji. Konwersja przykładowych modeli danych znajduje się w Listingu 5.2. 
-\newpage
 
-\begin{lstlisting}[caption=Konfiguracja biblioteki Automapper]
-public static class MapperConfig
+Dalsza implementacji metody zakłada stworzenie obiektów odwróconego sterowania (Dependency Injection) oraz konfigurację między innymi autoryzacji lub komunikacji w czasie rzeczywistej. Dane niezbędne do skonfigurowania poszczególnych obiektów - na przykład parametrów autoryzacji, zostały wczytane z pliku appsettings.json. Plik ten znajduje się w folderze domowym aplikacji internetowej. Poza konfiguracją zabezpieczeń aplikacji, znajdują się w nim między innymi parametry połączenia z bazą danych, oprogramowaniem RabbitMQ oraz ustawienia poziomu logowania. Użycie pliku konfiguracyjnego jest dobrą praktyką pomocną przy dokonywaniu wdrożeń. Umożliwia ona między innymi dostosowanie aplikacji bez jej dodatkowej rekompilacji. Kod przedstawiający konfigurację serwisów oraz autoryzacji został przedstawiony w listingu \ref{dependencyInjectionAndConfiguration}. 
+
+\begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
+services.AddCors();
+services.AddServices();
+services.AddRepositories();
+services.RegisterEventBus(Configuration);
+
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
 {
-	public static void RegisterMaps()
+	options.TokenValidationParameters = new TokenValidationParameters
 	{
-		AutoMapper.Mapper.Initialize(n =>
-		{
-			n.CreateMap<Field, FieldViewModel>();
-			n.CreateMap<HttpPostedFileBase, FileViewModel>();
-			
-			n.CreateMap<FieldInformation, FieldInformation>()
-			.ForMember(dest => dest.FieldInformationId,
-					 opts => opts.MapFrom(from => Guid.NewGuid()))
-			.ForMember(dest => dest.Field, 
-						opts => opts.Ignore());
-						
-			.....
-		}
-	}
-}
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = Configuration["Jwt:Issuer"],
+		ValidAudience = Configuration["Jwt:Issuer"],
+		IssuerSigningKey = new SymmetricSecurityKey(
+			Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+	};
+});
 
+services.AddMvc(options =>
+{
+	options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+	options.Filters.Add(typeof(ValidateModelStateFilter));
+})
+.SetCompatibilityVersion(CompatibilityVersion.Version\_2\_1);
+
+services.AddSignalR();
+services.AddMapperConfiguration();
+var container = new ContainerBuilder();
+container.Populate(services);
+
+return new AutofacServiceProvider(container.Build());
 \end{lstlisting}
 
-Wszystkie funkcje konfigurujące aplikację ASP.NET MVC wykonywane są w klasie Global.asax podczas uruchamiania aplikacji. Pojedyncze wykonanie zapisuje konfigurację na cały czas działania aplikacji internetowej. 
-
-
-\begin{lstlisting}[caption=Konfiguracja aplikacji]
-
- public class MvcApplication : System.Web.HttpApplication
-{
-	protected void Application_Start()
-	{
-		AreaRegistration.RegisterAllAreas();
-		FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-		RouteConfig.RegisterRoutes(RouteTable.Routes);
-		BundleConfig.RegisterBundles(BundleTable.Bundles);
-		IoCConfiguration.ConfigureIocUnityContainer();
-		MapperConfig.RegisterMaps();
-	}
-	...
-}
-\end{lstlisting}
-
-\section{Atrybuty}
-
-W celu łatwiejszego użytkowania wymienionych bibliotek zostały stworzone pomocnicze atrybuty. Wykorzystanie ich zmniejsza złożoność kodu oraz przyspiesza pracę programisty. Do listy nowo utworzonych atrybutów należy zaliczyć:
-\begin{itemize}
-  \item \textbf{AutomapAttribute} - służy on do konwersji modeli danych po przetworzeniu logiki znajdującej się w akcji. Umożliwia zamianę modelu bazodanowego na model widoku.
-  \\
-  \begin{lstlisting}[caption=Kod atrybutu Automap]
-  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-  public class AutoMapAttribute : ActionFilterAttribute
-  {
-  	private readonly Type _sourceType;
-  	private readonly Type _destType;
-  	
-  	public AutoMapAttribute(Type sourceType, Type destType)
-  	{
-  		_sourceType = sourceType;
-  		_destType = destType;
-  	}
-  	
-  	public override void OnActionExecuted
-  									(ActionExecutedContext filterContext)
-  	{
-  		var filter = new AutoMapFilter(SourceType, DestType);
-  		
-  		filter.OnActionExecuted(filterContext);
-  	}
-  \end{lstlisting}
-  
-  Atrybut ten może być wykonywany tylko na akcji znajdującej się w klasie pełniącej rolę kontrolera. W widoku dla danej akcji należy pamiętać o zadeklarowaniu modelu dla widoku, ponieważ w innym przypadku otrzymamy błąd niezgodności typów przy generowaniu strony. Dane zwracane z akcji powinny być typu określonego w atrybucie Automap.
-  \\
-  \begin{lstlisting}[caption=Wykorzystanie atrybutu AutoMap]
-  [AutoMap(typeof(IEnumerable<Field>),
-			  typeof(IEnumerable<FieldViewModel>))]
-  public ActionResult Index()
-  {
-  	....
-  	return PartialView("_Directory", availableFields);
-  }
-  \end{lstlisting}
-  
-  \item \textbf{AjaxActionAttribute} - atrybut umożliwiający dostęp do akcji tylko poprzez użycie asynchronicznego zapytania AJAX (Asynchronous JavaScript and XML).
-   \\
-  \begin{lstlisting}[caption=Kod atrybutu Automap]
-  public class AjaxActionAttribute : ActionMethodSelectorAttribute
-  {
-  	public override bool IsValidForRequest(
-				  	ControllerContext controllerContext, 
-				  	System.Reflection.MethodInfo methodInfo)
-  	{
-  		return controllerContext.RequestContext
-  					.HttpContext.Request.IsAjaxRequest();
-  	}
-  }
-   \end{lstlisting}
-  Ma on za zadanie zablokować wysyłanie żądań pobrania danych bezpośrednio z przeglądarki użytkownika lub poprzez narzędzia takie jak Postman lub Fiddler.
-  \\
-  \begin{lstlisting}[caption=Wykorzystanie atrybutu AjaxAction]
-  [AjaxAction]
-   public ActionResult Create(Guid rootId, string directoryName)
-  {
- 		...
-  		return IndexDetails(rootId);  	
-  }
-  
-  \end{lstlisting}
-  \item \textbf{PermissionAttribute} - atrybut sprawdzający, czy aktualnie zalogowana osoba ma dostęp do wykonywania operacji na pliku lub katalogu. Jest on używany w projekcie biblioteki klas w serwisach odpowiadających za logikę plików oraz katalogów. W celu jego implementacji zastosowano bibliotekę PostSharp. Wykorzystanie jej umożliwia wprowadzanie atrybutów w klasach nie będących kontrolerami w aplikacjach ASP.NET MVC. Atrybut wymaga, aby w argumentach metody przyjmowane były zmienne oznaczające identyfikator użytkownika oraz pola, na których ma zostać wykonana operacja. W celu implementacji aspektu, nowo utworzona klasa musi być oznaczona atrybutem [Serializable]. Jest to jedno z wymagań biblioteki Postsharp. Kod znajdujący się w atrybucie wykonywany jest przed wywołaniem metody docelowej.
-  \newpage
-  \begin{lstlisting}[caption=Aspekt potwierdzający uprawnienia zalogowanego użytkownik do wykonywania operacji na pliku lub katalogu ]
-  [Serializable]
-  public class Permission : MethodInterceptionAspect
-  {
-  	public override void OnInvoke(MethodInterceptionArgs args)
-  	{
-  		Guid userId = args.GetAttributeValue<Guid>("userId");
-  		Guid fieldId = args.GetAttributeValue<Guid>("fieldId");
-  		var serviceInstance = (ServiceBase)args.Instance;
-  		bool hasUserRights = serviceInstance
-  								._authManager
-  								.IsUserHasRights(userId,fieldId);
-  		if (!hasUserRights)
-  		{
-  			throw new UnauthorizedAccessException("..");
-  		}
-  		base.OnInvoke(args);
-  	}	
-  }
-  \end{lstlisting}
-  \item \textbf{DataChangeAttribute} - atrybut zapisujący dane w metodach wykonujących zmiany w bazie danych. Wywołanie go następuje po zakończeniu całej funkcji. Atrybut jest używany w bibliotece klas dzięki wykorzystaniu biblioteki Postsharp. Aspekt korzysta z metody zaimplementowanej w abstrakcyjnej klasie bazowej serwisu.
-  \\
-\begin{lstlisting}[caption=Aspekt zapisujący dane w bazie danych]
-  
-  [Serializable]
-  public class DataChangeAttribute : OnMethodBoundaryAspect
-  {
-  	public override void OnExit(MethodExecutionArgs args)
-  	{
-  		((ServiceBase)args.Instance).Save();
-  		base.OnExit(args);
-  	}
-  }
-  \end{lstlisting}  
+Niektóre z metod wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
+\begin{itemize}[noitemsep]
+	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych.
+	\item AddServices, która zawiera wszystkie serwisy przechowujące logikę biznesową aplikacji,
+	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów,
+	\item AddMapperConfiguration(), ktora inicjalizuje bibliotekę Automapper wraz ze wszystkimi profilami mapowania.
 \end{itemize}
-\newpage
+
+
+\begin{lstlisting}[caption={Metoda rozszerzeń umożliwiająca dodanie serwisów do mechanizmów odwróconego sterowania.} ]
+public static class ServiceConfiguration
+{
+	public static IServiceCollection AddServices
+		(this IServiceCollection services)
+	{
+		services.AddScoped<IJwtService, JwtService>();
+		services.AddScoped<IPhotoService, PhotoService>();
+		services.AddScoped<IPhotoObjectService, PhotoObjectService>();
+		return services;
+	}
+}
+\end{lstlisting}
+
+Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP należało stworzyć klasę dziedziczącej z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
+
+\begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
+ public class ValidateModelStateFilter : ActionFilterAttribute
+{
+	public override void OnActionExecuting
+		(ActionExecutingContext context)
+	{
+		if (context.ModelState.IsValid) return;		
+		var validationErrors = context.ModelState
+			.Keys.SelectMany(k => context.ModelState[k].Errors)
+			.Select(e => e.ErrorMessage).FirstOrDefault();		
+		context.Result = new BadRequestObjectResult(validationErrors);
+	}
+}
+\end{lstlisting}
+
+Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu, do agentów nasłuchujących w kolejce. Metoda RegisterEventBus(Configuration) dodana do serwisów w konfiguracji aplikacji dodaje klienta RabbitMQ do aplikacji. Jego metoda inicjalizująca zakłada dodanie zdarzeń w przypadku otrzymania danych oraz zablokowania lub zamknięcia połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że aktualnie mikroserwis do którego chcemy wysłać wiadomość może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. W związku z tym konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie okreslonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
+
+
+\begin{lstlisting}[caption={Metoda połączenia klienta RabbitMQ.} ]
+lock (sync_root)
+{
+	RetryPolicy policy = RetryPolicy.Handle<SocketException>()
+	.Or<BrokerUnreachableException>()
+	.WaitAndRetry(_retryCount, retryAttempt => 
+		TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), 
+		(ex, time) => {
+		_logger.LogWarning(ex.ToString());
+	});
+	
+	policy.Execute(() =>
+	{
+		_connection = _connectionFactory
+		.CreateConnection();
+	});
+	
+	if (IsConnected)
+	{
+		_connection.ConnectionShutdown += OnConnectionShutdown;
+		_connection.CallbackException += OnCallbackException;
+		_connection.ConnectionBlocked += OnConnectionBlocked;
+		
+		_logger.LogInformation(\$"Connected");		
+		return true;
+	}
+	_logger.LogCritical("RabbitMQ connections could not be created");	
+	return false;
+}
+
+\end{lstlisting}
+
+Klient RabbitMQ został stworzony dodatkowo w mikroserwisach przetwarzania obrazu oraz reguł semantycznych. W przypadku środowiska uruchomieniowego python, egzekwowane są wiadomości, które są wysyłane z kluczem routingu "ImageClasificationEvent". W tym celu użyto biblioteki pika. Parametry połączenia oraz zmienne konfiguracyjne klienta RabbitMQ zostały umieszczone w stałych klasy Communication.
+
+\begin{lstlisting}[caption={Klient RabbitMQ dla mikroserwisu przetwarzania obrazu.}]
+class Communication:
+	objectDetection = None
+	
+	exchange_type = 'direct'
+	credentials = pika.PlainCredentials('node', 'node')
+	conn_param = pika.ConnectionParameters('localhost',credentials)
+	connection = pika.BlockingConnection(conn_param)
+
+	channel = connection.channel()
+	queue_name = 'scanner-api-python'
+	receive_routing_key = 'ImageClasificationEvent'
+	send_routing_key = 'ImageClasificationResultEvent'
+	exchange_name = 'product-scanner-event-bus'
+	
+	def __init__(self):
+		self.objectDetection = ObjectDetection()
+		self.channel.exchange_declare(
+			exchange=self.exchange_name,
+			exchange_type=self.exchange_type)
+		self.connect()
+	
+	def connect(self):
+		self.channel.queue_declare(self.queue_name, False)
+		self.channel.queue_bind(exchange=self.exchange_name,
+									queue=self.queue_name,
+									routing_key=self.receive_routing_key)
+	
+		print('[*] Waiting for logs. To exit press CTRL+C')
+	
+		self.channel.basic_consume(self.callback,
+			queue=self.queue_name,
+			no_ack=True)
+
+\end{lstlisting}
+
+W przypadku mikroserwisu reguł semantycznych użyto biblioteki rabbitmq znalezionej w repozytorium bibliotek Maven. Aby jej użyć dodano definicję biblioteki do pliku pom.xml, który zawiera konfigurację wszystki zależności aplikacji. Zmienne klienta RabbitMQ tak jak w przypadku mikroserwisu przetwarzania obrazu, przechowywane są w stałych zmiennych. W celu uruchomienia mikroserwisu należy wysłać wiadomość na klucz routingu "ImagePreprocessingEvent".
+\begin{lstlisting}[caption={Klient RabbitMQ dla mikroserwisu reguł semantycznych.}]
+public class EventBusService {
+	private  Channel _channel;
+	
+	private WebSemanticService _service;
+	
+	public  EventBusService() 
+		throws TimeoutException, IOException, IllegalAccessException{
+		setupExchange(getConnectionFactory());
+		_service = new WebSemanticService();
+	}
+	
+	public void listen() throws java.io.IOException{
+		Consumer consumer = new DefaultConsumer(_channel){
+			
+			@Override
+			public void handleDelivery(String consumerTag,
+			 Envelope envelope, AMQP.BasicProperties properties, 
+			 byte[] body) throws IOException {
+			 handling algorithm
+			}
+		};
+		_channel.basicConsume(QUEUE_NAME, true, consumer);
+		System.out.println(" [*] Waiting for logs.");
+	}
+	
+	private void setupExchange(ConnectionFactory factory) 
+		throws TimeoutException, IOException{
+		Connection connection = factory.newConnection();
+		_channel= connection.createChannel();
+		_channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
+		_channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		_channel.queueBind(QUEUE_NAME, 
+			EXCHANGE_NAME, 
+			RECEIVE_ROUTING_KEY);
+	}
+	
+	private ConnectionFactory getConnectionFactory(){
+		ConnectionFactory factory = new ConnectionFactory();
+		...
+		return factory;
+	}
+\end{lstlisting}
+Aplikacja mobilna komunikuje się w serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania stron, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego sie w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas strona startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji.
+\begin{lstlisting}[caption={Generowanie strony w zależności od tokenu znajdującego sie w pamięci urządzenia.}]
+
+@Component({
+	templateUrl: 'app.html'
+})
+export class MyApp {
+	rootPage:any;
+	
+	constructor(platform: Platform, statusBar: StatusBar, 
+		splashScreen: SplashScreen) {
+			this.rootPage = !localStorage.getItem("token")
+			? WelcomePage
+			: TabsPage;
+			
+			platform.ready().then(() => {
+				statusBar.styleDefault();
+				splashScreen.hide();
+			});
+	}
+}
+\end{lstlisting}
+
 
 \section{Zaimplementowane metody}
-Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalności uwzględnionych w wymaganiach programu. Omawiane funkcje pokazują sposób komunikacji poszczególnych modułów aplikacji. Metody nieomówione w dokumencie znajdują się w kodzie źródłowym aplikacji dołączonym w załączniku. W celu ich analizy należy udać się do katalogu kontrolerów aplikacji ASP.NET MVC.
+Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalności uwzględnionych w wymaganiach programu. Omawiane funkcje pokazują sposób komunikacji poszczególnych modułów oprogramowania. Metody nieomówione w dokumencie znajdują się w kodzie źródłowym aplikacji dołączonym w załączniku. W celu ich analizy należy udać się do katalogu src znajdującego się w folderze domowym projektu.
 \\
 \begin{itemize}
-\item \textbf{Wykorzystanie wzorca odwrotnego sterowania oraz wstrzykiwania zależności} - wstrzykiwanie serwisów danych do repozytorium odbywa się przy użyciu biblioteki Unity. Konstruktor kontrolera przyjmuje jako argumenty serwisy, od których dana klasa jest zależna. Długość życia wstrzykniętych modeli danych jest określona w konfiguracji biblioteki. Dane przyjęte jako argumenty konstruktora są zapisywane w zmiennych prywatnych kontrolera, a następnie wykorzystywane w poszczególnych akcjach.
+\item \textbf{Logowanie z wykorzystaniem biblioteki JWT} - Mechanizm logowania wymaga wysłania do aplikacji internetowej z urządzenia mobilnego danych użytkownika i hasła. W tym celu aplikacja ASP.NET Core wykorzystuje bibliotekę Identity oraz JWT do tego by wygenerować token autoryzacji. Żądanie otrzymane w kontrolerze zostaje przetworzone w kontrolerze. Wykorzystano w tym celu istniejący serwis w bibliotece Identity. Za pomocą którego wyszukany zostanie użytkownik o danej nazwie oraz haśle uzyskanym z funkcji skrótu. W przypadku gdy użytkownik istnieje serwis biblioteki JWT wygeneruje token autoryzacyjny. Zostały w nim umieszczone informacje o identyfikatorze, nazwie oraz rolach użytkownika w systemie.
 
-\begin{lstlisting}[caption=Wstrzyknięcie serwisów danych do konstruktora kontrolera]
-[Authorize]
-[RoutePrefix("Field")]
-public class FieldController : Controller
+\begin{lstlisting}[caption=Metoda generująca token JWT.]
+ public string GenerateToken(ApplicationUser user)
 {
-	private readonly DirectoryService _directoryService;
-	private readonly FieldService _fieldService;
-	public FieldController(DirectoryService directoryService, 
-									FieldService fieldService)
+	string jwtKey = _configuration["Jwt:Key"];
+	byte[] keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+	var key = new SymmetricSecurityKey(keyBytes);
+	var creds = new SigningCredentials(key, 
+		SecurityAlgorithms.HmacSha256);
+	var claims = new List<Claim>
 	{
-		_directoryService = directoryService;
-		_fieldService = fieldService;
-	}
-...}
-\end{lstlisting}  
-
-\item \textbf{Repozytorium dostępu do danych} - klasa odpowiedzialna za wykonywanie operacji na obiekcie bazy danych. Charakteryzuje się ona wykorzystaniem mechanizmu generyczności w celu zastosowania jej do operacji na dowolnej tabeli. Repozytorium implementuje wszystkie podstawowe operacje bazodanowe, określone w interfejsie IRepository.
-\begin{lstlisting}[caption=Interfejs repozytorium dostępu do danych]
-public interface IRepository<TEntity>
-{
-	IEnumerable<TEntity> Get(...);	
-	TEntity GetByID(object id);
-	void Insert(TEntity entity);
-	void Delete(object id);
-	void Delete(TEntity entityToDelete);
-	void Update(TEntity entityToUpdate);
-}
-\end{lstlisting}  
-
-Implementacja repozytorium zawiera metody wykorzystujące kontekst bazodanowy w celu operacji na danych. Dodanie dodatkowych funkcji do klasy wiąże się z udostępnieniem ich dla wszystkich repozytoriów danych.
-Klasa posiada dwa konstruktory - parametrowy i bezparametrowy. Wersja bezparametrowa używana jest na potrzeby testów jednostkowych, zaś parametrowa wykorzystywana jest przez serwisy logiki biznesowej.
-
-\begin{lstlisting}[caption=Metoda usuwania zaimplementowana w repozytorium danych]
-public virtual void Delete(object id)
-{
-	TEntity entityToDelete = dbSet.Find(id);
-	Delete(entityToDelete);
-}
-public virtual void Delete(TEntity entityToDelete)
-{
-	if(_context.Entry(entityToDelete).State== EntityState.Detached)
-	{
-		dbSet.Attach(entityToDelete);
-	}
-	dbSet.Remove(entityToDelete);
-}
-\end{lstlisting}
-
-W celu odseparowania metod zbędnych dla niektórych repozytoriów zdecydowano się wykorzystać metody rozszerzeń w języku C\#
-\begin{lstlisting}[caption=Klasa rozszerzająca metody możliwe do wykonania na repozytorium Katalogów]
-public static class DirectoryExtensions
-{
-	public static IEnumerable<Field> GetFields(
-									this Repository<Field> source,
-							      Guid directoryId)
-	{
-		return source.Get(n => n.ParentDirectoryId == directoryId);
-	}	
-	public static Field GetFieldRoot(this Repository<Field> source,
-												 Guid fieldId)
-	{
-		Field root = source.GetByID(fieldId);
-		if (root == null)
-		{
-			throw new ArgumentException("There is no root folder");
-		}           
-		return root.ParentDirectoryId.HasValue
-			 	 ? GetFieldRoot(source, root.ParentDirectoryId.Value)
-			    : root;
-	}
-\end{lstlisting}
-\item \textbf{Pobranie plików oraz katalogów użytkownika} - akcja odpowiedzialna za stworzenie strony przedstawiającej aktualny stan katalogu, w którym znajduje się użytkownik. Na stronie HTML wygenerowane zostaną ikony przedstawiające pliki i podfoldery. Akcja pobrania plików oraz katalogów jest metodą przeciążona, możliwą do wykonania poprzez dwa różne adresy URL. Bezparametrowa wersja wygeneruje rezultat dla katalogu domowego użytkownika. Akcja z parametrem stworzy widok zawierający stan dla katalogu o podanym identyfikatorze.
-\begin{lstlisting}[caption=Akcje odpowiedzialne za wyświetlenie plików i katalogów na interfejsie użytkownika]
-[HttpGet]
-[Route("")]
-[AutoMap(typeof(IEnumerable<Field>),
-			typeof(IEnumerable<FieldViewModel>))]
-public ActionResult Index()
-{
-	var userId = Identity.GetUserId(User.Identity);
-	ViewBag.DirectoryId = _directoryService.GetRootField(userId)
-																		.FieldId;
-	return PartialView("_Directory", _directoryService
-										.GetAvailableFields(userId));
-}
-[HttpGet]
-[Route("{directoryId}")]
-[AutoMap(typeof(IEnumerable<Field>),
-		 typeof(IEnumerable<FieldViewModel>))]
-public ActionResult IndexDetails(Guid directoryId)
-{
-	...
-	return PartialView("_Directory", 
-								_directoryService
-								.GetAvailableFields(userId, directoryId));
-}
-\end{lstlisting}
-
-Kontroler w akcji Index wywołuje metodę serwisu odpowiedzialną za sterowanie logiką biznesową związaną z zarządzaniem katalogami. Wywoływana funkcja jest funkcją przeciążoną i w przypadku wywołania jej bez identyfikatora folderu, zostaną pobrane dane dla katalogu domowego użytkownika. W innym przypadku zwracane dane zależne są od identyfikatora katalogu podanego jako argument. Metoda bezparametrowa wywołuje wersję z parametrem po otrzymaniu identyfikatora folderu domowego użytkownika.
-\newpage
-\begin{lstlisting}[caption=Akcje odpowiedzialne za wyświetlenie plików i katalogów na interfejsie użytkownika]
-public IEnumerable<Field> GetAvailableFields(Guid userId)
-{
+		new Claim(JwtRegisteredClaimNames.Sub, $"{user.Id}"),
+		new Claim(JwtRegisteredClaimNames.Jti, $"{Guid.NewGuid()}"),
+		new Claim(ClaimTypes.NameIdentifier, user.UserName)
+	};
+	string confExpTime = _configuration["Jwt:ExpirationTime"];
+	int expirationTime = int.Parse(confExpTime);
+	var token = new JwtSecurityToken(
+		_configuration["Jwt:Issuer"],
+		_configuration["Jwt:Issuer"],
+		expires: DateTime.Now.AddMinutes(expirationTime),
+		claims: claims,
+		signingCredentials: creds);
 	
-	var defaultDirectoryId = SpaceRepository
-											.GetDefaultSpaceDirectory(userId)
-											.FieldId;
+	return new JwtSecurityTokenHandler().WriteToken(token);
+}
+\end{lstlisting} 
+
+W celu wywołania akcji Authorize kontrolera Token, aplikacja mobilna tworzy żądanie logowania na podstawie danych uzyskanych od użytkownika. W tym celu do klasy widoku został wstrzyknięty serwis autoryzacji użytkownika - authService. Na jego instancji została wywołana metoda authenticate, która w przypadku pomyślnego wykonania żądania zapisuje w lokalnej pamięci uzyskaną odpowiedź. Wynikiem przetworzenia danych przez klienta HTTP jest obserwowany obiekt. Dzięki niemu zmiana zmiennej w bibliotece Angular 5 spowoduje automatyczne przejście do ekranu głównego aplikacji.
+
+\begin{lstlisting}[caption=Metoda autoryzacji urządzenia mobilnego.]
+public authenticate(
+	login: string, 
+	password: string): Observable<any> {
+	const data = JSON.stringify({
+		login,
+		password
+	});
+	const headers = new HttpHeaders({ 
+		'Content-Type': 'application/json' 
+	});
 	
-	return GetAvailableFields(userId, defaultDirectoryId);
+	return this.http.post<any>(
+		this.apiService.loginUrl,
+		 data, { headers: headers })
+	.map(response => {
+		if (response && response.token) {
+			localStorage.setItem('token', response.token);
+		}
+		return response;
+	});
 }
+\end{lstlisting} 
 
-[Permission]
-public IEnumerable<Field> GetAvailableFields(Guid userId,
-														   Guid fieldId)
-{
-	return FieldRepository.GetFields(fieldId);
-}
-\end{lstlisting}
 
-W celu pobrania danych wykonywana jest operacja na metodzie rozszerzającej repozytorium plików. Funkcja ta odpowiedzialna jest za pobranie wszystkich dzieci (plików i katalogów podrzędnych) dla katalogu podanego jako argument funkcji. Pobrane dane są wynikiem wykonania metody. Na ich podstawie realizowana jest zamiana na model widoku przy pomocy atrybutu Automap.
-\\
-\item \textbf{Dodawanie plików} -
-Internetowy system plików umożliwia zapisywanie danych w aplikacji poprzez skorzystanie z menu kontekstowego strony www. Wybranie opcji "Dodaj" uruchomi dialog wyszukiwania plików na dysku twardym użytkownika. Funkcjonalność umożliwia dodawania wielu plików naraz. Przesłanie ich w sposób asynchroniczny odbywa się przy użyciu biblioteki jQuery oraz operacji AJAX (Asynchronous JavaScript and XML). W celu wysłania danych do serwera należy przygotować obiekt symulujący rolę formularza w języku JavaScript. Elementami, które wchodzą w skład obiektu, są pliki wybrane przez użytkownika w menu dialogowym. Wszystkie informacje o nich znajdują się w ukrytej kontrolce na stronie HTML. Sposób tworzenia obiektu formularza w funkcji języka JavaScript znajduje się w listingu \ref{form}.
-
-\newpage
-\begin{lstlisting}[caption={Tworzenie obiektu formularza z plikami wybranymi przez użytkownika}\label{form}]
-var formData = new FormData(),
-directoryId = getCurrentDirectoryId(),
-fileLength = document.getElementById("file").files.length;
-if (!directoryId) {
-	displayToast("Napotkano na problemy. Odswież stronę",
-	 toastType.ERROR);
-}
-for (var i = 0; i < fileLength; i++) {
-	formData.append("files[" + i + "]",
-					 document.getElementById("file").files[i]);
-}
-\end{lstlisting}
-Stworzony formularz jest wykorzystywany w zapytaniu AJAX wysyłającym pliki użytkownika do serwera.Dane wysyłane są na adres URL zależny od identyfikatora katalogu, w którym aktualnie znajduje się użytkownik. Przesłanie plików wiąże się ze stworzeniem zapytania HTTP typu POST. W celu aktualizacji widoku oraz ewentualnym powiadomieniu użytkownika o błędzie w trakcie przetwarzania żądania, stworzone zostały dwie funkcje anonimowe.
-\begin{lstlisting}[caption=Tworzenie obiektu formularza z plikami wybranymi przez użytkownika]
-  $.ajax({
-	url: 'Field/Update/' + directoryId,
-	type: 'POST',
-	data: formData,
-	success: function (data) {
-		displayToast("Dodano pliki", toastType.SUCCESS);
-		$("#fields").html(data);		
-	},
-	error: function (data) {
-		displayToast("Nie dodano danych", toastType.ERROR);
-	},
-	contentType: false,
-	processData: false
-});
-\end{lstlisting}
-
- Dane wybrane przez użytkownika zostają odebrane w akcji Tworzenia plików w kontrolerze. Argumentem wywoływanej funkcji jest kolekcja danych w formacie HttpPostedFileBase oraz identyfikator katalogu, w którym aktualnie znajduje się użytkownik. Zastosowanie własnej ścieżki wywołania umożliwiło, na podstawie adresu URl, otrzymanie identyfikatora w argumencie funkcji. 
- \newpage
- \begin{lstlisting}[caption=Akcja otrzymująca plik użytkownika]
- [HttpPost]
- [Route("Update/{directoryId}")]
- public ActionResult Create(IEnumerable<HttpPostedFileBase> files,
- 											 Guid directoryId)
- {
- 	var fileModel = Mapper.Map<IEnumerable<FileViewModel>>(files);
- 	Guid userId = Identity.GetUserId(User.Identity);
- 	_fieldService.CreateField(userId, directoryId, fileModel);
- 	return RedirectToAction("IndexDetails", "Directory",
- 													 new { directoryId });
- }
-\end{lstlisting}
-Dane plików zostają przetworzone przy pomocy biblioteki Automapper. Operacja ta umożliwi interpretacje obiektu przez bibliotekę logiki biznesowej, w której zdefiniowany jest model pośredni. Dane oraz informacje o identyfikatorach aktualnie zalogowanego użytkownika i bieżącego katalogu służą jako argumenty metody zapisu plików w logice biznesowej aplikacji.
-\\
-\begin{lstlisting}[caption=Przetwarzanie pliku w bibliotece logiki biznesowej]
-public void CreateField(Guid userId,
-								Guid fieldId,
-								IEnumerable<FileViewModel> fileViewModels)
-{
-	foreach (var fileViewModel in fileViewModels)
-	{
-		CreateField(userId, fieldId, fileViewModel);
-	}
-}
-[DataChangeAttribute]
-[Permission]
-public void CreateField(Guid userId, 
-								Guid fieldId,
-								FileViewModel fileViewModel)
-{
-	var field = AutoMapper.Mapper.Map<Field>(fileViewModel);
-	var fileStream = fileViewModel.InputStream;
-	FieldRepository
-			.CreateField(userId, fieldId, field, fileStream);
-}
-
-\end{lstlisting}
-\newpage
-Każdy element modelu pośredniego znajdujący się w argumencie metody, wykorzystywany jest w operacji zapisu. Wykonywana operacja zabezpieczona jest przed  nieuprawnionym dostępem do katalogów poprzez wykorzystanie atrybutu uprawnień. Do bazy danych dodane zostaną rekordy plików dzięki skorzystaniu z atrybutu zapisu danych. Operacja dodania odbywa się w metodzie rozszerzeń repozytorium plików. W jej ciele wykonywane jest przesyłanie danych do chmury Azure przy pomocy klasy pomocniczej. Pomyślne odebranie informacji w kontenerze plików umożliwi utworzenie adresu URL przechowywanego w bazie danych aplikacji, który pozwoli na pobranie pliku. Rezultatem wykonanej operacji dodawania jest zapis danych do bazie danych.
-
-\begin{lstlisting}[caption=Zapis danych w chmurze oraz bazie danych]
-public static void CreateField(this Repository<Field> fieldRepository,
-											 Guid userId, 
-											 Guid parentDirectoryId, 
-											 Field field, 
-											 Stream inputStream)
-{
-	string pathToAzureFile = new AzureManager()
-	.UploadFile(inputStream);
-	
-	field.FieldInformation.Localisation = pathToAzureFile;
-	field.ParentDirectoryId = parentDirectoryId;
-	field.LastModifiedById = userId;
-	
-	fieldRepository.Insert(field);
-}
-\end{lstlisting}
-
-Zapis plików w chmurze Azurze wykonywany jest przy wykorzystaniu bibliotek WindowsAzure.Storage. Dane do magazynu danych zdefiniowane są w portalu. Informacje te należy użyć do stworzenia bezpiecznego połączenia pomiędzy aplikacją kliencką, a serwerem. 
-
-\begin{lstlisting}[caption={Konfiguracja połączenia z chmurą Azure},label={azureconstr:label}]
-private readonly CloudBlobClient _blobClient;
-public AzureManager()
-{
-	CloudStorageAccount storageAccount =
-	 CloudStorageAccount.Parse(AzureKeys.CloudStorageAccountConn3String);
-	_blobClient = storageAccount.CreateCloudBlobClient();
-	CloudBlobContainer container = _blobClient
-									.GetContainerReference(AzureKeys.ContainerName);
-	...
-}
-\end{lstlisting}
-
-W celu przesłania danych należy połączyć się z kontem magazynu. Dzięki niemu możemy wybrać kontener danych, w którym znajdą się pliki użytkownika. 
-\begin{lstlisting}[caption=Przesłanie plików do chmury Azure]
-public string UploadFile(Stream content)
-{
-	CloudBlobContainer container = 
-		_blobClient.GetContainerReference(AzureKeys.ContainerName);	
-	var blobId = $"{Guid.NewGuid()}{Guid.NewGuid()}";
-	CloudBlockBlob blockBlob = container
-											.GetBlockBlobReference(blobId);	
-	blockBlob.UploadFromStream(content);
-	return blobId;
-}
-\end{lstlisting}
-\item \textbf{Pobieranie danych} - Użytkownik korzystając z menu aplikacji może pobrać pliki oraz katalogi. Opcja pobierz kieruje żądanie do serwera pod adres URL zależny od typu pobieranych danych. Operacja pobrania danych z serwera wykonywana jest w sposób asynchroniczny. Żądanie odebrane w kontrolerze, przekierowuje identyfikator użytkownika oraz pola, na którym ma wykonywana jest operacja. Biblioteka logiki biznesowej wykonuje metodę pobrania danych na obiekcie pola. Ze względu na funkcję obiekt bazodanowego, wbrew dobrym praktykom jest tworzenie dodatkowych metod wewnątrz tej klasy. W związku z tym dla metod wykonywanych na tego typu obiektach wykorzystano metody rozszerzeń. 
-Funkcja pobrania, sprawdza jakiego rodzaju dane użytkownik zamierza pobrać. W przypadku pobrania pliku metoda przekazuje jako rezultat funkcji, dane znajdujące się w chmurze Azure pod adresem zachowanym w bazie danych. 
-
-\begin{lstlisting}[caption=Pobranie pliku z chmury Azure]
-private static FileViewModel DownloadFile(this Field source)
-{
-	if (source.Type != FieldType.File)
-	{
-		throw new InvalidOperationException();
-	}
-	var file = AzureManager
-					.Download(source.FieldInformation.Localisation);
-	var fileStream = ByteHelper.ByteArrayToStream(file);
-	var result = AutoMapper.Mapper.Map<FileViewModel>(source);
-	result.InputStream = fileStream;
-	return result;
-}
-\end{lstlisting}
-Dane z chmury Azure pobierane są za pomocą klasy pomocniczej. Jej konstruktor znajduje się w listingu \ref{azureconstr:label}. Metoda jako argument przyjmuje identyfikator w postaci napisu. Na jego podstawie określone jest położenie oraz pobierana jest zawartość pliku. Dane z kontenera Azure możemy wczytać przy pomocy strumienia danych. Wynikiem wykonania funkcji jest tablica bajtów wczytanych z kontenera chmury.
-\begin{lstlisting}[caption=Metoda pobierania danych z chmury Azure]
-public byte[] Download(string blobId)
-{
-	CloudBlobContainer container =
-	 _blobClient.GetContainerReference(AzureKeys.ContainerName);
-	
-	CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobId);
-	
-	using (var memoryStream = new MemoryStream())
-	{
-		blockBlob.DownloadToStream(memoryStream);
-		return ByteHelper.ReadToEnd(memoryStream);
-	}
-}
-\end{lstlisting}
-
-Chęć pobrania katalogu wiąże się z pobraniem wszystkich plików znajdujących się w nim oraz spakowaniu danych do formatu .zip. W związku z tym zastosowano bibliotekę DotNetZip oraz funkcję pobrania danych z chmury Azure. Wszystkie pliki, znajdujące się w folderze umieszczane są w dynamicznie stworzonym archiwum danych. Napotkanie katalogu wymusza stworzenie podfolderów w utworzonym archiwum oraz umieszczenie w nim plików znajdujących się w tym katalogu.
-
-\begin{lstlisting}[caption=Pobranie folderu z danymi]
-private static FileViewModel DownloadDirectory(this Field source)
-{
-	var outputStream = new MemoryStream();	
-	using (var zip = new ZipFile())
-	{
-		ZipDirectory(source, zip, string.Empty);
-		zip.Save(outputStream);
-	}
-	
-	outputStream.Position = 0;
-	var result = AutoMapper.Mapper.Map<FileViewModel>(source);
-	result.InputStream = outputStream;
-	result.FileName = result.FileName + "zip";
-	return result;	
-}
-\end{lstlisting}
-
-Strumień danych oraz informację o pliku przekazywane są do kontrolera poprzez model pośredni, a następnie zwracane jako rezultat.
-\item \textbf{Kopiowanie danych} -
+\item \textbf{Wysłanie zdjęcia} - Użytkownik w celu uzyskania 
 
 
 \end{itemize}
-
-

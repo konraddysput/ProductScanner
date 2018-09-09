@@ -19,17 +19,21 @@ namespace ProductScanner.Services.Services
         }
         public string GenerateToken(ApplicationUser user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            string jwtKey = _configuration["Jwt:Key"];
+            byte[] keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
+            var key = new SymmetricSecurityKey(keyBytes);
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid()),
                 new Claim(ClaimTypes.NameIdentifier, user.UserName)
             };
 
             int expirationTime = int.Parse(_configuration["Jwt:ExpirationTime"]);
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+            var token = new JwtSecurityToken(
+              _configuration["Jwt:Issuer"],
               _configuration["Jwt:Issuer"],
               expires: DateTime.Now.AddMinutes(expirationTime),
               claims: claims,
