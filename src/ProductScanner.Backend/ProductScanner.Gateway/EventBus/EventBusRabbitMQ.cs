@@ -81,7 +81,8 @@ namespace ProductScanner.Gateway.EventBus
 
             var policy = RetryPolicy.Handle<BrokerUnreachableException>()
                 .Or<SocketException>()
-                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
+                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), 
+                (ex, time) =>
                 {
                     _logger.LogWarning(ex.ToString());
                 });
@@ -94,8 +95,8 @@ namespace ProductScanner.Gateway.EventBus
                     exchange: BROKER_NAME,
                     type: CHANNEL_TYPE);                
 
-                var message = JsonConvert.SerializeObject(@event);
-                var body = Encoding.UTF8.GetBytes(message);
+                string message = JsonConvert.SerializeObject(@event);
+                byte[] body = Encoding.UTF8.GetBytes(message);
 
                 policy.Execute(() =>
                 {

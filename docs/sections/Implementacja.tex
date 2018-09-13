@@ -530,10 +530,12 @@ W celu wywołania akcji Authorize kontrolera Token, aplikacja mobilna tworzy ż�
 public authenticate(
 	login: string, 
 	password: string): Observable<any> {
+	
 	const data = JSON.stringify({
 		login,
 		password
 	});
+	
 	const headers = new HttpHeaders({ 
 		'Content-Type': 'application/json' 
 	});
@@ -551,7 +553,231 @@ public authenticate(
 \end{lstlisting} 
 
 
-\item \textbf{Wysłanie zdjęcia} - Użytkownik w celu uzyskania 
+\item \textbf{Wysłanie zdjęcia} - Użytkownik w celu użycia algorytmów klasyfikacji przesyła zdjęcie z urządzenia mobilnego. Obraz może być wybrany zarówno z galerii jak i może zostac stworzony przy użyciu aparatu urządzenia. W tym celu skorzystano z wtyczki o nazwie "cordova-plugin-camera". Implementacja metody używającej jej została stworzona w serwisie "photo-service". Wtyczka w zależności od opcji konfiguracyjnych umożliwia dostęp do aparatu lub galerii urządzenia. Obiekt kamery uzyskany dzięki wtyczne, jest dostępny w serwisie dzięki zastosowaniu wzorca odwróconego sterowania. Obiekt zdjęcia otrzymany z metody getPicture, umożliwia otrzymanie obrazu w formie base64. Dzięki niej tag HTML - image, umożliwia wyświetlenie nowo stworzonej fotografii. Dzięki zastosowaniu modeli obserwowanych, zmiana obiektu base64 zdjęcia umożliwia natychmiastową zmianę interfejsu użytkownika oraz pokazanie zdjecia. Aby wysłać otrzymane zdjęcie należy zamienić je z formy tekstu na postać bajtową. W celu stworzenia poprawnego żądania HTTP należy dodać bajty zdjęcia do obiektu formdata oraz przesłać dane przy użyciu zapytania HTTP POST.
 
+
+
+\begin{lstlisting}[caption=Wykorzystanie wtyczki w celu prezentacji zdjecia.]
+@Injectable()
+export class PhotoService {
+	constructor(
+	private readonly apiService: ApiService,
+	private readonly camera: Camera,
+	public http: HttpClient) { }	
+	public async takePhoto(sourceType: number): Promise<any> {
+		const options: CameraOptions = {
+			quality: 50,
+			destinationType: this.camera.DestinationType.DATA_URL,
+			encodingType: this.camera.EncodingType.JPEG,
+			mediaType: this.camera.MediaType.PICTURE,
+			targetWidth: 600,
+			targetHeight: 600,
+			sourceType:sourceType,
+			saveToPhotoAlbum: false
+		};		
+		return this.camera.getPicture(options);
+	} ...
+}
+\end{lstlisting} 
+
+Metoda zamiana zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu poniżej. Wymienione funkcje znajdują się w serwisie PhotoService.
+
+\begin{lstlisting}[caption=Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.]
+public sendPhoto(file: File) {
+	const formData: FormData = new FormData();
+	formData.append('file', file, "product-scanner.jpeg");
+	const headers = new HttpHeaders({
+		'Authorization': `Bearer ${this.apiService.token}`
+	});
+	return this.http.post<any>(
+		this.apiService.photoUploadUrl, 
+		formData, { headers: headers });
+}
+public toFile(photoImage: string) {
+	return (fetch(photoImage)
+	.then(function (res) { return res.arrayBuffer(); })
+	.then(function (buf) { return new File([buf], 
+		"filename", { type: "image/jpeg" }); })
+	);
+}
+\end{lstlisting} 
+\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego zanim zostanie poddane przetwarzaniu przez algorytmu uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymy obraz jest zapisywany na dysku twardym serwera, a następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania.
+
+\begin{lstlisting}[caption=Akcja zapisu zdjęcia.]
+[HttpPost("")]
+public async Task<IActionResult> Create(IFormFile file)
+{
+	if (file == null)
+	{
+		return BadRequest();
+	}
+	var userId = int.Parse(_userManager.GetUserId(User));
+	var result = await _photoService.Create(file, userId);
+	await _photoService.SaveChanges();
+	
+	var integrationEvent = 
+		_mapper.Map<ImageClasificationEvent>(result);
+	_eventBus.Publish(integrationEvent);
+	
+	return Ok(new { id = result.Id });
+}
+\end{lstlisting} 
+
+\item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia na rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, okreslającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
+\\
+\begin{lstlisting}[caption={Metoda publikacji wiadomości.}, label={messagePublish}]
+public void Publish(IntegrationEvent @event)
+{
+	if (!_persistentConnection.IsConnected)
+	{
+	_persistentConnection.TryConnect();
+	}
+
+	var policy = RetryPolicy.Handle<BrokerUnreachableException>()
+		.Or<SocketException>()
+		.WaitAndRetry(_retryCount, 
+			(retryAttempt) => 
+				TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), 
+			(ex, time) =>	{ _logger.LogWarning(ex.ToString()); });
+
+	using (var channel = _persistentConnection.CreateModel())
+	{
+		var eventName = @event.GetType()
+			.Name;
+			channel.ExchangeDeclare(
+			exchange: BROKER_NAME,
+			type: CHANNEL_TYPE);                
+	
+		string message = JsonConvert.SerializeObject(@event);
+		byte[] body = Encoding.UTF8.GetBytes(message);
+	
+		policy.Execute(() =>
+		{
+			var properties = channel.CreateBasicProperties();
+			properties.DeliveryMode = 2;
+	
+			channel.BasicPublish(exchange: BROKER_NAME,
+				routingKey: eventName,
+				mandatory: true,
+				basicProperties: properties,
+				body: body);
+		});
+	}
+}
+\end{lstlisting}
+\item \textbf{Obiór wiadomości w środowisku uruchomieniowym Python} - Metody przetwarzania obrazu uruchamiane są wraz z otrzymaniem danych z aplikacji internetowych. Zawartość wiadomości pochodzi z żądania HTTP wraz ze zdjęciem wysłanego z urządzenia mobilnego do serwera. Następnie dane przetworzone oraz zapisane przez aplikację internetową tworza wiadomość niezbędną do uruchomienia algorytmów przetwarzania obrazu. Mikroserwis oraz aplikacja internetowa korzystają z plików zapisanych na tym samym dysku twardym. Kolejne iteracje oprogramowania zakładają stworzenie interfejsu dostępu do plików przy pomocy nie relacyjnej bazy danych. W związku z tym w otrzymywanej wiadomości znajduje się ścieżka do pliku, który musi zostać poddany przetwarzaniu. Mikroserwis przyjmuje wiadomości z kluczem routingu ImageClasificationEvent. Nazwa on odpowiednikiem nazwy klasy, stworzonej w celu wysłania wiadomości z aplikacji internetowej. 
+
+\begin{lstlisting}[caption={Połączenie do kolejki RabbitMQ.}]
+class Communication:
+	exchange_type = 'direct'
+	cred = pika.PlainCredentials('node', 'node')
+	conn_param = pika.ConnectionParameters('localhost', cred)
+	connection = pika.BlockingConnection(conn_param)
+	channel = connection.channel()
+	queue_name = 'scanner-api-python'
+	receive_routing_key = 'ImageClasificationEvent'
+	send_routing_key = 'ImageClasificationResultEvent'
+	exchange_name = 'product-scanner-event-bus'
+	
+	def __init__(self):
+		self.objectDetection = ObjectDetection()
+		self.channel.exchange_declare(
+			exchange=self.exchange_name,
+			exchange_type=self.exchange_type)
+		self.connect()
+	
+	def connect(self):
+		self.channel.queue_declare(self.queue_name, False)
+		self.channel.queue_bind(exchange=self.exchange_name,
+			queue=self.queue_name,
+			routing_key=self.receive_routing_key)
+		
+		self.channel.basic_consume(self.callback,
+			queue=self.queue_name,
+			no_ack=True)
+		self.channel.start_consuming()
+\end{lstlisting}
+
+Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwe callback. Jeżeli aplikacja intenetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
+
+
+
+\begin{lstlisting}[caption={Odbieranie wiadomości w środowisku Python.}]
+def callback(self, ch, method, properties, data):
+	body = str(data, "utf-8")
+	print('Received new message with data: ' + body)
+	model = json.loads(body)
+	result = self.objectDetection.analyse(model['Path'], False)
+	result.set_id((model['Id']))
+	result_body = result.to_message()
+	
+	self.channel.basic_publish(
+		exchange=self.exchange_name,
+		routing_key=self.send_routing_key,
+		body=result_body
+	)
+\end{lstlisting}
+
+Analizując kod należy zwrócić uwagę na inicjalizację obiektu ObjectDetection. Instancja klasy istnieje przez cały czas działania mikroserwisu. Jej definicja zawiera kosztowny czasowowo proces inicjalizacji obiektów biblioteki Tensorflow. Są one niezbędne do detekcji przedmiotów ze zdjęcia. Inicjalizacja między innymi wczytuje graf detekcji przediotów, możliwe klasyfikatory z pliku xml oraz model Tensorflow do pamięci aplikacji. Kolejne obrazy poddawane analizie nie potrzebuja ponownego ładowania obiektów. W metodzie inicjalizacyjnej zostały uwzględnione wszystkie metody nie wymagające dostępu do ścieżki do pliku.
+\newline
+\begin{lstlisting}[caption={Fragment inicjalizacji obiektów biblioteki Tensorflow.}]
+detection_graph = tf.Graph()
+with detection_graph.as_default():
+	od_graph_def = tf.GraphDef()
+	with tf.gfile.GFile(path_to_detection_graph, 'rb') as fid:
+		serialized_graph = fid.read()
+		od_graph_def.ParseFromString(serialized_graph)
+		tf.import_graph_def(od_graph_def, name='')
+	
+	self.sess = tf.Session(graph=detection_graph)
+\end{lstlisting}
+\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostac poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbe elementów (num). Dodatkowo w wyniku wykonania metody algorytm zapisuje wynikowe zdjecie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
+\newline
+
+\begin{lstlisting}[caption={Detekcja przedmiotów na obrazie.}]
+image = cv2.imread(path_to_image)
+image_expanded = np.expand_dims(image, axis=0)
+
+(boxes, scores, classes, num) = self.sess.run(
+	[self.detection_boxes, self.detection_scores,
+	 self.detection_classes, self.num_detections],
+	feed_dict={self.image_tensor: image_expanded})
+
+max_boxes_to_draw = 10
+vis_util.visualize_boxes_and_labels_on_image_array(
+	image,
+	np.squeeze(boxes),
+	np.squeeze(classes).astype(np.int32),
+	np.squeeze(scores),
+	self.category_index,
+	max_boxes_to_draw=max_boxes_to_draw,
+	use_normalized_coordinates=True,
+	line_thickness=8,
+	min_score_thresh=0.80)
+\end{lstlisting}
+
+Wynik otrzymany na obiekcie biblioteki Tensorflow z metody run zostaje zapisywany do klasy pomocniczej. Następnie w celu przesłania odpowiedzi do aplikacji internetowej jej obiekt jest serializowany oraz zamieniany na tablicę bajtów. Odpowiedź jest wysyłana za pomocą klienta RabbitMQ.
+\newline
+
+\item \textbf{Przekazanie danych w czasie rzeczywistym oraz przesłanie wiadomośći do mikroserwisu reguł semantycznych} - Przetworzenie obrazu umożliwia wygenerowanie pierwszej części informacji na temat zdjęcia. Użytkownik wysyłając zdjęcie do serwera czeka na dane, a aplikacja mobilna pokazuje ekran ładowania. Przesłane zdjęcie wraz z podstawowymi informacjami zostaną pokazane w momencie rozesłania danych do klientów z wykorzystaniem klienta SignalR. Tym samym zaraz po wykonaniu przesłania danych, wywoływany jest mikroserwis reguł semantycznych. Całość logiki odbywa się w klasie przechwytującej odpowiedzi wysłane na kolejkę przy użyciu odpowiedniego klucza routingu.
+
+\begin{lstlisting}[caption={Przekazanie danych do aplikacji mobilnej oraz .}]
+public async Task Handle(ImageClasificationResultEvent @event)
+{
+	var photoViewModel = _mapper.Map<PhotoViewModel>(@event);
+	var model = await _photoService.Get(photoViewModel.Id);
+	if (model == null)
+	{
+		return;
+	}
+	
+	photoViewModel.UserId = model.UserId;
+	await _photoService.Update(photoViewModel);
+	await _photoService.SaveChanges();
+	await _hub.Clients.All.SendAsync("DataReady", model.Id, true);
+	var data = _mapper.Map<ImagePreprocessingEvent>(model);
+	_eventBus.Publish(data);
+}
+\end{lstlisting}
 
 \end{itemize}

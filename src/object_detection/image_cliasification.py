@@ -34,7 +34,6 @@ class Communication:
         self.channel.basic_consume(self.callback,
                                    queue=self.queue_name,
                                    no_ack=True)
-
         self.channel.start_consuming()
 
     def callback(self, ch, method, properties, data):
