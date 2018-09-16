@@ -6,15 +6,15 @@ W celu dostarczenia intefejsu użytkownika umożliwiającego udostępnianie zdj�
 }
 
 \section{Przetwarzanie danych}{
-Aplikacja wymaga integracji wielu środowisk uruchomieniowych oraz języków programistycznych. Operacje przetwarzania obrazu oraz analizy reguł przynależności otrzymanych danych mogą okazać się czasochłonne. System zakłada możliwość rozproszenia dokonywanych obliczeń na dowolną liczbę węzłów. Ponadto stworzone serwisy są niezależne od siebie, a awaria jednego z nich nie powoduje zatrzymania całego systemu. 
+Aplikacja wymaga integracji wielu środowisk uruchomieniowych oraz języków programistycznych. Operacje przetwarzania obrazu oraz analizy reguł przynależności otrzymanych danych mogą okazać się czasochłonne. System zakłada możliwość rozproszenia dokonywanych obliczeń na dowolną liczbę węzłów. Ponadto stworzone serwisy są niezależne od siebie, a awaria jednego z~nich nie powoduje zatrzymania całego systemu. 
 
-Rozwiązaniem umożliwiającym spełnienie wymienionych założeń jest zastosowanie architektury opartej o wykorzystanie mikroserwisów. Większa liczba dostępnych serwisów może powodować problemy z ewentualnym wdrożeniem aplikacji na dodatkowe serwery. Jednakże uzyskane korzyści poprzez bezawaryjność prac oraz możliwość uruchomienia węzłów obliczeniowych na kolejnych maszynach upewnia w słuszności wybranej architektury. System zakłada możliwość podpięcia większej ilości działających mikroserwisów oraz możliwość ich rozproszenia na różnych maszynach. Aby tego dokonać konieczne jest, by oprogramowanie służące do wymiany komunikatów było dostępne na każdym z serwerów, na których one działają. Podstawowa wersja aplikacji zakłada możliwość wykorzystania plików znajdujących się na dysku aplikacji internetowych. Ma to na celu wyeliminowanie problemów związanych z przekazywaniem przetwarzanych zdjęć pomiędzy aplikacjami. Dalsze iteracje aplikacji zakładają możliwość integracji plików z nierelacyjną bazą danych. Umożliwi to odnoszenie się do dodanych zdjęć przy użyciu strumienia danych znajdujących się w serwerze bazodanowym.
+Rozwiązaniem umożliwiającym spełnienie wymienionych założeń jest zastosowanie architektury opartej o wykorzystanie mikroserwisów. Większa liczba dostępnych serwisów może powodować problemy z ewentualnym wdrożeniem aplikacji na dodatkowe serwery. Jednakże uzyskane korzyści poprzez bezawaryjność prac oraz możliwość uruchomienia węzłów obliczeniowych na kolejnych maszynach upewnia w słuszności wybranej architektury. System zakłada możliwość podpięcia większej ilości działających mikroserwisów oraz ich rozproszenia na różnych maszynach. Aby tego dokonać konieczne jest, by oprogramowanie służące do wymiany komunikatów było dostępne na każdym z serwerów, na których one działają. Podstawowa wersja aplikacji zakłada możliwość wykorzystania plików znajdujących się na dysku aplikacji internetowych. Ma to na celu wyeliminowanie problemów związanych z przekazywaniem przetwarzanych zdjęć pomiędzy aplikacjami. Dalsze iteracje aplikacji zakładają możliwość integracji plików z nierelacyjną bazą danych. Umożliwi to odnoszenie się do dodanych zdjęć przy użyciu strumienia danych znajdujących się w serwerze bazodanowym.
 
-System zakłada możliwość wykorzystania dowolnej liczby systemów operacyjnych, języków programistycznych oraz środowisk uruchomieniowych. Programiści, którzy chcieliby rozwijać system, powinni wykorzystywać narzędzia do zarządzania kontenerami - jakim jest Docker \cite{Docker}- które zostaną dostarczone wraz z kodem źródłowym aplikacji. System zakłada możliwość przechowywania danych dotyczących obrazka w bazie danych. W związku z tym wybrano system bazodanowy MS SQL Server. Ontologia wiedzy dotycząca reguł przynależności przedmiotów znajdujących się na przesłanym obrazku nie musi zostać wygenerowana przez mikroserwis. Założeniem jest dostarczenie mikroserwisu ontologii wraz z plikiem z bazą wiedzy. Poszczególne mikroserwisy mogą komunikować się przy pomocy dowolnego protokołu komunikacyjnego. Jednakże założono, że w tym celu do wymiany wiadomośći zostanie zastosowany system zarządzania kolejką RabbitMQ. Moduł detekcji przedmiotów znajdujących się na obrazie wymaga stworzenia modelu używanego przez bibliotekę Tensorflow. W związku z tym założono, że dane umożliwiające pomyślne rozpoznawanie przedmiotów na obrazie zostaną udostępnione na repozytorium. Możliwe jest, by użytkownik w celu dalszych eksperymentów mógł wzbogadzić istniejące modele. Jednakże wymaga to przebudowy całej struktury modeli oraz dodanie odpowiednich wpisów w mikroserwisach, które przetwarzają ich informacje.
+System zakłada możliwość wykorzystania dowolnej liczby systemów operacyjnych, języków programistycznych oraz środowisk uruchomieniowych. Programiści, którzy chcieliby rozwijać system, powinni wykorzystywać narzędzia do zarządzania kontenerami - jakim jest Docker \cite{Docker}- które zostaną dostarczone wraz z kodem źródłowym aplikacji. System zakłada możliwość przechowywania danych dotyczących obrazu w bazie danych. W związku z tym wybrano system bazodanowy MS SQL Server. Ontologia wiedzy dotycząca reguł przynależności przedmiotów znajdujących się na przesłanym obrazie nie musi zostać wygenerowana przez mikroserwis. Założeniem jest dostarczenie mikroserwisu ontologii wraz z plikiem z bazą wiedzy. Poszczególne mikroserwisy mogą komunikować się przy pomocy dowolnego protokołu komunikacyjnego. Jednakże założono, że w tym celu do wymiany wiadomośći zostanie zastosowany system zarządzania kolejką RabbitMQ. Moduł detekcji przedmiotów znajdujących się na obrazie wymaga stworzenia modelu używanego przez bibliotekę Tensorflow. W związku z tym założono, że dane umożliwiające pomyślne rozpoznawanie przedmiotów na obrazie zostaną udostępnione na repozytorium. Możliwe jest, by użytkownik w celu dalszych eksperymentów mógł wzbogadzić istniejące modele. Jednakże wymaga to przebudowy całej struktury modeli oraz dodanie odpowiednich wpisów w mikroserwisach, które przetwarzają ich informacje.
 }
 
 \section{Udostępniane funkcje}
-Aplikacja zakłada możliwość przesłania zdjęcia dokonanego aparatem w telefonie komórkowym do serwera w celu jego dalszej analizy. Użytkownik w ramach aplikacji mobilnej może skorzystać z historii udostępnionych zdjęć oraz ich danych. Dostępne funkcjonalności nie zostały stworzone na podstawie innych systemów analizy i przetwarzania obrazów - np. Google Images. Graficzny interfejs aplikacji mobilnej nie jest dostosowany do konkretnego systemu operacyjnego - Android lub iOS. 
+Aplikacja zakłada możliwość przesłania zdjęcia wykonanego aparatem w~telefonie komórkowym do serwera w celu jego dalszej analizy. Użytkownik w ramach aplikacji mobilnej może skorzystać z historii udostępnionych zdjęć oraz ich danych. Dostępne funkcjonalności nie zostały stworzone na podstawie innych systemów analizy i przetwarzania obrazów - np. Google Images. Graficzny interfejs aplikacji mobilnej nie jest dostosowany do konkretnego systemu operacyjnego - Android lub iOS. 
 
 System udostępnia użytkownikowi następujący zestaw funkcjonalności możliwy do wykonania w aplikacji mobilnej:
 \begin{itemize}[align=left]
@@ -22,10 +22,10 @@ System udostępnia użytkownikowi następujący zestaw funkcjonalności możliwy
 	\item dodanie nowego pliku przy użyciu aparatu,
 	\item dodanie nowego pliku z galerii zdjęć,
 	\item podgląd szczegółów analizowanego zdjęcia,
-	\item podgląd udostępnianych zdjęć,
+	\item podgląd udostępnionych zdjęć,
 	\item historie udostępnionych zdjęć oraz ich danych,
 	\item szczegóły zdjęć znajdujących się w historii,
-	\item szczegóły udostępnionego aktualnie zdjecia,
+	\item szczegóły udostępnionego aktualnie zdjęcia,
 	\item usunięcie dodanego zdjęcia oraz informacji o nim,
 	\item usunięcie zdjęcia w zakładce historii oraz informacji o nim.
 	
@@ -34,10 +34,10 @@ System udostępnia użytkownikowi następujący zestaw funkcjonalności możliwy
 System udostępnia użytkownikowi zestaw funkcji służących do zarządzania kontem, do których należą:
 \begin{itemize}[align=left]
 	\item rejestracja,
-	\item wylogowanie,	
-	\item logowanie.
+	\item logowanie,	
+	\item wylogowanie.
 \end{itemize}
 
 System w celu utworzenia konta wymaga podania przez użytkownika dodatkowo adresu e-mail. Dostęp do funkcjonalności oprogramowania może mieć tylko i wyłącznie zalogowany użytkownik aplikacji. 
 
-W rozdziale 5. przedstawiono szczegółową implementację wybranych funkcji przedstawionych w spisie.
+W rozdziale 5. przedstawiono szczegółową implementację wybranych funkcji wymienionych powyżej.

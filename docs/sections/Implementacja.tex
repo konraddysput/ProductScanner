@@ -1,7 +1,7 @@
 \section{Środowisko programistyczne}
 W celu realizacji poszczególnych założeń projektowych został wykonany złożony program przy użyciu środowisk uruchomieniowych: 
 \begin{itemize}[noitemsep]
-	\item .NET Core w wersji 2.1 przy użyciu języka w C\# w wersji 7,
+	\item .NET Core w wersji 2.1 przy użyciu języka C\# w wersji 7,
 	\item JVM przy użyciu języka Java w wersji 8,
 	\item Python w wersji 3.7,
 	\item NodeJS w wersji 8,
@@ -9,9 +9,9 @@ W celu realizacji poszczególnych założeń projektowych został wykonany zło�
 \end{itemize}
 W tym celu skorzystano ze środowisk programistycznych: Visual Studio, IntelliJ, Pycharm oraz Visual Studio Code. W celu przygotowania aplikacji wykorzystano system operacyjny Windows 10.
 
-Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbedne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skrytpów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
+Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbędne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skrytpów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
 
-Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest program rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
+Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
 
 
 \section{Biblioteki}
@@ -24,7 +24,7 @@ W celu stworzenia systemu skorzystano z szerokiego zakresu bibliotek. Dodano je 
 	\item Nuget dla aplikacji internetowej w ASP.NET Core.
 \end{itemize}
 
-Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez mandżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu, niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython} oraz \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach. Rozbicie na tabeli ułatwi zrozumienie ich użycia w przygotowaniu aplikacji .
+Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez menadżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython} oraz \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach oraz opis ich użycia w przygotowaniu aplikacji.
 
 \begin{center}
     \begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
@@ -37,46 +37,46 @@ Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpr
     \hline AspNetCore &
    			 Stworzenie aplikacji internetowej
    		
-    & Biblioteka niezbędna do stworzenia aplikacji w stukturze ASP.NET Core. Umożliwia ona stworzenie całego ekosystemu aplikacji internetowej oraz struktur pomocniczych, które umożliwią np. przetwarzanie żądań HTTP. Dzięki niej stworzona aplikacja konsolowa wywołuje odpowiednie metody w kontrolerze w zalezności od zapytania wysłanego na odpowiedni adres url.\\ \hline
+    & Biblioteka niezbędna do stworzenia aplikacji w stukturze ASP.NET Core. Umożliwia ona stworzenie całego ekosystemu aplikacji internetowej oraz struktur pomocniczych, które umożliwiają np. przetwarzanie żądań HTTP. Dzięki niej stworzona aplikacja konsolowa wywołuje odpowiednie metody w kontrolerze w zależności od zapytania wysłanego na odpowiedni adres url.\\ \hline
     
     \hline 
     Aurofac 
     & Tworzenie obiektów według wzorca odwróconego sterowania
-    & Biblioteka umożliwiająca wstrzykiwanie struktur danych. Aplikacja w ASP.NET Core zawierają mechanizmu odwróconego sterowania. W przypadku projektu mikroserwisów stworzono własny mechanizm wywoływania odpowiednich metod w zależności od otrzymanych zdarzeń. Domyślne mechanizmy w tym przypadku sprawiały problemy z implementacją.\\ \hline
+    & Biblioteka umożliwiająca wstrzykiwanie struktur danych. Aplikacja w~ASP.NET Core zawiera mechanizm odwróconego sterowania. W~przypadku projektu mikroserwisów stworzono własny mechanizm wywoływania odpowiednich metod w zależności od otrzymanych zdarzeń. Domyślne mechanizmy w tym przypadku sprawiały problemy z implementacją.\\ \hline
     
     \hline Entity \newline Framework
     & Dostep do danych
-    &  Biblioteka umożliwiająca operacje na danych bazodanowych. Wykorzystanie jej umożliwiło odczyt, edycje, usuwanie oraz zapisywanie danyc w bazie danych. Dzięki niej stworzono również podstawowy szkielet tablet.
+    &  Biblioteka umożliwiająca operacje na danych bazodanowych. Wykorzystanie jej umożliwiło odczyt, edycję, usuwanie oraz zapisywanie danych w~bazie. Dzięki niej stworzono również podstawowy szkielet tabel.
     \\ \hline
     
     \hline Microsoft \newline Identity 
     & Zabezpieczenie \newline aplikacji
-   	& Biblioteka pozwalająca stworzenie struktur bazodanowych, które będą przechowywały dane dotyczace użytkowników w ramach danej sesji. Zawiera ona dużą liczbę pomocnych metod uwierzytelniania, autoryzacji oraz bezpieczeństwa. \\ \hline
+   	& Biblioteka pozwalająca na stworzenie struktur bazodanowych, które będą przechowywały dane dotyczące użytkowników w ramach danej sesji. Zawiera ona dużą liczbę pomocnych metod uwierzytelniania, autoryzacji oraz bezpieczeństwa. \\ \hline
     
     \hline SignalR 
     & Komunikacja w czasie rzeczywistym
-    & Biblioteka umożliwiająca komunikację w czasie rzeczywistym z dowolnym klientem uruchomionym w przeglądarce użytkownika. Dzięki niej informujemy użytkownika o skończeniu przetwarzania danych przez mikroserwisy oraz wyłączamy ekran oczekiwania na dane.\\ \hline
+    & Biblioteka umożliwiająca komunikację w czasie rzeczywistym z~dowolnym klientem uruchomionym w~przeglądarce użytkownika. Dzięki niej informujemy użytkownika o~skończeniu przetwarzania danych przez mikroserwisy oraz wyłączamy ekran oczekiwania na dane.\\ \hline
     
     \hline Newtonsoft Json.NET  
     & Serializacja oraz deserializacja danych
     & Biblioteka umożliwiająca serializację oraz deserializację obiektów aplikacji.\\ \hline
     
     \hline JWT
-     & Mechanizm autoryzacji i uwierzytelnienia
-    & JWT umożliwia tworzenie tokenów z informacjami na temat użytkownika zaraz po jego zalogowaniu. Dzięki dołączaniu wygenerowanej wartości do żądań aplikacja internetowa wie o tym, który użytkownik przesyła dane.\\ \hline
+     & Mechanizm autoryzacji i uwierzytelniania
+    & JWT umożliwia tworzenie tokenów z informacjami na temat użytkownika zaraz po jego zalogowaniu. Dzięki dołączaniu wygenerowanej wartości do żądań aplikacja internetowa wie o~tym, który użytkownik przesyła dane.\\ \hline
     
      \hline RabbitMQ Client
     & Wysyłanie \newline wiadomości do \newline mikroserwisów przy użyciu RabbitMQ
-    & Klient oprogramowania RabbitMQ umożliwia tworzenie kolejek wiadomości oraz kanałów komunikacyjnych. Dzięki niemu aplikacja internetowa wysyła dane w zserializowanej formie do mikroserwisów. Klient umożliwia odbieranie danych poprzez zastosowanie zdarzeń. W tej sposób rejestrowane są odpowiedzi mikroserwisów.\\ \hline
+    & Klient oprogramowania RabbitMQ umożliwia tworzenie kolejek wiadomości oraz kanałów komunikacyjnych. Dzięki niemu aplikacja internetowa wysyła dane w zserializowanej formie do mikroserwisów. Klient umożliwia odbieranie danych poprzez zastosowanie zdarzeń. W ten sposób rejestrowane są odpowiedzi mikroserwisów.\\ \hline
     
      \hline Polly
     & Zasady ponownego rozesłania wiadomości
-    & Polly umożliwia zdefiniowanie zasad ponownej wysłanie wiadomości na kolejkę. W przypadku gdy żaden z klientów RabbitMQ nie odbierze wiadomości, wówczas możliwe jest ponowne wysłanie wiadomości. Aplikacja wykorzystuja zdefiniowane zasady podczas braku połaczenia z oprogramowaniem RabbitMQ.\\ \hline
+    & Polly umożliwia zdefiniowanie zasad ponownie wysłanej wiadomości do kolejki. W przypadku gdy żaden z klientów RabbitMQ nie odbierze wiadomości, wówczas możliwe jest jej ponowne wysłanie. Aplikacja wykorzystuje zdefiniowane zasady podczas braku połączenia z oprogramowaniem RabbitMQ.\\ \hline
     
 	\end{longtable}
 \end{center}
 
-W tabeli nie została opisana żadna biblioteka, która generuje widoki przy użyciu mechanizmów ASP.NET Core. Ze względu na charakterystykę aplikacji oraz wykorzystanie architektury REST, użycie tego typu narzędzi było zbędne. Biblioteki zostały zainstalowane za pomocą narzędzie Nuget w Visual Studio 2017, a informacje o nich przechowywane są w plikach .csproj każdego podmodułu. Aplikacja zakłada automatyczne pobranie bibliotek w przypadku gdy nie znajdują się w katalogu solucji. Wszystkie wybrane biblioteki są zgodne z aplikacjami .NET Core. Oznacza to możliwość uruchomienia oprogramowania na systemach operacyjnych wspieranych przez .NET Core 2.1 - Linux, Windows, MacOS.
+W powyższej tabeli nie została opisana żadna biblioteka, która generuje widoki przy użyciu mechanizmów ASP.NET Core. Ze względu na charakterystykę aplikacji oraz wykorzystanie architektury REST, użycie tego typu narzędzi było zbędne. Biblioteki zostały zainstalowane za pomocą narzędzia Nuget w Visual Studio 2017, a informacje o nich przechowywane są w plikach .csproj każdego podmodułu. Aplikacja zakłada automatyczne pobranie bibliotek w~przypadku gdy nie znajdują się w katalogu solucji. Wszystkie wybrane biblioteki są zgodne z aplikacjami .NET Core. Oznacza to możliwość uruchomienia oprogramowania na systemach operacyjnych wspieranych przez .NET Core 2.1 - Linux, Windows, MacOS.
 
 \begin{center}
 	\begin{longtable}{ | p{1.7cm} | p{2cm} | p{3.5cm} | p{6cm} |}
@@ -89,17 +89,17 @@ W tabeli nie została opisana żadna biblioteka, która generuje widoki przy uż
   		\hline Angular 5
   		& Biblioteka JavaScript
 		& Tworzenie widoków aplikacji
-		& Biblioteka umożliwia generowanie widoków na podstawie stworzonych szablonów oraz aktualnego stanu zmiennych. Składa się on z wielu modułów, które razem tworzą dojrzały ekosystem. Jest to jedna z najpopularniejszych bibliotek do tworzenia interfejsów użytkownika.\\ \hline
+		& Biblioteka umożliwia generowanie widoków na podstawie stworzonych szablonów oraz aktualnego stanu zmiennych. Składa się ona z~wielu modułów, które razem tworzą dojrzały ekosystem. Jest to jedna z najpopularniejszych bibliotek do tworzenia interfejsów użytkownika.\\ \hline
 	
 		\hline Cordova
 		& Szkielet aplikacji
 		& Stworzenie \newline aplikacji mobilnej
-		& Apache Cordova umożliwia tworzenie hybrydowych aplikacji na platformy mobilne. Tworzy interfejs komunikacyjny pomiędzy widokami w postaci strony www, a urządzeniami peryferyjnymi telefonu.\\ \hline
+		& Apache Cordova umożliwia tworzenie hybrydowych aplikacji na platformy mobilne. Tworzy interfejs komunikacyjny pomiędzy widokami w postaci strony www a~urządzeniami peryferyjnymi telefonu.\\ \hline
 		
 		\hline Ionic 3
 		& Szkielet aplikacji
 		& Stworzenie \newline aplikacji mobilnej
-		& Ionic obudowuje szkielet aplikacji Cordova w metody oraz funkcje przyspieszajace prace programisty nad systemami mobilnymi. Zapewnia on składnie tworzenia widoków, komunikację z urządzeniami peryferyjnymi oraz integrację z narzędziami do wytwarzania oprogramowania.\\ \hline
+		& Ionic obudowuje szkielet aplikacji Cordova w metody oraz funkcje przyspieszające prace programisty nad systemami mobilnymi. Zapewnia on składnię tworzenia widoków, komunikację z urządzeniami peryferyjnymi oraz integrację z narzędziami do wytwarzania oprogramowania.\\ \hline
 		
 		\hline Webpack
 		& Budowa aplikacji
@@ -109,16 +109,16 @@ W tabeli nie została opisana żadna biblioteka, która generuje widoki przy uż
 		\hline ASP.NET SignalR klient
 		& Biblioteka JavaScript
 		& Komunikacja w czasie rzeczywistym
-		& W celu odbierania informacji w czasie rzeczywistym z aplikacji internetowej niezbędne jest dołączenie biblioteki ASP.NET SignalR. Zapewnia ona zbiór metod pozwalających na rejestrację klienta w aplikacji oraz swobodną wymianę informacji przy użyciu gniazdek internetowych. \\ \hline
+		& W celu odbierania informacji w~czasie rzeczywistym z aplikacji internetowej niezbędne jest dołączenie biblioteki ASP.NET SignalR. Zapewnia ona zbiór metod pozwalających na rejestrację klienta w aplikacji oraz swobodną wymianę informacji przy użyciu gniazdek internetowych. \\ \hline
 	
 		\hline Cordova Plugin Camera
 		& Wtyczka do kamery
 		& Komunikacja pomiędzy aplikacją a kamerą
-		& Użytkownik aplikacji może wysłać zdjęcie bezpośrednio z kamery. Oznacza to konieczność integracji z urządzeniem peryferyjym. Zostało to zrealizowane dzięki użyciu wtyczki cordova-plugin-camera, która umożliwia przechwycenie obrazu z kamery oraz zapisanie go w aplikacji. Ponadto wtyczka dostarcza metody integracji z galerią zdjęć.\\ \hline
+		& Użytkownik aplikacji może wysłać zdjęcie bezpośrednio z~kamery. Oznacza to konieczność integracji z urządzeniem peryferyjnym. Zostało to zrealizowane dzięki użyciu wtyczki cordova-plugin-camera, która umożliwia przechwycenie obrazu z kamery oraz zapisanie go w aplikacji. Ponadto wtyczka dostarcza metody integracji z~galerią zdjęć.\\ \hline
 	\end{longtable}
 \end{center}
 
-Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz narzędzie webpack, która umożliwia transpilacje do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną. Wymogiem niezbędnym do komunikacji pomiędzy serwerem, a urządzeniem mobilnym jest połączenie aplikacji internetowej oraz mobilnej do tej samej sieci. W przypadku wdrożenia produkcyjnego oraz użycie aplikacji internetowej w Internecie, nie ma potrzeby użycia tej samej siecii WiFi.
+Aplikacja mobilna została stworzona przy użyciu języka TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz narzędzie webpack, które umożliwia transpilację do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną. Wymogiem niezbędnym do komunikacji pomiędzy serwerem a urządzeniem mobilnym jest połączenie aplikacji internetowej oraz mobilnej do tej samej sieci. W przypadku wdrożenia produkcyjnego oraz użycie aplikacji internetowej w Internecie nie ma potrzeby użycia tej samej sieci WiFi.
 
 
 \begin{center}
@@ -132,13 +132,13 @@ Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w
 		\hline Tensorflow 1.8 &
 		Detekcja przedmiotów na obrazie
 		
-		& Biblioteka użyta do detekcji przedmiotów znajdujacych się na obrazie, znajdujących się w bazie wiedzy. Dane otrzymane w wyniku działania metod Tensorflow zostały użyte do wnioskowania przeprowadzonego w mikroserwisie reguł semantycznych.\\ \hline
+		& Biblioteka użyta do detekcji przedmiotów znajdujących się na obrazie na podstawie bazy wiedzy. Dane otrzymane w wyniku działania metod Tensorflow zostały użyte do wnioskowania przeprowadzonego w~mikroserwisie reguł semantycznych.\\ \hline
 
 
 	\hline opencv-python &
 	Stworzenie modelu
 	
-	& Biblioteka użyta do stworzenia plików nazywanych TFRecords. Stanowią one dane wejściowe dla metod biblioteki Tensorflow służących do nauczenia modelu oblizceniowego detekcji przedmiotów.\\ \hline	
+	& Biblioteka użyta do stworzenia plików nazywanych TFRecords. Stanowią one dane wejściowe dla metod biblioteki Tensorflow służących do nauczenia modelu obliczeniowego detekcji przedmiotów.\\ \hline	
 	
 	\hline pandas &
 	Stworzenie modelu
@@ -153,9 +153,9 @@ Aplikacja mobilna została stworzona przy użyciu języku TypeScript. Zostało w
 	\end{longtable}
 \end{center}
 
-W celu uruchomienia mikroserwisu należy zainstalować zbiór bibliotek niezbędny do przetwarzania oraz analizy obrazu. Najważniejsze z nich zostały przedstawione w tabeli \ref{librariesPython}, lecz używane zależności zostały w tym przypadku pominięte. Biblioteka Tensorflow do poprawnego działania wymaga również instalacji: pillow, lxml, Cython, matplotlib, pandas oraz opencv-python. Aby stworzyć model, niezbędny do uzyskania wynikow z programu skorzystano z narzędzia LabelImg, które jest otwartym oprogramowaniem, dostępnym do ściągnięcia na serwisie Github. Przedmiot, który znajduje się na zdjęciu testowym, należy opisać w sposób zrozumiały do załączonych biblioetk. Dzięki narzędziu możliwe jest łatwe oznaczanie przedmiotu na zdjęcia oraz jego opis. 
+W celu uruchomienia mikroserwisu należy zainstalować zbiór bibliotek niezbędny do przetwarzania oraz analizy obrazu. Najważniejsze z nich zostały przedstawione w tabeli \ref{librariesPython}, lecz używane zależności w tym przypadku pominięto. Biblioteka Tensorflow do poprawnego działania wymaga również instalacji: pillow, lxml, Cython, matplotlib, pandas oraz opencv-python. Aby stworzyć model niezbędny do uzyskania wyników z programu, skorzystano z narzędzia LabelImg, które jest otwartym oprogramowaniem, dostępnym do ściągnięcia na serwisie Github. Przedmiot, który znajduje się na zdjęciu testowym, należy opisać w sposób zrozumiały do załączonych bibliotek. Dzięki narzędziu możliwe jest łatwe oznaczanie przedmiotu na zdjęciu oraz jego opis. 
 
-Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznym. Wynik przetwarzania obrazu przesyłany jest do aplikacji Internetowej. Otrzymanie wyjątku lub pusty wynik mikroserwisu nie spowoduje wywołania serwisu reguł semantycznych. W innym przypadku aplikacja internetowa przekaże dane do przetwarzania przez reguły semantyczne. 
+Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznych. Wynik przetwarzania obrazu przesyłany jest do aplikacji Internetowej. Otrzymanie wyjątku lub pusty wynik mikroserwisu nie spowoduje wywołania serwisu reguł semantycznych. W innym przypadku aplikacja internetowa przekaże dane do przetwarzania przez reguły semantyczne. 
 
 
 \begin{center}
@@ -169,7 +169,7 @@ Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznym. Wy
 		\hline Apache Jena &
 		Przetwarzanie reguł semantycznych
 		
-		& Jena jest biblioteką umożliwiającą tworzenie siecii semantycznych oraz budowanie relacji pomiedzy danymi. Została wykorzystana w celu przetwarzania istniejącej ontologii. \\ \hline
+		& Jena jest biblioteką umożliwiającą tworzenie sieci semantycznych oraz budowanie relacji pomiędzy danymi. Została wykorzystana w celu przetwarzania istniejącej ontologii. \\ \hline
 		
 		\hline Jackson &
 		Serializacja oraz deserializacja JSON
@@ -184,17 +184,17 @@ Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznym. Wy
 	\end{longtable}
 \end{center}
 
-Mikroserwis reguł semantycznych wykorzystują istniejącą ontologię, stworzoną przy użyciu oprogramowania Protege \cite{Protege}. Oprogramowanie zakłada istnienie ontologii przed uruchomieniem aplikacji. W ramach mikroserwisu zostały wykonane dwa serwisy, które służą za komunikację z kolejką danych oraz uruchamianie metod semantycznych. Przetwarzanie ontologii odbywa się z wykorzystaniem biblioteki Jena. Uzyskany wynik umożliwia poznanie informacji na temat przetwarzanego przedmiotu. Reguły zawarte w ontologii wskazują niepoprawności, które zachodzą pomiędzy obiektami poddawanymi analizie. Rezultat serwisu metod semantycznych powoduje wysłanie przez mikroserwis danych do aplikacji internetowej o klasyfikowanym przedmiocie oraz o regułach jego przynależności. 
+Mikroserwis reguł semantycznych wykorzystuje istniejącą ontologię, stworzoną przy użyciu oprogramowania Protege \cite{Protege}. Oprogramowanie zakłada istnienie ontologii przed uruchomieniem aplikacji. W ramach mikroserwisu zostały wykonane dwa serwisy, które służą za komunikację z kolejką danych oraz uruchamianie metod semantycznych. Przetwarzanie ontologii odbywa się z wykorzystaniem biblioteki Jena. Uzyskany wynik umożliwia poznanie informacji na temat przetwarzanego przedmiotu. Reguły zawarte w ontologii wskazują niepoprawności, które zachodzą pomiędzy obiektami poddawanymi analizie. Rezultat serwisu metod semantycznych powoduje wysłanie przez mikroserwis danych do aplikacji internetowej o klasyfikowanym przedmiocie oraz o regułach jego przynależności. 
 Wszystkie z wymienionych bibliotek zostały zainstalowane przy pomocy menadżera paczek - Maven. Definicje niezbędnych do uruchomienia paczek znajdują się w pliku projektowym o nazwie pom.xml. Uruchomienie mikroserwisu spowoduje automatyczne pobranie zależności.
 
 
 \section{Uruchomienie}
 
-Stworzony system zakłada konieczność integracji wielu środowisk uruchomieniowych, języków oprogramowania oraz sposobów komunikacji. Użytkownik poznaje informacje na temat przedmiotów znajdujących na zdjęciu poprzez analize danych otrzymanych z mikroserwisu przetwarzania obrazu oraz reguł semantycznych. Uruchomienie ostatniego jest zależne od wyniku otrzymanego metod klasyfikacji przedmiotów na zdjęciu. 
+Stworzony system zakłada konieczność integracji wielu środowisk uruchomieniowych, języków oprogramowania oraz sposobów komunikacji. Użytkownik poznaje informacje na temat przedmiotów znajdujących się na zdjęciu poprzez analizę danych otrzymanych z mikroserwisu przetwarzania obrazu oraz reguł semantycznych. Uruchomienie ostatniego mikroserwisu jest zależne od wyniku klasyfikacji przedmiotów na zdjęciu. 
 
 Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
 
-W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić przy użyciu konsoli - na przykład CMD lub Powershell\cite{Powershell} w Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z wirtualnego środowiska środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
+W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
 
 
 \begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
@@ -206,7 +206,7 @@ $ set PYTHONPATH=C:\tensorflow\models;
 	C:\tensorflow\models\research\slim
 \end{lstlisting}
 
-Programiści, którzy chcą uruchomić bibliotekę korzystając z kodu źródłowego dołączonego wraz z biblioteką Tensorflow, dodatkowo muszą wykonać budowe plików Protobuf. Aby tego dokonać należy wykonać komendę protoc w folderze research katalogu modles z parametrami określającymi ścieżki docelowe wygenerowanych plików ".proto". Zbudowane pliki dołączone wraz z biblioteką mogę generować ewentualne błędy na różnych dystrybucjach oprogramowania lub systemach operacyjnych. Listing \ref{protobufInstallation} przedstawia przykładowe wygenerowanie plików ".proto".
+Programiści, którzy chcą uruchomić bibliotekę korzystając z kodu źródłowego dołączonego wraz z biblioteką Tensorflow, dodatkowo muszą wykonać budowę plików Protobuf. W tym celu należy zrealizować komendę protoc w~folderze research katalogu modles z parametrami określającymi ścieżki docelowe wygenerowanych plików ".proto". Zbudowane pliki dołączone wraz z biblioteką mogę generować ewentualne błędy na różnych dystrybucjach oprogramowania lub systemach operacyjnych. Listing \ref{protobufInstallation} przedstawia przykładowe wygenerowanie plików ".proto".
 
 \begin{lstlisting}[caption={generowanie plików protobuf.}, label={protobufInstallation} ]
 $ cd C:\tensorflow\models\research
@@ -216,9 +216,9 @@ $ python setup.py build
 $ python setup.py install
 \end{lstlisting}
 
-Wygenerowanie plików protobuf jest ostatnim krokiem niezbędnym do rozpoczęcia nauki modelu klasyfikacji przedmiotów na obrazie. W celu stworzenia niezbędnych danych opisujących obiekty na zdjęciach użyto narzędzia LabelImg, które jest projektem ogólnodostępnym na publicznym repozytorium Github. W celu wyuczenia modelu sklasyfikowano opisano przedmioty zdajdujące się na zdjeciach z katalogu images. Wymagało to dla każdego obrazu zaznaczenia prostokątem pozycji przedmiotu oraz jego klasyfikacji - na przykład puszka pepsi. Dane wejściowe zostały podzielone na dwa zbiory. Pierwszy znich zawiera zdjęcia które posłużą do nauki modelu. W drugim znajdują się obrazki testujące przetworzony model. W trakcie przetwarzania zdjęć natrafiono na problem wysokiej rozdzielczości aparatu. Zauważono, że im wyższa jakość zdjęcia tym dłuższy czas przetwarzania modelu. W tym celu zastosowano skrypt pogarszający jakość zdjęć, a tym samym jego wielkość. 
+Wygenerowanie plików protobuf jest ostatnim krokiem niezbędnym do rozpoczęcia nauki modelu klasyfikacji przedmiotów na obrazie. W celu stworzenia niezbędnych danych opisujących obiekty na zdjęciach użyto narzędzia LabelImg, które jest projektem ogólnodostępnym na publicznym repozytorium Github. W celu wyuczenia modelu sklasyfikowano przedmioty znajdujące się na zdjęciach z katalogu images. Wymagało to dla każdego obrazu zaznaczenia prostokątem pozycji przedmiotu oraz jego klasyfikacji - na przykład puszka pepsi. Dane wejściowe zostały podzielone na dwa zbiory. Pierwszy znich zawiera zdjęcia, które posłużą do nauki modelu. W drugim znajdują się obrazy testujące nauczony model. W trakcie przetwarzania zdjęć natrafiono na problem wysokiej rozdzielczości aparatu. Zauważono, że im wyższa jakość zdjęcia tym dłuższy czas przetwarzania modelu. W tym celu zastosowano skrypt pogarszający jakość zdjęć. 
 
-Przygotowanie zdjęć do procesu nauki modelu jest bardzo istotnym elementem konfiguracji. W zależności od przygotowanych obrazów oraz dokładności ich opisu algorytm uczenia maszynowego stworzy mniej lub bardziej dokładny model. W przypadku zaawansowanych rozwiązań stopień pewności rozwiązania na poziomie 95\% możę wydawać się dużym sukcesem. Łatwo wyobrazić sobie system, który poprzez pomyłkę może doprowadzić do szkody lub wygenerowania niepoprawnych danych. Przed uruchomieniem algorytmu uczenia programista musi wygenerować TFRecords, czyli konkatencja plików XML z informacjami na temat wskazanego przedmiotów na zdjeciach do pliku CSV.W tym celu użyto skryptu, nazywającego się xml\_to\_csv.py. Jego wynikiem będzie utworzenie plików zawierające dane testowe oraz treningowe w formacie CSV. Ostatnim elementem niezbędnym do poprawnego interpretowania wyników uczenia maszynowego jest mapowanie klasyfikatorów algorytmu w postaci tekstu na klasyfikatory w postaci liczb. W tym celu należy edytować pliki generate\_tfrecord.py oraz labelmap z katalogu training i dostosować strukturę klasyfikowanych plików do do klasyfikatorów ze zdjeć. Aby rozpocząć naukę modelu zastosowano skrypt z listingu \ref{machineLearning}. W przypadku nauki modelu używanego w oprogramowaniu, algorytm przetwarzał dane około 2 godziny. 
+Przygotowanie zdjęć do procesu nauki modelu jest bardzo istotnym elementem konfiguracji. W zależności od przygotowanych obrazów oraz dokładności ich opisu algorytm uczenia maszynowego stworzy mniej lub bardziej dokładny model. W przypadku zaawansowanych rozwiązań stopień pewności rozwiązania na poziomie 95\% może wydawać się dużym sukcesem. Łatwo wyobrazić sobie system, który poprzez pomyłkę może doprowadzić do szkody lub wygenerowania niepoprawnych danych. Przed uruchomieniem algorytmu uczenia programista musi wygenerować TFRecords, czyli konkatenację plików XML z~informacjami na temat wskazanego przedmiotu na zdjęciach do pliku CSV. W tym celu użyto skryptu, nazywającego się xml\_to\_csv.py. Jego wynikiem będzie utworzenie plików zawierających dane testowe oraz treningowe w formacie CSV. Ostatnim elementem niezbędnym do poprawnego interpretowania wyników uczenia maszynowego jest mapowanie klasyfikatorów algorytmu w~postaci tekstu na klasyfikatory w postaci liczb. W tym celu należy edytować pliki generate\_tfrecord.py oraz labelmap z katalogu training i dostosować strukturę klasyfikowanych plików do klasyfikatorów ze zdjęć. Aby rozpocząć naukę modelu zastosowano skrypt z listingu \ref{machineLearning}. W przypadku nauki modelu używanego w oprogramowaniu, algorytm przetwarzał dane około 2 godziny. 
 
 \begin{lstlisting}[caption={Uruchomienie algorytmu uczenia maszynowego.}, label={machineLearning} ]
 $ python train.py 
@@ -229,14 +229,14 @@ $ python train.py
 \end{lstlisting}
 
 
-Stworzenie modelu jest czynnością opcjonalną. Repozytorium projektu zawiera już wygenerowane pliki w odpowiednich katalogach projektowych. Zostały przedstawione czynności, które programista może podjać aby ewentualnie rozszerzyć projekt o dodatkowe modele. Niezbędne w tym przypadku jest uruchomienie serwera bazodanowego oraz systemu kolejkowego RabbitMQ. W tym celu na rzecz wytwarzania oprogramowania przygotowano pliki Docker. Zawierają one definicję niezbędnych kontenerów z oprogramowaniem, które mogą zostać uruchomione bez konieczności instalacji ich na stacji roboczej. W tym celu należy za pomocą oprogramowania docker oraz konsoli Powershell wykonaj polecenie:
+Stworzenie modelu jest czynnością opcjonalną. Repozytorium projektu zawiera już wygenerowane pliki w odpowiednich katalogach projektowych. Zostały w nich  przedstawione czynności, które programista może podjąć, aby ewentualnie rozszerzyć projekt o dodatkowe modele. Niezbędne w tym przypadku jest uruchomienie serwera bazodanowego oraz systemu kolejkowego RabbitMQ. W tym celu na rzecz wytwarzania oprogramowania przygotowano pliki Docker. Zawierają one definicję niezbędnych kontenerów z oprogramowaniem, które mogą zostać uruchomione bez konieczności instalacji ich na stacji roboczej. W tym celu należy za pomocą oprogramowania docker oraz konsoli Powershell wykonać polecenie:
 
 \begin{lstlisting}[caption={Uruchomienie kontenerów docker.} ]
 $ cd ./src/ProductScanner.Backend/
 $ docker-compose up -f ./docker-compose-dev.yml up -d
 \end{lstlisting}
 
-Uruchomienie kontenerów nie jest wymagane. Przygotowując środowisko programistyczne, należy jednak pamietać o konieczności korzystania z bazy danych MS SQL Server oraz RabbitMQ. Wykorzystanie Dockera w tym przypadku nie wymaga instalacji serwera bazodanowego oraz kolejki wiadomośći, co w znaczący sposób może przyspieszyć uruchomienie aplikacji lub wprowadzenie drobnych poprawek. Dobrą praktyką jest każdorazowe wyłączenie uruchomionych kontenerów poprzez zastosowanie polecenia przedstawionego w listingu \ref{dockerDown}, ze względu na integrację danych znajdujących się w kontenerach. 
+Uruchomienie kontenerów nie jest wymagane. Przygotowując środowisko programistyczne, należy jednak pamiętać o konieczności korzystania z bazy danych MS SQL Server oraz RabbitMQ. Wykorzystanie Dockera w tym przypadku nie wymaga instalacji serwera bazodanowego oraz kolejki wiadomości, co w znaczący sposób może przyspieszyć uruchomienie aplikacji lub wprowadzenie drobnych poprawek. Dobrą praktyką jest każdorazowe wyłączenie uruchomionych kontenerów poprzez zastosowanie polecenia przedstawionego w listingu \ref{dockerDown}, ze względu na integrację danych znajdujących się w kontenerach. 
 
 
 \begin{lstlisting}[caption={Komenda docker-compose down.},label={dockerDown} ]
@@ -247,7 +247,7 @@ $ docker-compose -f ./docker-compose-dev.yml down
 
 \section{Konfiguracja}
 
-Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomośći do pozostałych mikroserwisów. Ponadto konfiguracja zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz oraz jej konfiguracji. Wszystkie wymienione założenia sprawiają konieczność zaawansowanej konfiguracji aplikacji. W tym celu w projektach ASP.NET Core dokonano zaawansowen konfiguracji klasy Startup.cs. W metodzie ConfigueServices stworzon kod, który inicjalizuje struktury bazodanowe, który został przedstawiony w listingu \ref{databaseConfiguration}. 
+Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomości do pozostałych mikroserwisów. Ponadto konfiguracja zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz jej konfiguracji. Wszystkie wymienione założenia sprawiają, że konieczna jest zaawansowana konfiguracja aplikacji. W tym celu w projektach ASP.NET Core dokonano zaawansowanych konfiguracji klasy Startup.cs. W metodzie ConfigueServices stworzono kod, który inicjalizuje struktury bazodanowe oraz który został przedstawiony w listingu \ref{databaseConfiguration}. 
 
 \begin{lstlisting}[caption={Konfiguracja bazy danych oraz obiektu komunikacji bazodanowej.},label={databaseConfiguration} ]
 string connectionString = 
@@ -271,7 +271,7 @@ services.AddDefaultIdentity<ApplicationUser>(options =>
 \end{lstlisting}
 
 
-Dalsza implementacji metody zakłada stworzenie obiektów odwróconego sterowania (Dependency Injection) oraz konfigurację między innymi autoryzacji lub komunikacji w czasie rzeczywistej. Dane niezbędne do skonfigurowania poszczególnych obiektów - na przykład parametrów autoryzacji, zostały wczytane z pliku appsettings.json. Plik ten znajduje się w folderze domowym aplikacji internetowej. Poza konfiguracją zabezpieczeń aplikacji, znajdują się w nim między innymi parametry połączenia z bazą danych, oprogramowaniem RabbitMQ oraz ustawienia poziomu logowania. Użycie pliku konfiguracyjnego jest dobrą praktyką pomocną przy dokonywaniu wdrożeń. Umożliwia ona między innymi dostosowanie aplikacji bez jej dodatkowej rekompilacji. Kod przedstawiający konfigurację serwisów oraz autoryzacji został przedstawiony w listingu \ref{dependencyInjectionAndConfiguration}. 
+Dalsza implementacja metody zakłada stworzenie obiektów odwróconego sterowania (Dependency Injection) oraz konfigurację między innymi autoryzacji lub komunikacji w czasie rzeczywistym. Dane niezbędne do skonfigurowania poszczególnych obiektów - na przykład parametrów autoryzacji, zostały wczytane z pliku appsettings.json. Plik ten znajduje się w folderze domowym aplikacji internetowej. Poza konfiguracją zabezpieczeń aplikacji, znajdują się w nim między innymi parametry połączenia z bazą danych, oprogramowaniem RabbitMQ oraz ustawienia poziomu logowania. Użycie pliku konfiguracyjnego jest dobrą praktyką pomocną przy dokonywaniu wdrożeń. Umożliwia ona między innymi dostosowanie aplikacji bez jej dodatkowej rekompilacji. Kod przedstawiający konfigurację serwisów oraz autoryzacji został przedstawiony w listingu \ref{dependencyInjectionAndConfiguration}. 
 
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
 services.AddCors();
@@ -312,7 +312,7 @@ return new AutofacServiceProvider(container.Build());
 
 Niektóre z metod wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
 \begin{itemize}[noitemsep]
-	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych.
+	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych,
 	\item AddServices, która zawiera wszystkie serwisy przechowujące logikę biznesową aplikacji,
 	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów,
 	\item AddMapperConfiguration(), ktora inicjalizuje bibliotekę Automapper wraz ze wszystkimi profilami mapowania.
@@ -333,7 +333,7 @@ public static class ServiceConfiguration
 }
 \end{lstlisting}
 
-Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP należało stworzyć klasę dziedziczącej z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
+Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP, należało stworzyć klasę dziedziczącą z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
 
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
  public class ValidateModelStateFilter : ActionFilterAttribute
@@ -350,7 +350,7 @@ Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zal
 }
 \end{lstlisting}
 
-Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu, do agentów nasłuchujących w kolejce. Metoda RegisterEventBus(Configuration) dodana do serwisów w konfiguracji aplikacji dodaje klienta RabbitMQ do aplikacji. Jego metoda inicjalizująca zakłada dodanie zdarzeń w przypadku otrzymania danych oraz zablokowania lub zamknięcia połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że aktualnie mikroserwis do którego chcemy wysłać wiadomość może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. W związku z tym konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie okreslonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
+Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu do agentów nasłuchujących w kolejce. Metoda RegisterEventBus(Configuration) dodana do serwisów w konfiguracji aplikacji dodaje do niej klienta RabbitMQ. Jego metoda inicjalizująca zakłada dodanie zdarzeń w~przypadku otrzymania danych oraz zablokowanie lub zamknięcie połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że aktualnie mikroserwis, do którego chcemy wysłać wiadomość, może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. W związku z tym konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie określonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
 
 
 \begin{lstlisting}[caption={Metoda połączenia klienta RabbitMQ.} ]
@@ -423,7 +423,7 @@ class Communication:
 
 \end{lstlisting}
 
-W przypadku mikroserwisu reguł semantycznych użyto biblioteki rabbitmq znalezionej w repozytorium bibliotek Maven. Aby jej użyć dodano definicję biblioteki do pliku pom.xml, który zawiera konfigurację wszystki zależności aplikacji. Zmienne klienta RabbitMQ tak jak w przypadku mikroserwisu przetwarzania obrazu, przechowywane są w stałych zmiennych. W celu uruchomienia mikroserwisu należy wysłać wiadomość na klucz routingu "ImagePreprocessingEvent".
+W przypadku mikroserwisu reguł semantycznych użyto biblioteki rabbitmq znalezionej w repozytorium bibliotek Maven. Aby jej użyć dodano definicję biblioteki do pliku pom.xml, który zawiera konfigurację wszystkich zależności aplikacji. Zmienne klienta RabbitMQ tak jak w przypadku mikroserwisu przetwarzania obrazu, przechowywane są w stałych zmiennych. W celu uruchomienia mikroserwisu należy wysłać wiadomość na klucz routingu "ImagePreprocessingEvent".
 \begin{lstlisting}[caption={Klient RabbitMQ dla mikroserwisu reguł semantycznych.}]
 public class EventBusService {
 	private  Channel _channel;
@@ -467,7 +467,7 @@ public class EventBusService {
 		return factory;
 	}
 \end{lstlisting}
-Aplikacja mobilna komunikuje się w serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania stron, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego sie w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas strona startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji.
+Aplikacja mobilna komunikuje się z serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania stron, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego się w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas stroną startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji.
 \begin{lstlisting}[caption={Generowanie strony w zależności od tokenu znajdującego sie w pamięci urządzenia.}]
 
 @Component({
@@ -495,7 +495,7 @@ export class MyApp {
 Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalności uwzględnionych w wymaganiach programu. Omawiane funkcje pokazują sposób komunikacji poszczególnych modułów oprogramowania. Metody nieomówione w dokumencie znajdują się w kodzie źródłowym aplikacji dołączonym w załączniku. W celu ich analizy należy udać się do katalogu src znajdującego się w folderze domowym projektu.
 \\
 \begin{itemize}
-\item \textbf{Logowanie z wykorzystaniem biblioteki JWT} - Mechanizm logowania wymaga wysłania do aplikacji internetowej z urządzenia mobilnego danych użytkownika i hasła. W tym celu aplikacja ASP.NET Core wykorzystuje bibliotekę Identity oraz JWT do tego by wygenerować token autoryzacji. Żądanie otrzymane w kontrolerze zostaje przetworzone w kontrolerze. Wykorzystano w tym celu istniejący serwis w bibliotece Identity. Za pomocą którego wyszukany zostanie użytkownik o danej nazwie oraz haśle uzyskanym z funkcji skrótu. W przypadku gdy użytkownik istnieje serwis biblioteki JWT wygeneruje token autoryzacyjny. Zostały w nim umieszczone informacje o identyfikatorze, nazwie oraz rolach użytkownika w systemie.
+\item \textbf{Logowanie z wykorzystaniem biblioteki JWT} - Mechanizm logowania wymaga wysłania do aplikacji internetowej z urządzenia mobilnego danych użytkownika i hasła. W tym celu aplikacja ASP.NET Core wykorzystuje bibliotekę Identity oraz JWT do tego by wygenerować token autoryzacji. Żądanie otrzymane w kontrolerze zostaje w nim przetworzone. Wykorzystano w tym celu istniejący serwis w bibliotece Identity, za pomocą którego wyszukany zostanie użytkownik o danej nazwie oraz haśle uzyskanym z~funkcji skrótu. W przypadku gdy użytkownik istnieje serwis biblioteki JWT wygeneruje token autoryzacyjny. Zostały w nim umieszczone informacje o identyfikatorze, nazwie oraz rolach użytkownika w systemie.
 
 \begin{lstlisting}[caption=Metoda generująca token JWT.]
  public string GenerateToken(ApplicationUser user)
@@ -524,7 +524,7 @@ Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalno
 }
 \end{lstlisting} 
 
-W celu wywołania akcji Authorize kontrolera Token, aplikacja mobilna tworzy żądanie logowania na podstawie danych uzyskanych od użytkownika. W tym celu do klasy widoku został wstrzyknięty serwis autoryzacji użytkownika - authService. Na jego instancji została wywołana metoda authenticate, która w przypadku pomyślnego wykonania żądania zapisuje w lokalnej pamięci uzyskaną odpowiedź. Wynikiem przetworzenia danych przez klienta HTTP jest obserwowany obiekt. Dzięki niemu zmiana zmiennej w bibliotece Angular 5 spowoduje automatyczne przejście do ekranu głównego aplikacji.
+W celu wywołania akcji Authorize kontrolera Token, aplikacja mobilna tworzy żądanie logowania na podstawie danych uzyskanych od użytkownika. W~tym celu do klasy widoku został wstrzyknięty serwis autoryzacji użytkownika - authService. Na jego instancji została wywołana metoda authenticate, która w przypadku pomyślnego wykonania żądania zapisuje w lokalnej pamięci uzyskaną odpowiedź. Wynikiem przetworzenia danych przez klienta HTTP jest obserwowany obiekt. Dzięki niemu zmiana zmiennej w bibliotece Angular 5 spowoduje automatyczne przejście do ekranu głównego aplikacji.
 
 \begin{lstlisting}[caption=Metoda autoryzacji urządzenia mobilnego.]
 public authenticate(
@@ -553,7 +553,7 @@ public authenticate(
 \end{lstlisting} 
 
 
-\item \textbf{Wysłanie zdjęcia} - Użytkownik w celu użycia algorytmów klasyfikacji przesyła zdjęcie z urządzenia mobilnego. Obraz może być wybrany zarówno z galerii jak i może zostac stworzony przy użyciu aparatu urządzenia. W tym celu skorzystano z wtyczki o nazwie "cordova-plugin-camera". Implementacja metody używającej jej została stworzona w serwisie "photo-service". Wtyczka w zależności od opcji konfiguracyjnych umożliwia dostęp do aparatu lub galerii urządzenia. Obiekt kamery uzyskany dzięki wtyczne, jest dostępny w serwisie dzięki zastosowaniu wzorca odwróconego sterowania. Obiekt zdjęcia otrzymany z metody getPicture, umożliwia otrzymanie obrazu w formie base64. Dzięki niej tag HTML - image, umożliwia wyświetlenie nowo stworzonej fotografii. Dzięki zastosowaniu modeli obserwowanych, zmiana obiektu base64 zdjęcia umożliwia natychmiastową zmianę interfejsu użytkownika oraz pokazanie zdjecia. Aby wysłać otrzymane zdjęcie należy zamienić je z formy tekstu na postać bajtową. W celu stworzenia poprawnego żądania HTTP należy dodać bajty zdjęcia do obiektu formdata oraz przesłać dane przy użyciu zapytania HTTP POST.
+\item \textbf{Wysłanie zdjęcia} - Użytkownik w celu użycia algorytmów klasyfikacji przesyła zdjęcie z urządzenia mobilnego. Obraz może być wybrany zarówno z galerii jak i może zostać stworzony przy użyciu aparatu urządzenia. W~tym celu skorzystano z wtyczki o nazwie "cordova-plugin-camera". Implementacja metody używającej jej została stworzona w klasie o nazwie "photo-service". Wtyczka w zależności od opcji konfiguracyjnych umożliwia dostęp do aparatu lub galerii urządzenia. Obiekt kamery uzyskany dzięki wtyczce jest dostępny w serwisie dzięki zastosowaniu wzorca odwróconego sterowania. Obiekt zdjęcia otrzymany z metody getPicture, umożliwia otrzymanie obrazu w formie base64. Dzięki niej tag HTML - image, umożliwia wyświetlenie nowo stworzonej fotografii. Dzięki zastosowaniu modeli obserwowanych, zmiana obiektu base64 zdjęcia umożliwia natychmiastową zmianę interfejsu użytkownika oraz pokazanie zdjecia. Aby wysłać otrzymane zdjęcie należy zamienić je z formy tekstu na postać bajtową. W celu stworzenia poprawnego żądania HTTP należy dodać bajty zdjęcia do obiektu formdata oraz przesłać dane przy użyciu zapytania HTTP POST.
 
 
 
@@ -580,7 +580,7 @@ export class PhotoService {
 }
 \end{lstlisting} 
 
-Metoda zamiana zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu poniżej. Wymienione funkcje znajdują się w serwisie PhotoService.
+Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu poniżej. Wymienione funkcje znajdują się w serwisie PhotoService.
 
 \begin{lstlisting}[caption=Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.]
 public sendPhoto(file: File) {
@@ -601,7 +601,7 @@ public toFile(photoImage: string) {
 	);
 }
 \end{lstlisting} 
-\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego zanim zostanie poddane przetwarzaniu przez algorytmu uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymy obraz jest zapisywany na dysku twardym serwera, a następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania.
+\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego, zanim zostanie poddane przetwarzaniu przez algorytm uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymany obraz jest zapisywany na dysku twardym serwera, a~następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania.
 
 \begin{lstlisting}[caption=Akcja zapisu zdjęcia.]
 [HttpPost("")]
@@ -623,7 +623,7 @@ public async Task<IActionResult> Create(IFormFile file)
 }
 \end{lstlisting} 
 
-\item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia na rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, okreslającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
+\item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia  rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, okreslającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
 \\
 \begin{lstlisting}[caption={Metoda publikacji wiadomości.}, label={messagePublish}]
 public void Publish(IntegrationEvent @event)
@@ -665,7 +665,7 @@ public void Publish(IntegrationEvent @event)
 	}
 }
 \end{lstlisting}
-\item \textbf{Obiór wiadomości w środowisku uruchomieniowym Python} - Metody przetwarzania obrazu uruchamiane są wraz z otrzymaniem danych z aplikacji internetowych. Zawartość wiadomości pochodzi z żądania HTTP wraz ze zdjęciem wysłanego z urządzenia mobilnego do serwera. Następnie dane przetworzone oraz zapisane przez aplikację internetową tworza wiadomość niezbędną do uruchomienia algorytmów przetwarzania obrazu. Mikroserwis oraz aplikacja internetowa korzystają z plików zapisanych na tym samym dysku twardym. Kolejne iteracje oprogramowania zakładają stworzenie interfejsu dostępu do plików przy pomocy nie relacyjnej bazy danych. W związku z tym w otrzymywanej wiadomości znajduje się ścieżka do pliku, który musi zostać poddany przetwarzaniu. Mikroserwis przyjmuje wiadomości z kluczem routingu ImageClasificationEvent. Nazwa on odpowiednikiem nazwy klasy, stworzonej w celu wysłania wiadomości z aplikacji internetowej. 
+\item \textbf{Odbiór wiadomości w środowisku uruchomieniowym Python} - Metody przetwarzania obrazu uruchamiane są wraz z otrzymaniem danych z~aplikacji internetowych. Zawartość wiadomości pochodzi z żądania HTTP wraz ze zdjęciem wysłanym z urządzenia mobilnego do serwera. Następnie dane przetworzone oraz zapisane przez aplikację internetową tworzą wiadomość niezbędną do uruchomienia algorytmów przetwarzania obrazu. Mikroserwis oraz aplikacja internetowa korzystają z plików zapisanych na tym samym dysku twardym. Kolejne iteracje oprogramowania zakładają stworzenie interfejsu dostępu do plików przy pomocy nierelacyjnej bazy danych. W związku z tym w otrzymywanej wiadomości znajduje się ścieżka do pliku, który musi zostać poddany przetwarzaniu. Mikroserwis przyjmuje wiadomości z kluczem routingu ImageClasificationEvent. Jego nazwa jest odpowiednikiem nazwy klasy, stworzonej w celu wysłania wiadomości z~aplikacji internetowej. 
 
 \begin{lstlisting}[caption={Połączenie do kolejki RabbitMQ.}]
 class Communication:
@@ -698,7 +698,7 @@ class Communication:
 		self.channel.start_consuming()
 \end{lstlisting}
 
-Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwe callback. Jeżeli aplikacja intenetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
+Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwie callback. Jeżeli aplikacja intenetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
 
 
 
@@ -718,7 +718,7 @@ def callback(self, ch, method, properties, data):
 	)
 \end{lstlisting}
 
-Analizując kod należy zwrócić uwagę na inicjalizację obiektu ObjectDetection. Instancja klasy istnieje przez cały czas działania mikroserwisu. Jej definicja zawiera kosztowny czasowowo proces inicjalizacji obiektów biblioteki Tensorflow. Są one niezbędne do detekcji przedmiotów ze zdjęcia. Inicjalizacja między innymi wczytuje graf detekcji przediotów, możliwe klasyfikatory z pliku xml oraz model Tensorflow do pamięci aplikacji. Kolejne obrazy poddawane analizie nie potrzebuja ponownego ładowania obiektów. W metodzie inicjalizacyjnej zostały uwzględnione wszystkie metody nie wymagające dostępu do ścieżki do pliku.
+Analizując kod należy zwrócić uwagę na inicjalizację obiektu ObjectDetection. Instancja klasy istnieje przez cały czas działania mikroserwisu. Jej definicja zawiera kosztowny czasowowo proces inicjalizacji obiektów biblioteki Tensorflow. Są one niezbędne do detekcji przedmiotów ze zdjęcia. Inicjalizacja między innymi wczytuje graf detekcji przediotów, możliwe klasyfikatory z pliku xml oraz model Tensorflow do pamięci aplikacji. Kolejne obrazy poddawane analizie nie potrzebują ponownego ładowania obiektów. W metodzie inicjalizacyjnej zostały uwzględnione wszystkie metody nie wymagające dostępu do ścieżki do pliku.
 \newline
 \begin{lstlisting}[caption={Fragment inicjalizacji obiektów biblioteki Tensorflow.}]
 detection_graph = tf.Graph()
@@ -731,7 +731,7 @@ with detection_graph.as_default():
 	
 	self.sess = tf.Session(graph=detection_graph)
 \end{lstlisting}
-\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostac poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbe elementów (num). Dodatkowo w wyniku wykonania metody algorytm zapisuje wynikowe zdjecie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
+\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostac poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbe elementów (num). Dodatkowo w~wyniku wykonania metody algorytm zapisuje wynikowe zdjecie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
 \newline
 
 \begin{lstlisting}[caption={Detekcja przedmiotów na obrazie.}]
@@ -759,7 +759,7 @@ vis_util.visualize_boxes_and_labels_on_image_array(
 Wynik otrzymany na obiekcie biblioteki Tensorflow z metody run zostaje zapisywany do klasy pomocniczej. Następnie w celu przesłania odpowiedzi do aplikacji internetowej jej obiekt jest serializowany oraz zamieniany na tablicę bajtów. Odpowiedź jest wysyłana za pomocą klienta RabbitMQ.
 \newline
 
-\item \textbf{Przekazanie danych w czasie rzeczywistym oraz przesłanie wiadomośći do mikroserwisu reguł semantycznych} - Przetworzenie obrazu umożliwia wygenerowanie pierwszej części informacji na temat zdjęcia. Użytkownik wysyłając zdjęcie do serwera czeka na dane, a aplikacja mobilna pokazuje ekran ładowania. Przesłane zdjęcie wraz z podstawowymi informacjami zostaną pokazane w momencie rozesłania danych do klientów z wykorzystaniem klienta SignalR. Tym samym zaraz po wykonaniu przesłania danych, wywoływany jest mikroserwis reguł semantycznych. Całość logiki odbywa się w klasie przechwytującej odpowiedzi wysłane na kolejkę przy użyciu odpowiedniego klucza routingu.
+\item \textbf{Przekazanie danych w czasie rzeczywistym oraz przesłanie wiadomości do mikroserwisu reguł semantycznych} - Przetworzenie obrazu umożliwia wygenerowanie pierwszej części informacji na temat zdjęcia. Użytkownik wysyłając zdjęcie do serwera czeka na dane, a aplikacja mobilna pokazuje ekran ładowania. Przesłane zdjęcie wraz z podstawowymi informacjami zostaną pokazane w momencie rozesłania danych do klientów z wykorzystaniem klienta SignalR. Tym samym zaraz po wykonaniu przesłania danych, wywoływany jest mikroserwis reguł semantycznych. Całość logiki odbywa się w klasie przechwytującej odpowiedzi wysłane na kolejkę przy użyciu odpowiedniego klucza routingu.
 
 \begin{lstlisting}[caption={Przekazanie danych do aplikacji mobilnej oraz .}]
 public async Task Handle(ImageClasificationResultEvent @event)
