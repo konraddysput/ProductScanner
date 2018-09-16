@@ -17,7 +17,7 @@ export class AuthService {
       login,
       password
     });
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post<any>(this.apiService.loginUrl, data, { headers: headers })
       .map(response => {

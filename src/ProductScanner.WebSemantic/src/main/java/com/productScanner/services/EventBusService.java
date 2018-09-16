@@ -3,6 +3,8 @@ package com.productScanner.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.productScanner.model.ImagePreprocessingEvent;
 import com.rabbitmq.client.*;
+import java.io.*;
+import java.util.concurrent.*;
 
 import java.io.IOException;
 
@@ -19,7 +21,7 @@ public class EventBusService {
 
     private WebSemanticService _service;
 
-    public  EventBusService() throws java.util.concurrent.TimeoutException, java.io.IOException, IllegalAccessException {
+    public  EventBusService() throws TimeoutException, IOException, IllegalAccessException {
         setupExchange(getConnectionFactory());
         _service = new WebSemanticService();
     }
@@ -39,7 +41,7 @@ public class EventBusService {
         System.out.println(" [*] Waiting for logs. To exit press CTRL+C");
     }
 
-    private void setupExchange(ConnectionFactory factory) throws java.util.concurrent.TimeoutException, java.io.IOException{
+    private void setupExchange(ConnectionFactory factory) throws TimeoutException, IOException{
         Connection connection = factory.newConnection();
         _channel= connection.createChannel();
         _channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
