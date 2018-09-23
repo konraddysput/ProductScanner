@@ -1,0 +1,30 @@
+Niniejszy rozdział ma na celu przedstawienie testów aplikacji oraz korzystania z jej. Zostały w nim umieszczone przykładowe sposoby użycia funkcji dostępnych w aplikacji mobilnej.
+
+
+
+\section{Zarządzanie kontem}
+
+\noindent\begin{minipage}{0.4\textwidth}\raggedleft
+	\includegraphics[width=\linewidth]{"images/login_page"}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+	Użytkownik w celu korzystania z aplikacji musi być zalogowany. Pierwsze uruchomienie aplikacji skutkuje uruchomieniem ekranu logowania. W przypadku gdy użytkownik wcześniej zalogował się, a token dostępu nie wygasł, wówczas dostępny jest ekran główny aplikacji. Ze względu na asynchroniczną komunikację z serwerem poprzez zapytania HTTP, użytkownik w trakcie oczekiwania na odpowiedź ma przedstawiony ekran ładowania. W przypadku otrzymania błędu lub wykonania zabronionej operacji na serwerze, użytkownik otrzyma powiadomienie u dołu ekranu.
+	
+\end{minipage}
+
+
+\noindent\begin{minipage}{0.4\textwidth}\raggedleft
+	\includegraphics[width=\linewidth]{"images/register_page"}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+	
+	W przypadku gdy użytkownik nie posiada konta, zalecane jest skorzystanie z zakładki "Rejestracja". Umożliwia ona wpisanie podstawowych informacji niezbędnych do założenia konta. Zostały nałożone również restrykcje dotyczące polityki bezpieczeństwa konta. W związu z tym:
+	\begin{itemize}[noitemsep]
+		\item Aby podano adres e-mail,
+		\item Aby podano unikalną nazwę użytkownika,
+		\item Aby hasło zawierało co najmniej trzy znaki.
+	\end{itemize} 
+	
+\end{minipage}
+
+
