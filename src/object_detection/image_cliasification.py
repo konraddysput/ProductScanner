@@ -5,11 +5,9 @@ from Object_detection_image import ObjectDetection
 
 class Communication:
     objectDetection = None
-
     exchange_type = 'direct'
     credentials = pika.PlainCredentials('node', 'node')
-    conn_param = pika.ConnectionParameters('localhost', credentials)
-    connection = pika.BlockingConnection(conn_param)
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', credentials=credentials))
     channel = connection.channel()
     queue_name = 'scanner-api-python'
     receive_routing_key = 'ImageClasificationEvent'

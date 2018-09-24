@@ -4,6 +4,6 @@ namespace ProductScanner.Gateway.Events
 {
     public class ImagePreprocessingEvent : IntegrationEvent
     {
-        public IEnumerable<ImageClasificationEventResultEntry> Entries { get; set; }
+        public IEnumerable<ImageClasificationEventResultEntry> Data { get; set; }
     }
 }

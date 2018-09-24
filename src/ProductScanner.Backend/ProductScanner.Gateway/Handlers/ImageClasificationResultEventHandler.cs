@@ -6,6 +6,8 @@ using ProductScanner.Gateway.Interfaces;
 using ProductScanner.Gateway.Interfaces.Events;
 using ProductScanner.Services.Interfaces;
 using ProductScanner.ViewModels.Photo;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProductScanner.Gateway.Handlers
@@ -13,6 +15,7 @@ namespace ProductScanner.Gateway.Handlers
     public class ImageClasificationResultEventHandler : IIntegrationEventHandler<ImageClasificationResultEvent>
     {
         private readonly IHubContext<PreprocesingHub> _hub;
+        private readonly IPhotoObjectService _photoObject;
         private readonly IPhotoService _photoService;
         private readonly IMapper _mapper;
         private readonly IEventBus _eventBus;
@@ -21,10 +24,12 @@ namespace ProductScanner.Gateway.Handlers
         public ImageClasificationResultEventHandler(
             IEventBus eventBus,
             IPhotoService photoService,
+            IPhotoObjectService photoObjectService,
             IHubContext<PreprocesingHub> hub,
             IMapper mapper)
         {
             _hub = hub;
+            _photoObject = photoObjectService;
             _photoService = photoService;
             _eventBus = eventBus;
             _mapper = mapper;
@@ -38,13 +43,24 @@ namespace ProductScanner.Gateway.Handlers
             {
                 return;
             }
-
+            //save python model
             photoViewModel.UserId = model.UserId;
             await _photoService.Update(photoViewModel);
             await _photoService.SaveChanges();
+            //send data to all clients
             await _hub.Clients.All.SendAsync("DataReady", model.Id, true);
-            var data = _mapper.Map<ImagePreprocessingEvent>(model);
-            _eventBus.Publish(data);
+
+            //convert data to model available for java API
+            var photos = _photoObject.Get()
+                .Where(n => n.PhotoId == @event.Id);
+            var data = _mapper.Map<IEnumerable<ImageClasificationEventResultEntry>>(photos);
+            var webSemanticEvent = new ImagePreprocessingEvent()
+            {
+                Id = @event.Id,
+                Data = data
+            };
+
+            _eventBus.Publish(webSemanticEvent);
         }
     }
 }

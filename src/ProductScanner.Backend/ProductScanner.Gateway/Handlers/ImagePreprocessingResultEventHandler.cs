@@ -4,7 +4,6 @@ using ProductScanner.Gateway.Interfaces.Events;
 using ProductScanner.Services.Interfaces;
 using ProductScanner.ViewModels.PhotoData;
 using ProductScanner.ViewModels.PhotoType;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,21 +34,14 @@ namespace ProductScanner.Gateway.Handlers
                 await AddPhotoTypes(@event, eventData);
 
             }
-            try
-            {
-                await _photoTypeService.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Trace.WriteLine(e);
-            }
+            await _photoTypeService.SaveChanges();
         }
 
         private async Task AddPhotoTypes(ImagePreprocessingResultEvent @event, ImagePreprocessingResultEventEntry eventData)
         {
             var photoTypes = eventData.Types.Select(n => new PhotoTypeViewModel()
             {
-                PhotoId = @event.Id,
+                PhotoId = eventData.Id,
                 Type = n
             });
             foreach (var photoType in photoTypes)
@@ -62,7 +54,7 @@ namespace ProductScanner.Gateway.Handlers
         {
             var photoData = eventData.Data.Select(n => new PhotoDataViewModel()
             {
-                PhotoId = @event.Id,
+                PhotoId = eventData.Id,
                 Type = n.Key,
                 Value = n.Value
             });

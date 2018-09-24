@@ -29,7 +29,7 @@ class ClassificationResult:
         self.id = id
 
     def to_message(self):
-        result_dict = {"result": [ob.__dict__ for ob in self.result], "analysedFilePath": self.path,
+        result_dict = {"data": [ob.__dict__ for ob in self.result], "analysedFilePath": self.path,
                        "path": self.source_path, "id": self.id}
         result_json = json.dumps(result_dict)
         print('output json: ' + result_json)
