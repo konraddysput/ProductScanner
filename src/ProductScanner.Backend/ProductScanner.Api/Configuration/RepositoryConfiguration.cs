@@ -10,6 +10,8 @@ namespace ProductScanner.Api.Configuration
         {
             services.AddScoped<IRepository<Photo>, Repository<Photo>>();
             services.AddScoped<IRepository<PhotoObject>, Repository<PhotoObject>>();
+            services.AddScoped<IRepository<PhotoData>, Repository<PhotoData>>();
+            services.AddScoped<IRepository<PhotoType>, Repository<PhotoType>>();
             return services;
         }
     }

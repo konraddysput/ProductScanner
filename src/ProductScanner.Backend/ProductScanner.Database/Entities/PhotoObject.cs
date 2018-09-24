@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using ProductScanner.Database.Entities.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductScanner.Database.Entities
@@ -29,6 +30,9 @@ namespace ProductScanner.Database.Entities
 
             set => _photo = value;
         }
+
+        public virtual ICollection<PhotoType> PhotoTypes { get; set; }
+        public virtual ICollection<PhotoData> PhotoData { get; set; }
 
         private ILazyLoader LazyLoader { get; set; }
     }

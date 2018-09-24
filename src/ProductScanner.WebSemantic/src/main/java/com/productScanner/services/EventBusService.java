@@ -1,9 +1,13 @@
 package com.productScanner.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productScanner.model.ImageClasificationEventResultEntry;
 import com.productScanner.model.ImagePreprocessingEvent;
+import com.productScanner.model.ImagePreprocessingEventResult;
 import com.rabbitmq.client.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.*;
 
 import java.io.IOException;
@@ -34,7 +38,12 @@ public class EventBusService {
                 String message = new String(body, "UTF-8");
                 System.out.println(" [x] Received '" + message + "'");
                 ImagePreprocessingEvent data = new ObjectMapper().readValue(message, ImagePreprocessingEvent.class);
-                _service.findInvalidPositions(data);
+
+                _service.addToOntology(data.Entries, data.Id);
+                _service.startResoing();
+                ImagePreprocessingEventResult result = _service.getResult(data.Entries, data.Id);
+                byte[] bytes = new ObjectMapper().writeValueAsString(result).getBytes("utf-8");
+                _channel.basicPublish( EXCHANGE_NAME, SEND_ROUTING_KEY, null, bytes);
             }
         };
         _channel.basicConsume(QUEUE_NAME, true, consumer);

@@ -1,14 +1,14 @@
 package com.productScanner.services;
 
 import com.productScanner.model.ImageClasificationEventResultEntry;
+import com.productScanner.model.ImagePreprocessingEventResult;
+import com.productScanner.model.ImagePreprocessingEventResultEntry;
 import openllet.jena.PelletReasonerFactory;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.*;
-
-import java.util.*;
 
 public class WebSemanticService {
     private OntModel _model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
@@ -23,7 +23,7 @@ public class WebSemanticService {
         _model.read("knowledge-base.owl" , "OWL/XML-ABBREV");
     }
 
-    public void addToOntology(List<ImageClasificationEventResultEntry> entryList, int id){
+    public void addToOntology(ImageClasificationEventResultEntry[] entryList, int id){
         for (ImageClasificationEventResultEntry entry :entryList) {
             addToOntology(entry, id);
         }
@@ -59,14 +59,17 @@ public class WebSemanticService {
         _model.prepare();
     }
 
-    public Map<Integer, Map<String, Object>> getResult(List<ImageClasificationEventResultEntry> entryList){
-        Map<Integer, Map<String,Object>> result = new HashMap<>();
+    public ImagePreprocessingEventResult getResult(ImageClasificationEventResultEntry[] entryList, int id){
+        ImagePreprocessingEventResult preprocesingResult = new ImagePreprocessingEventResult();
+        preprocesingResult.Id = id;
+
         for (ImageClasificationEventResultEntry entry: entryList) {
             Resource reasonerResource = _model.getResource(iri + "#" +  entry.Id);
             StmtIterator iter = reasonerResource.listProperties();
-            Map<String, Object> entryResult = new HashMap<>();
 
-            LinkedList<String> entries = new LinkedList<String>();
+            ImagePreprocessingEventResultEntry dataEntry = new ImagePreprocessingEventResultEntry();
+            dataEntry.Id = entry.Id;
+
             while (iter.hasNext()) {
 
                 Statement stmt      = iter.nextStatement();  // get next statement
@@ -78,7 +81,7 @@ public class WebSemanticService {
                     case "differentFrom":
                         continue;
                     case "type":
-                        entries.add(EscapeReasonerResult(object.toString()));
+                        dataEntry.Types.add(EscapeReasonerResult(object.toString()));
                         break;
                     case "imageId":
                     case "positionYMax":
@@ -87,23 +90,20 @@ public class WebSemanticService {
                     case "positionXMin":
                         String objString = object.toString();
                         int endOfAtom = objString.indexOf('^');
-
-                        entryResult.put(
-                                predicateString,
+                        dataEntry.Data.put(predicateString,
                                 objString.substring(0,endOfAtom));
                         break;
                     default:
-                        entryResult.put(
+                        dataEntry.Data.put(
                                 predicateString,
                                 EscapeReasonerResult(object.toString()));
                         break;
 
                 }
             }
-            entryResult.put("type", entries);
-            result.put(entry.Id, entryResult);
+            preprocesingResult.Data.add(dataEntry);
         }
-        return  result;
+        return preprocesingResult;
     }
 
     private String EscapeReasonerResult(String result){
