@@ -60,7 +60,7 @@ public class WebSemanticService {
     }
 
     public Map<Integer, Map<String, Object>> getResult(List<ImageClasificationEventResultEntry> entryList){
-        Map<Integer, Map<String, Object>> result = new HashMap<>();
+        Map<Integer, Map<String,Object>> result = new HashMap<>();
         for (ImageClasificationEventResultEntry entry: entryList) {
             Resource reasonerResource = _model.getResource(iri + "#" +  entry.Id);
             StmtIterator iter = reasonerResource.listProperties();
