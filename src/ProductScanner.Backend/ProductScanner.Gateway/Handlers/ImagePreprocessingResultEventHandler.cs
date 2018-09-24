@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using ProductScanner.Gateway.Events;
+using ProductScanner.Gateway.Hubs;
 using ProductScanner.Gateway.Interfaces.Events;
 using ProductScanner.Services.Interfaces;
 using ProductScanner.ViewModels.PhotoData;
@@ -11,6 +13,7 @@ namespace ProductScanner.Gateway.Handlers
 {
     public class ImagePreprocessingResultEventHandler : IIntegrationEventHandler<ImagePreprocessingResultEvent>
     {
+        private readonly IHubContext<PreprocesingHub> _hub;
         private readonly IPhotoTypeService _photoTypeService;
         private readonly IPhotoDataService _photoDataService;
         private readonly IMapper _mapper;
@@ -18,8 +21,10 @@ namespace ProductScanner.Gateway.Handlers
         public ImagePreprocessingResultEventHandler(
             IPhotoTypeService photoTypeService,
             IPhotoDataService photoDataService,
+            IHubContext<PreprocesingHub> hub,
             IMapper mapper)
         {
+            _hub = hub;
             _photoTypeService = photoTypeService;
             _photoDataService = photoDataService;
             _mapper = mapper;
@@ -29,12 +34,12 @@ namespace ProductScanner.Gateway.Handlers
         {
             foreach (var eventData in @event.Data)
             {
-
                 await AddPhotoData(@event, eventData);
                 await AddPhotoTypes(@event, eventData);
-
             }
-            await _photoTypeService.SaveChanges();
+            await _photoTypeService.SaveChanges(); 
+            //send data to all clients
+            await _hub.Clients.All.SendAsync("DataReady", @event.Id, true);
         }
 
         private async Task AddPhotoTypes(ImagePreprocessingResultEvent @event, ImagePreprocessingResultEventEntry eventData)

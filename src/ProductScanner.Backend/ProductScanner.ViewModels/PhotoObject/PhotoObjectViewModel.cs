@@ -1,4 +1,8 @@
-﻿namespace ProductScanner.ViewModels.PhotoObject
+﻿using ProductScanner.ViewModels.PhotoData;
+using ProductScanner.ViewModels.PhotoType;
+using System.Collections.Generic;
+
+namespace ProductScanner.ViewModels.PhotoObject
 {
     public class PhotoObjectViewModel : ViewModelBase
     {
@@ -12,5 +16,8 @@
         public double PositionXMax { get; set; }
 
         public int PhotoId { get; set; }
+
+        public IEnumerable<PhotoTypeViewModel> PhotoTypes { get; set; }
+        public IEnumerable<PhotoDataViewModel> PhotoData { get; set; }
     }
 }

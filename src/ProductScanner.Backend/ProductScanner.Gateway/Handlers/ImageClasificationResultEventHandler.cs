@@ -47,8 +47,7 @@ namespace ProductScanner.Gateway.Handlers
             photoViewModel.UserId = model.UserId;
             await _photoService.Update(photoViewModel);
             await _photoService.SaveChanges();
-            //send data to all clients
-            await _hub.Clients.All.SendAsync("DataReady", model.Id, true);
+           
 
             //convert data to model available for java API
             var photos = _photoObject.Get()
