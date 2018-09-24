@@ -14,10 +14,10 @@ namespace ProductScanner.Automapper.Profiles.PhotoObjectProfiles
             CreateMap<PhotoObjectViewModel, PhotoObject>();
             CreateMap<PhotoObject, PhotoObjectViewModel>();
             CreateMap<ImageClasificationEventResultEntry, PhotoObjectViewModel>()
-                .ForMember(n => n.PositionXL, m => m.MapFrom(g => g.Position[0])) 
-                .ForMember(n => n.PositionYL, m => m.MapFrom(g => g.Position[1]))
-                .ForMember(n => n.PositionXR, m => m.MapFrom(g => g.Position[2]))
-                .ForMember(n => n.PositionYR, m => m.MapFrom(g => g.Position[3]));
+                .ForMember(n => n.PositionYMin, m => m.MapFrom(g => g.Position[0])) 
+                .ForMember(n => n.PositionXMin, m => m.MapFrom(g => g.Position[1]))
+                .ForMember(n => n.PositionYMax, m => m.MapFrom(g => g.Position[2]))
+                .ForMember(n => n.PositionXMax, m => m.MapFrom(g => g.Position[3]));
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProductScanner.ViewModels.PhotoObject
+﻿namespace ProductScanner.ViewModels.PhotoObject
 {
     public class PhotoObjectViewModel : ViewModelBase
     {
@@ -10,10 +6,10 @@ namespace ProductScanner.ViewModels.PhotoObject
         public string Category { get; set; }
 
         //box positions
-        public double PositionXL { get; set; }
-        public double PositionYL { get; set; }
-        public double PositionXR { get; set; }
-        public double PositionYR { get; set; }
+        public double PositionYMin { get; set; }
+        public double PositionXMin { get; set; }
+        public double PositionYMax { get; set; }
+        public double PositionXMax { get; set; }
 
         public int PhotoId { get; set; }
     }
