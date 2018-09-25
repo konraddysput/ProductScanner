@@ -73,6 +73,7 @@ export class PhotoDescriptionPage {
     this.photoService.getPhoto(this.id)
       .subscribe(
         (data) => {
+          debugger;
           this.photo = data;
           this._loader.dismiss();
         },

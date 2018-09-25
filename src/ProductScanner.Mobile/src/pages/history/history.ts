@@ -12,7 +12,7 @@ import { ExceptionFormater } from '../../helpers/exception-formater';
 })
 export class HistoryPage {
 
-  public limit: number = 10;
+  public limit: number = 1;
   public page: number = 0;
 
   public photos: PhotoDetailViewModel[];
@@ -38,7 +38,6 @@ export class HistoryPage {
   
 
   public getPhotoUrl(id: number): string {
-    console.log("photoUrl");
     return `${this.apiService.apiBaseUrl}api/photo/${id}/image`;
   }
 

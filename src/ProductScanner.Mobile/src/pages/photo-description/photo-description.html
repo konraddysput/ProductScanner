@@ -19,33 +19,59 @@
 <ion-content padding>
   <div *ngIf="photo">
     <img [src]="analysedPhotoUrl(id)">
-    <ion-row >
+    <ion-row>
       <!-- <ion-note style="width:100%" text-center>
         {{hoursAgo()}}
       </ion-note> -->
     </ion-row>
     <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
-      <h4 text-center>Find <b style="color:red">{{photo.photoObjects.length}}</b> invalid objects!</h4>
+      <h4 text-center>Find <b style="color:blue">{{photo.photoObjects.length}}</b> objects!</h4>
 
       <ion-grid text-center>
         <!-- header -->
         <ion-row>
           <ion-col col-1>#</ion-col>
-          <ion-col col-3>Classifier</ion-col>
-          <ion-col col-2>X(1)</ion-col>
-          <ion-col col-2>Y(1)</ion-col>
-          <ion-col col-2>X(2)</ion-col>
-          <ion-col col-2>Y(2)</ion-col>
+          <ion-col col-3>Name</ion-col>
+          <ion-col col-2>YMin</ion-col>
+          <ion-col col-2>XMin</ion-col>
+          <ion-col col-2>YMax</ion-col>
+          <ion-col col-2>XMax</ion-col>
         </ion-row>
         <ion-row *ngFor="let photoObject of photo.photoObjects; let i = index">
           <ion-col col-1>{{i}}</ion-col>
           <ion-col col-3>{{photoObject.category}}</ion-col>
-          <ion-col col-2>{{photoObject.positionXL}}</ion-col>
-          <ion-col col-2>{{photoObject.positionYL}}</ion-col>
-          <ion-col col-2>{{photoObject.positionXR}}</ion-col>
-          <ion-col col-2>{{photoObject.positionYR}}</ion-col>
+          <ion-col col-2>{{photoObject.positionYMin}}</ion-col>
+          <ion-col col-2>{{photoObject.positionXMin}}</ion-col>
+          <ion-col col-2>{{photoObject.positionYMax}}</ion-col>
+          <ion-col col-2>{{photoObject.positionXMax}}</ion-col>
         </ion-row>
       </ion-grid>
+
+      <div padding *ngIf="photo.photoObjects.photoTypes && photo.photoObjects.photoTypes.length > 0">
+        <ion-row >
+          <ion-list>
+            <div *ngFor="let photoObject of photo.photoObjects; let i = index">
+              <ion-list-header>
+                Types
+              </ion-list-header>
+              <ion-item>{{photoObject.type}}</ion-item>
+            </div>
+          </ion-list>
+        </ion-row>
+      </div>
+
+    <div padding *ngIf="photo.photoObjects.photoData && photo.photoObjects.photoData.length > 0">
+      <ion-row >
+        <ion-list>
+          <div *ngFor="let photoObject of photo.photoObjects; let i = index">
+            <ion-list-header>
+              Types
+            </ion-list-header>
+            <ion-item>{{photoObject.type}}</ion-item>
+          </div>
+        </ion-list>
+      </ion-row>
+    </div>
 
     </div>
 
@@ -53,12 +79,12 @@
 
     <ion-row text-center>
       <ion-col col-6>
-        <!-- <button ion-button icon-start clear small>
+        <button ion-button icon-start clear small>
           <ion-icon name="trash"></ion-icon>
           <div (click)="delete()">Remove</div>
-        </button> -->
+        </button>
       </ion-col>
-      <ion-col col-6 >
+      <ion-col col-6>
         <button ion-button icon-start clear small>
           <ion-icon name="thumbs-up"></ion-icon>
           <div (click)="dismiss()">Ok</div>
