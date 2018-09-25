@@ -5,31 +5,20 @@ Niniejszy rozdział ma na celu przedstawienie testów aplikacji oraz korzystania
 
 \section{Zarządzanie kontem}{
 	
-\begin{figure}
+
+
+Użytkownik w celu korzystania z aplikacji musi być zalogowany. Pierwsze uruchomienie aplikacji skutkuje uruchomieniem ekranu logowania. W przypadku gdy użytkownik wcześniej zalogował się, a token dostępu nie wygasł, wówczas dostępny jest ekran główny aplikacji. Ze względu na asynchroniczną komunikację z serwerem poprzez zapytania HTTP, użytkownik w trakcie oczekiwania na odpowiedź ma przedstawiony ekran ładowania. W przypadku otrzymania błędu lub wykonania zabronionej operacji na serwerze, użytkownik otrzyma powiadomienie na dole ekranu.
+
+\begin{figure}[h]
 	\centering
-	\subfloat[Ekran logowania]{\label{odnosnik}
+	\subfloat[Ekran logowania.]{\label{odnosnik}
 		\includegraphics[width=0.4\textwidth]{images/login_page}}
 	\quad
-	\subfloat[Ekran rejestracji]{\label{odnosnik}
+	\subfloat[Ekran rejestracji.]{\label{odnosnik}
 		\includegraphics[width=0.4\textwidth]{images/register_page}}
 	\caption{Ekrany logowania i rejestracji}
 	\label{fig:registerpage}
 \end{figure}
-
-%\begin{wrapfigure}[15]{R}{0.4\textwidth}
-%	\centering
-%	\includegraphics[width=0.4\textwidth]{images/login_page}
-%	\caption{Ekran logowania.}
-%\end{wrapfigure}
-
-Użytkownik w celu korzystania z aplikacji musi być zalogowany. Pierwsze uruchomienie aplikacji skutkuje uruchomieniem ekranu logowania. W przypadku gdy użytkownik wcześniej zalogował się, a token dostępu nie wygasł, wówczas dostępny jest ekran główny aplikacji. Ze względu na asynchroniczną komunikację z serwerem poprzez zapytania HTTP, użytkownik w trakcie oczekiwania na odpowiedź ma przedstawiony ekran ładowania. W przypadku otrzymania błędu lub wykonania zabronionej operacji na serwerze, użytkownik otrzyma powiadomienie na dole ekranu.
-
-%\begin{wrapfigure}[25]{R}{0.6\textwidth}
-%	\centering
-%	\includegraphics[width=0.8\linewidth]{images/register_page}
-%	\caption{Ekran rejestracji.}
-%	\label{fig:registerpage}
-%\end{wrapfigure}
 
 W przypadku gdy użytkownik nie posiada konta, zalecane jest skorzystanie z zakładki "Rejestracja". Umożliwia ona wpisanie podstawowych informacji niezbędnych do założenia konta. Zostały nałożone również restrykcje dotyczące polityki bezpieczeństwa konta. W związku z tym podczas rejestracji użytkownik jest proszony o:
 \begin{itemize}[noitemsep]
@@ -41,19 +30,22 @@ W przypadku gdy użytkownik nie posiada konta, zalecane jest skorzystanie z zak�
 \newpage
 \section{Zarządzanie zdjęciami}{
 
-Pomyślna rejestracja oraz zalogowanie użytkownika przenoszą go do ekranu głównego aplikacji. Omawiany ekran znajduje się na rysunku \ref{mainView}. Pierwszy widok zawiera instrukcje zachęcające do zrobienia nowego zdjęcia lub wybrania go z galerii. Ponadto na ekranie dostępne są dodatkowe zakładki - "History" oraz "Contact". Użytkownik ma możliwość wylogowania się dzięki przyciskowi "Logout" znajdującemu się w prawym górnym rogu ekranu. Pierwszy ekran umożliwia przesłanie zdjęcia do serwera aplikacji w celu dalszego przetwarzania. Aby zrobić zdjęcie, należy wybrać przycisk "TAKE PHOTO", który uruchomi kamerę. Aplikacja będzie oczekiwała do momentu przekazania zdjęcia z urządzenia mobilnego. W przypadku wybrania przycisku "SELECT FROM GALLERY", aplikacja uruchomi systemowy eksplorator zdjęć. Wybór jednego z nich będzie równoznaczny dla aplikacji ze zrobieniem zdjęcia z aparatu. Aplikacja po wybraniu obrazu wyświetli go na ekranie głównym oraz udostępni przyciski "Send" oraz "Remove". Wybranie przycisku "Send" uruchomi udostępnienie zdjęcia na serwer. W przypadku przycisku "Remove" przesyłanie zostanie anulowane. Stan aplikacji został przedstawiony na rysunku \ref{uploadView}.
+Pomyślna rejestracja oraz zalogowanie użytkownika przenoszą go do ekranu głównego aplikacji.Pierwszy widok zawiera instrukcje zachęcające do zrobienia nowego zdjęcia lub wybrania go z galerii. Ponadto na ekranie dostępne są dodatkowe zakładki - "History" oraz "Contact". Użytkownik ma możliwość wylogowania się dzięki przyciskowi "Logout" znajdującemu się w prawym górnym rogu ekranu. Pierwszy ekran umożliwia przesłanie zdjęcia do serwera aplikacji w celu dalszego przetwarzania. Aby zrobić zdjęcie, należy wybrać przycisk "TAKE PHOTO", który uruchomi kamerę. Aplikacja będzie oczekiwała do momentu przekazania zdjęcia z urządzenia mobilnego. W przypadku wybrania przycisku "SELECT FROM GALLERY", aplikacja uruchomi systemowy eksplorator zdjęć. Wybór jednego z nich będzie równoznaczny dla aplikacji ze zrobieniem zdjęcia z aparatu. Aplikacja po wybraniu obrazu wyświetli go na ekranie głównym oraz udostępni przyciski "Send" oraz "Remove". Wybranie przycisku "Send" prześle zdjęcie na serwer. W przypadku przycisku "Remove" przesyłanie zostanie anulowane.
 
-\begin{figure}[htb]
+	
+\begin{figure}[h]
 	\centering
-	\label{beforeClasification}
-	\noindent\begin{minipage}
-		{0.4\textwidth}\raggedleft		\includegraphics[width=\linewidth,height=9cm]{"images/home_page"}
-		\caption{Próbki obrazów poddane klasyfikacji produktów.}
-		\label{mainView}
-	\end{minipage}
-	\begin{minipage}{0.4\textwidth}
-		\includegraphics[width=\linewidth,height=9cm]{"images/upload_page"}
-		\caption{Próbki obrazów poddane klasyfikacji produktów.}
-		\label{uploadView}
-	\end{minipage}
+	\subfloat[Główny widok aplikacji]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/home_page}}
+	\quad
+	\subfloat[Widok wysłania zdjęcia]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/upload_page}}
+	\caption{Ekran domowy oraz wysłania zdjęcia.}
+	\label{fig:uploadView}
 \end{figure}
+
+Użytkownik w celu poddania zdjęcia analizie może wybrać zdjęcie z galerii lub stworzyć je przy użyciu aparatu z ekranu głównego. Udostępnienie zdjęcia na serwer spowoduje uruchomienie algorytmów przetwarzania zdjęcia oraz ontologii. W momencie oczekiwania na dokonanie obliczeń użytkownik czeka na odpowiedź serwera na ekranie ładowania. W momencie zakończenia przetwarzania danych ekran wyświetli okno szczegółów analizy. Dzięki niemu użytkownik może dowiedzieć się wyników klasyfikacji przedmiotów oraz przetwarzania reguł semantycznych. 
+
+
+Użytkownik w celu przejrzenia archiwum udostępnionych zdjęć może skorzystać z zakładkki historii o nazwie "History". Przejście do niej spowoduje wyświetlenie zbioru przesłanych zdjeć wraz z wynikami przetwarzania. Przejście na sam dół ekranu umożliwi użytkownikowi przejście do kolejnej strony wyników, cofnięcie się lub odświeżenie danych. Na każdym ze zdjęć można dokonać operacji usunięcia poprzez kliknięcie przycisku "Remove" oraz otrzymać szczegóły zdjęcia poprzez wybranie "Check details".
+

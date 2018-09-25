@@ -6,6 +6,7 @@ import { PhotoService } from '../../providers/photo-service/photo-service';
 import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
 import { ExceptionFormater } from '../../helpers/exception-formater';
 import { ApiService } from '../../providers/api-service/api-service';
+import { toUploadDateString } from '../../helpers/date-helper';
 @IonicPage()
 @Component({
   selector: 'page-photo-description',
@@ -73,8 +74,8 @@ export class PhotoDescriptionPage {
     this.photoService.getPhoto(this.id)
       .subscribe(
         (data) => {
-          debugger;
-          this.photo = data;
+          data.hourAgo = toUploadDateString(data.uploadDate);
+          this.photo =  data;
           this._loader.dismiss();
         },
         (ex) => {
@@ -138,38 +139,5 @@ export class PhotoDescriptionPage {
       );
   }
 
-
-  public hoursAgo(){
-    try{
-    //detect minutes
-    const date = new Date(this.photo.uploadDate);
-    var delta = Math.abs((date as any) - (new Date() as any)) / 1000;
-
-    // calculate (and subtract) whole days
-    var days = Math.floor(delta / 86400);
-    if(days > 0){
-      return `uploaded ${days} days ago`;
-    }
-
-    // calculate (and subtract) whole hours
-    var hours = Math.floor(delta / 3600) % 24;
-    if(hours > 0){
-      return `uploaded ${hours} hours ago`;
-    }
-
-    // calculate (and subtract) whole minutes
-    var minutes = Math.floor(delta / 60) % 60;
-    if(minutes > 0){
-      return `uploaded ${hours} minutes ago`;
-    }
-
-    // what's left is seconds
-    var seconds = delta % 60; 
-    return `uploaded ${seconds} minutes ago`;
-  }
-  catch(err){
-    console.error(err);
-  }
-  }
 
 }

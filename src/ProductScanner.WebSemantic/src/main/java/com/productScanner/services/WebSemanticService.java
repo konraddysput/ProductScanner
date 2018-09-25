@@ -79,26 +79,25 @@ public class WebSemanticService {
 
                 switch (predicateString){
                     case "differentFrom":
-                        continue;
-                    case "type":
-                        dataEntry.Types.add(EscapeReasonerResult(object.toString()));
-                        break;
+                    case "sameAs":
                     case "imageId":
                     case "positionYMax":
                     case "positionYMin":
                     case "positionXMax":
                     case "positionXMin":
-                        String objString = object.toString();
-                        int endOfAtom = objString.indexOf('^');
-                        dataEntry.Data.put(predicateString,
-                                objString.substring(0,endOfAtom));
+                        continue;
+                    case "type":
+                        String value = EscapeReasonerResult(object.toString());
+                        if(value.equals("Thing")){
+                            continue;
+                        }
+                        dataEntry.Types.add(value);
                         break;
                     default:
                         dataEntry.Data.put(
                                 predicateString,
                                 EscapeReasonerResult(object.toString()));
                         break;
-
                 }
             }
             preprocesingResult.Data.add(dataEntry);

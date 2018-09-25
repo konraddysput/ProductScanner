@@ -20,9 +20,9 @@
   <div *ngIf="photo">
     <img [src]="analysedPhotoUrl(id)">
     <ion-row>
-      <!-- <ion-note style="width:100%" text-center>
-        {{hoursAgo()}}
-      </ion-note> -->
+      <ion-note style="width:100%" text-center>
+        {{photo.hourAgo}}
+      </ion-note>
     </ion-row>
     <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
       <h4 text-center>Find <b style="color:blue">{{photo.photoObjects.length}}</b> objects!</h4>
@@ -46,32 +46,26 @@
           <ion-col col-2>{{photoObject.positionXMax}}</ion-col>
         </ion-row>
       </ion-grid>
+      <div *ngFor="let photoObject of photo.photoObjects;">
+        <div padding *ngIf="photoObject.photoTypes && photoObject.photoTypes.length > 0">
+          <h1>{{photoObject.category}} types</h1>
+          <ion-row>
+            <ion-list>
+              <div *ngFor="let photoType of photoObject.photoTypes;">
+                <ion-item>{{photoType.type}}</ion-item>
+              </div>
+            </ion-list>
+          </ion-row>
+        </div>
 
-      <div padding *ngIf="photo.photoObjects.photoTypes && photo.photoObjects.photoTypes.length > 0">
-        <ion-row >
-          <ion-list>
-            <div *ngFor="let photoObject of photo.photoObjects; let i = index">
-              <ion-list-header>
-                Types
-              </ion-list-header>
-              <ion-item>{{photoObject.type}}</ion-item>
-            </div>
-          </ion-list>
-        </ion-row>
+        <div padding *ngIf="photoObject.photoData && photoObject.photoData.length > 0">
+            <ion-list>
+              <div *ngFor="let phototData of photoObject.photoData;">
+                <ion-item>{{phototData.type}} {{phototData.value}} </ion-item>
+              </div>
+            </ion-list>
+        </div>
       </div>
-
-    <div padding *ngIf="photo.photoObjects.photoData && photo.photoObjects.photoData.length > 0">
-      <ion-row >
-        <ion-list>
-          <div *ngFor="let photoObject of photo.photoObjects; let i = index">
-            <ion-list-header>
-              Types
-            </ion-list-header>
-            <ion-item>{{photoObject.type}}</ion-item>
-          </div>
-        </ion-list>
-      </ion-row>
-    </div>
 
     </div>
 

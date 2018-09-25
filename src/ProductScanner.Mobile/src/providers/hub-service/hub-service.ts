@@ -11,7 +11,6 @@ import { Injectable } from '@angular/core';
 export class HubService {
 
   constructor(public http: HttpClient) {
-    debugger;
     console.log('Hello HubServiceProvider Provider');
   }
 
