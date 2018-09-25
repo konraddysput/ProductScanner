@@ -841,4 +841,53 @@ public Map<Integer, Map<String, Object>>
 			RDFNode object = stmt.getObject();    
 			....
 \end{lstlisting}
+
+\item \textbf{Reguły SWRL ontologii} - Dodane dane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkuje do danych wejściowych między innymi pozycję przedmiotu, wykona wstępną walidację lub przypisze inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawiera wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściowości znajduje się na rysunku \ref{fig:dataproperties}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/dataproperties}
+	\caption[Zbiór wszystkich właściwości istniejących obiektów]{}
+	\label{fig:dataproperties}
+\end{figure}
+
+
+
+Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji, przypisuje odpowiednią klasę ontologii. 
+
+\begin{lstlisting}[caption={Przypisanie klasy do indywiduum.}]
+ Rule: equal(?c, "cola"), productName(?p, ?c), 
+		 Product(?p) -> CocaCola(?p)
+\end{lstlisting}
+
+Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonych minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right Middle Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
+
+\begin{lstlisting}[caption={Przypisanie pozycji LeftPosition do indywidua na podstawie właściwości XMin.}]
+Rule: Product(?p), positionXMin(?p, ?pXMin), 
+		 lessThan(?pXMin, 0.25) -> hasPosition(?p, LeftPosition)
+\end{lstlisting}
+
+Każdy z tworzonych indywiduów dodatkowo posiada właściwość imageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna ponieważ, w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem siecii, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
+
+\begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie}]
+Rule: CocaColaZero(?cz), Pepsi(?p), imageId(?cz, ?czId), 
+		 imageId(?p, ?pId), swrlb:equal(?pId, ?czId) 
+		 -> Invalid(?cz), Invalid(?p), 
+		 hasPositionMessage(?p, CocaColaOnTheSameScreenWithPepsi),
+		 hasPositionMessage(?cz, CocaColaOnTheSameScreenWithPepsi)
+\end{lstlisting}
+
+W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny, stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
+
+\begin{lstlisting}[caption={Reguła sprawdzająca bliską odległość środka chemicznego od napoju}]
+Rule: Chemicals(?c), Drinks(?d), imageId(?c, ?cId), 
+		 imageId(?d, ?dId), swrlb:equal(?dId, ?cId), 
+		 positionXMin(?d, ?dPosX), positionXMax(?c, ?cPosX),
+		 subtract(?posX, ?dPosX, ?cPosX), lessThan(?posX, 0.7) 
+		 -> Invalid(?c), Invalid(?d),
+		  isCloseToChemicals(?d, ChemicalCloseToProduct), 
+		  isCloseToProduct(?c, ChemicalCloseToProduct)
+\end{lstlisting}
+
+
 \end{itemize}

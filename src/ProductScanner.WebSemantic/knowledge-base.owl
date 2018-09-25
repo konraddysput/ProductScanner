@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns="http://www.product-scanner/ontology"
+<rdf:RDF xmlns="http://www.product-scanner/ontology#"
      xml:base="http://www.product-scanner/ontology"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -305,7 +305,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ChemicalCloseToProduct">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-        <ontology:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chemicals can&apos;t be close to products like drinks. Its really dangerous</ontology:description>
+        <description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chemicals can&apos;t be close to products like drinks. Its really dangerous</description>
     </owl:NamedIndividual>
     
 
@@ -313,8 +313,8 @@
     <!-- http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi">
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</ontology:imageId>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</productName>
     </owl:NamedIndividual>
     
 
@@ -323,12 +323,12 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#Domestos">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</ontology:imageId>
-        <ontology:positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.75</ontology:positionXMax>
-        <ontology:positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.6</ontology:positionXMin>
-        <ontology:positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</ontology:positionYMax>
-        <ontology:positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ontology:positionYMin>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">domestos</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.75</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.6</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</positionYMin>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">domestos</productName>
     </owl:NamedIndividual>
     
 
@@ -337,9 +337,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#DomestosLeftPosition">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</ontology:imageId>
-        <ontology:positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</ontology:positionXMax>
-        <ontology:positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</ontology:positionXMin>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</imageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</positionXMin>
     </owl:NamedIndividual>
     
 
@@ -371,10 +371,10 @@
     <!-- http://www.product-scanner/ontology#Pepsi -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#Pepsi">
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</ontology:imageId>
-        <ontology:positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.55</ontology:positionXMax>
-        <ontology:positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</ontology:positionXMin>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.55</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</positionXMin>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</productName>
     </owl:NamedIndividual>
     
 
@@ -383,7 +383,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#PepsiAndColaOnTheSameScreen">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-        <ontology:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pepsi cannot be close to CocaCola because Coca Cola receive rights to be far away from Pepsi products</ontology:description>
+        <description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pepsi cannot be close to CocaCola because Coca Cola receive rights to be far away from Pepsi products</description>
     </owl:NamedIndividual>
     
 
@@ -391,10 +391,10 @@
     <!-- http://www.product-scanner/ontology#PepsiCloseToDomestosRightPosition -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#PepsiCloseToDomestosRightPosition">
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</ontology:imageId>
-        <ontology:positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</ontology:positionXMax>
-        <ontology:positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.33</ontology:positionXMin>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</imageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.33</positionXMin>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</productName>
     </owl:NamedIndividual>
     
 
@@ -418,8 +418,8 @@
     <!-- http://www.product-scanner/ontology#ValidCocaCola -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ValidCocaCola">
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</ontology:imageId>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</imageId>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</productName>
     </owl:NamedIndividual>
     
 
@@ -427,8 +427,8 @@
     <!-- http://www.product-scanner/ontology#ValidColaZero -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ValidColaZero">
-        <ontology:imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</ontology:imageId>
-        <ontology:productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">colazero</ontology:productName>
+        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</imageId>
+        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">colazero</productName>
     </owl:NamedIndividual>
     
 
@@ -474,16 +474,16 @@
     <rdf:Description rdf:about="urn:swrl#czId">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#pXMin">
-        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
-    </rdf:Description>
     <rdf:Description rdf:about="urn:swrl#pXMax">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#pYMax">
+    <rdf:Description rdf:about="urn:swrl#pYMin">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#pYMin">
+    <rdf:Description rdf:about="urn:swrl#pXMin">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#pYMax">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description>
@@ -1700,7 +1700,7 @@
                                                                                                 <rdf:rest>
                                                                                                     <rdf:Description>
                                                                                                         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
-                                                                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.1</rdf:first>
+                                                                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.7</rdf:first>
                                                                                                         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
                                                                                                     </rdf:Description>
                                                                                                 </rdf:rest>
