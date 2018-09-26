@@ -75,9 +75,10 @@ namespace ProductScanner.Api.Controllers
         }
 
         [HttpDelete("{photoId}")]
-        public IActionResult Delete(int photoId)
+        public async Task<IActionResult> Delete(int photoId)
         {
-            _photoService.Delete(photoId);
+            await _photoService.Delete(photoId);
+            await _photoService.SaveChanges();
             return Ok();
         }
 
