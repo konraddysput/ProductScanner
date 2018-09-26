@@ -44,8 +44,34 @@ Pomyślna rejestracja oraz zalogowanie użytkownika przenoszą go do ekranu gł�
 	\label{fig:uploadView}
 \end{figure}
 
-Użytkownik w celu poddania zdjęcia analizie może wybrać zdjęcie z galerii lub stworzyć je przy użyciu aparatu z ekranu głównego. Udostępnienie zdjęcia na serwer spowoduje uruchomienie algorytmów przetwarzania zdjęcia oraz ontologii. W momencie oczekiwania na dokonanie obliczeń użytkownik czeka na odpowiedź serwera na ekranie ładowania. W momencie zakończenia przetwarzania danych ekran wyświetli okno szczegółów analizy. Dzięki niemu użytkownik może dowiedzieć się wyników klasyfikacji przedmiotów oraz przetwarzania reguł semantycznych. 
+Użytkownik w celu poddania zdjęcia analizie może wybrać zdjęcie z galerii lub stworzyć je przy użyciu aparatu z ekranu głównego. Udostępnienie zdjęcia na serwer spowoduje uruchomienie algorytmów detekcji przedmiotów oraz przetwarzania ontologii. W momencie oczekiwania na dokonanie obliczeń użytkownik czeka na odpowiedź serwera na ekranie ładowania. Po zakończeniu przetwarzania danych ekran wyświetli okno szczegółów analizy. Dzięki niemu użytkownik może dowiedzieć się wyników klasyfikacji przedmiotów oraz przetwarzania reguł semantycznych. Ekran został podzielony na trzy sekcje - zdjęcie (Image), typy(Types) oraz wartości (values). Użytkownik w zależności od wybranej sekcji otrzymają różnego typu dane. Zakładka zdjęcia (Image) zawiera aktualnie przetworzone zdjęcie wraz z zaznaczeniem przedmiotów na nim oraz ich pozycje. Przejście do zakładki typów (Types) spowoduje wyświetlenie zbiorów typów dla każdego sklasyfikowanego przedmiotu. Przetworzenie ontologii dostarcza informacji o relacjach zachodzących miedzy indywiduami. Dane te użytkownik może znaleźć w zakładce wartości (Values)  Aby wyjść z ekranu należy skorzystać z pola x, które znajduje się w prawym górnym rogu ekranu.
+
+	
+\begin{figure}[ht]
+	\centering
+	\subfloat[Szczegóły wnioskowania.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/details}}
+	\quad
+	\subfloat[Szczegóły wnioskowania - otrzymane klasy.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/types}}
+	\caption{Ekran szczegółów analizowanego zdjęcia.}
+	\label{fig:uploadView}
+\end{figure}
+
+Użytkownik może wrócić do wcześniej wykonanych zdjęć oraz ich wyników. W celu z menu głównego należy dotknać pole archiwum (History). Wybranie zakładki spowoduje wyświetlenie zbioru przesłanych zdjeć wraz z wynikami przetwarzania. Na samym dole zakładki znajduje się menu nawigacyjne zbioru zdjęć historycznych. Nawigację można wykorzystać aby przejść do kolejnej strony wyników, cofnięcie się lub odświeżenie danych. Na każdym ze zdjęć można dokonać operacji usunięcia poprzez kliknięcie przycisku "Remove" oraz otrzymać szczegóły zdjęcia poprzez wybranie "Check details". Ekran szczegółów analizy nie różni się od ekranu otrzymanego zaraz po przesłaniu zdjęcia na serwer. 
+
+\begin{figure}[ht]
+	\centering
+	\subfloat[Szczegóły wnioskowania - wnioski.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/values}}
+	\quad
+	\subfloat[Zbiór przeanalizowanych zdjęć.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/history list}}
+	\caption{Ekran szczegółów analizowanego zdjęcia oraz historia.}
+	\label{fig:uploadView}
+\end{figure}
+
+Użytkownik z ekranu głównego aplikacji ma dostęp do zakładki kontakt. Zostały w niej zostały informacje o autorze aplikacji.
 
 
-Użytkownik w celu przejrzenia archiwum udostępnionych zdjęć może skorzystać z zakładkki historii o nazwie "History". Przejście do niej spowoduje wyświetlenie zbioru przesłanych zdjeć wraz z wynikami przetwarzania. Przejście na sam dół ekranu umożliwi użytkownikowi przejście do kolejnej strony wyników, cofnięcie się lub odświeżenie danych. Na każdym ze zdjęć można dokonać operacji usunięcia poprzez kliknięcie przycisku "Remove" oraz otrzymać szczegóły zdjęcia poprzez wybranie "Check details".
 

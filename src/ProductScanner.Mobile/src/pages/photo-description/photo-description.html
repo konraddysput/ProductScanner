@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar no-border-top>
     <ion-row>
       <ion-col col-8>
         <ion-title>
@@ -13,60 +13,82 @@
         </button>
       </ion-col>
     </ion-row>
+    <ion-row no-border-bottom>
+      <ion-segment [(ngModel)]="contentType">
+        <ion-segment-button value="image">
+          Image
+        </ion-segment-button>
+        <ion-segment-button value="types">
+          Types
+        </ion-segment-button>
+        <ion-segment-button value="values">
+          Values
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <div *ngIf="photo">
-    <img [src]="analysedPhotoUrl(id)">
-    <ion-row>
-      <ion-note style="width:100%" text-center>
-        {{photo.hourAgo}}
-      </ion-note>
-    </ion-row>
-    <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
-      <h4 text-center>Find <b style="color:blue">{{photo.photoObjects.length}}</b> objects!</h4>
+    <div [ngSwitch]="contentType">
 
-      <ion-grid text-center>
-        <!-- header -->
+      <div *ngSwitchCase="'image'">
+        <img [src]="analysedPhotoUrl(id)">
         <ion-row>
-          <ion-col col-1>#</ion-col>
-          <ion-col col-3>Name</ion-col>
-          <ion-col col-2>YMin</ion-col>
-          <ion-col col-2>XMin</ion-col>
-          <ion-col col-2>YMax</ion-col>
-          <ion-col col-2>XMax</ion-col>
+          <ion-note style="width:100%" text-center>
+            {{photo.hourAgo}}
+          </ion-note>
         </ion-row>
-        <ion-row *ngFor="let photoObject of photo.photoObjects; let i = index">
-          <ion-col col-1>{{i}}</ion-col>
-          <ion-col col-3>{{photoObject.category}}</ion-col>
-          <ion-col col-2>{{photoObject.positionYMin}}</ion-col>
-          <ion-col col-2>{{photoObject.positionXMin}}</ion-col>
-          <ion-col col-2>{{photoObject.positionYMax}}</ion-col>
-          <ion-col col-2>{{photoObject.positionXMax}}</ion-col>
-        </ion-row>
-      </ion-grid>
-      <div *ngFor="let photoObject of photo.photoObjects;">
-        <div padding *ngIf="photoObject.photoTypes && photoObject.photoTypes.length > 0">
-          <h1>{{photoObject.category}} types</h1>
-          <ion-row>
-            <ion-list>
-              <div *ngFor="let photoType of photoObject.photoTypes;">
-                <ion-item>{{photoType.type}}</ion-item>
-              </div>
-            </ion-list>
-          </ion-row>
-        </div>
+        <div padding *ngIf="photo.photoObjects && photo.photoObjects.length > 0">
+          <h4 text-center>Find <b style="color:blue">{{photo.photoObjects.length}}</b> objects!</h4>
 
-        <div padding *ngIf="photoObject.photoData && photoObject.photoData.length > 0">
-            <ion-list>
-              <div *ngFor="let phototData of photoObject.photoData;">
-                <ion-item>{{phototData.type}} {{phototData.value}} </ion-item>
-              </div>
-            </ion-list>
+          <ion-grid text-center>
+            <!-- header -->
+            <ion-row>
+              <ion-col col-1>#</ion-col>
+              <ion-col col-3>Name</ion-col>
+              <ion-col col-2>YMin</ion-col>
+              <ion-col col-2>XMin</ion-col>
+              <ion-col col-2>YMax</ion-col>
+              <ion-col col-2>XMax</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let photoObject of photo.photoObjects; let i = index">
+              <ion-col col-1>{{i}}</ion-col>
+              <ion-col col-3>{{photoObject.category}}</ion-col>
+              <ion-col col-2>{{photoObject.positionYMin}}</ion-col>
+              <ion-col col-2>{{photoObject.positionXMin}}</ion-col>
+              <ion-col col-2>{{photoObject.positionYMax}}</ion-col>
+              <ion-col col-2>{{photoObject.positionXMax}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
+      <div *ngSwitchCase="'types'">
+
+        <div *ngFor="let photoObject of photo.photoObjects;">
+          <div padding *ngIf="photoObject.photoTypes && photoObject.photoTypes.length > 0">
+
+            <ion-list-header>              
+              <b>{{photoObject.category}} types</b>
+            </ion-list-header>
+            <ion-item *ngFor="let photoType of photoObject.photoTypes;">{{photoType.type}}</ion-item>
+          </div>
         </div>
       </div>
 
+
+
+      <div *ngSwitchCase="'values'">
+        <div *ngFor="let photoObject of photo.photoObjects;">
+          <div padding *ngIf="photoObject.photoData && photoObject.photoData.length > 0">
+            <ion-list-header>
+              <b>{{photoObject.category}} data</b>
+            </ion-list-header>
+            <ion-item *ngFor="let phototData of photoObject.photoData;">{{phototData.type}} {{phototData.value}}</ion-item>
+          </div>
+        </div>
+      </div>
     </div>
 
 

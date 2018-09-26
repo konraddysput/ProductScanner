@@ -13,7 +13,7 @@ import { toUploadDateString } from '../../helpers/date-helper';
 })
 export class HistoryPage {
 
-  public limit: number = 1;
+  public limit: number = 10;
   public page: number = 0;
 
   public photos: PhotoDetailViewModel[];

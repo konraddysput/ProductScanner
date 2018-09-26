@@ -16,6 +16,8 @@ export class PhotoDescriptionPage {
 
   public id: number;
   public ready: boolean;
+
+  public contentType:string = "image";
   
   public photo: PhotoDetailViewModel;
   
@@ -31,7 +33,6 @@ export class PhotoDescriptionPage {
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
     public navParams: NavParams) {
-
       this._loader = this.loadingCtrl.create({
         content: "Please wait..."
       });
@@ -46,6 +47,7 @@ export class PhotoDescriptionPage {
     //page have to setup signalR hub and wait for server response
     //if server response or data wont be available after 30 sec
     //description will be enable
+    this.contentType = "image";
     if (!this.ready) {
       await this.setupHub();
       return;
