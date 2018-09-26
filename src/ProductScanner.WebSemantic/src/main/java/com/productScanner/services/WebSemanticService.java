@@ -1,130 +1,113 @@
 package com.productScanner.services;
 
 import com.productScanner.model.ImageClasificationEventResultEntry;
-import com.productScanner.model.ImagePreprocessingEvent;
-import com.productScanner.semanticModel.Product;
-import com.productScanner.semanticModel.ProductRule;
-import com.productScanner.semanticModel.RuleType;
+import com.productScanner.model.ImagePreprocessingEventResult;
+import com.productScanner.model.ImagePreprocessingEventResultEntry;
+import openllet.jena.PelletReasonerFactory;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.util.FileManager;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WebSemanticService {
-    private Model _model = ModelFactory.createDefaultModel();
-    private final String uri = "http://productScanner/";
+    private OntModel _model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+    private final String iri = "http://www.product-scanner/ontology";
 
-    public  WebSemanticService() throws IllegalAccessException {
+    public  WebSemanticService() {
         loadData();
     }
 
-    public void saveModel(){
-        try (PrintWriter out = new PrintWriter("knowledge-base.xml")) {
-            _model.write(out, "RDF/XML-ABBREV");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-    public void printModel(){
-        StmtIterator iter = _model.listStatements();
-        // print out the predicate, subject and object of each statement
-        while (iter.hasNext()) {
-            Statement stmt      = iter.nextStatement();  // get next statement
-            Resource subject   = stmt.getSubject();     // get the subject
-            Property predicate = stmt.getPredicate();   // get the predicate
-            RDFNode object    = stmt.getObject();      // get the object
-
-            System.out.print(subject.toString());
-            System.out.print(" " + predicate.toString() + " ");
-            if (object instanceof Resource) {
-                System.out.print(object.toString());
-            } else {
-                // object is a literal
-                System.out.print(" \"" + object.toString() + "\"");
-            }
-
-            System.out.println(" .");
-        }
-
-        System.out.println(_model.toString());
-    }
-
-    private void loadData() throws IllegalAccessException {
-        // use the FileManager to find the input file
-        InputStream in = FileManager.get().open( "knowledge-base.xml" );
-        if (in == null) {
-            System.out.println("Data not exists. Creating new RDF knowledge base");
-            Resource resource = _model.createResource("http://productScanner/");
-
-            for(Product product: generateDefaultProducts()){
-                Property property = _model.createProperty(uri, "contain");
-                resource.addProperty(property, product.loadResources(_model.createResource(uri + product.classifier), _model));
-            }
-            saveModel();
-            return;
-        }
+    private void loadData() {
         System.out.println("Loading knowledge base from RDF file");
-        _model.read(in, "RDF/XML-ABBREV");
+        _model.read("knowledge-base.owl" , "OWL/XML-ABBREV");
     }
 
-    private List<Product> generateDefaultProducts(){
-        List<ProductRule> colaRules = new ArrayList<ProductRule>();
-        colaRules.add(new ProductRule("pepsiCloseToCola", "pepsi", RuleType.Close, "cola", 50));
-        colaRules.add(new ProductRule("colaOnBottom", "cola", RuleType.OnBottom));
-
-        Product cola = new Product(1, "cola", 51,141, colaRules);
-
-        List<ProductRule> pepsiRules = new ArrayList<ProductRule>();
-        pepsiRules.add(new ProductRule("ColaZeroOnPicture", "pepsi", RuleType.InTheSamePicture, "colazero", 0));
-        Product pepsi = new Product(2,"pepsi", 51,140, pepsiRules);
-
-        List<Product> result = new ArrayList<>();
-        result.add(pepsi);
-        result.add(cola);
-
-        return result;
-
-    }
-    public boolean find(){
-        Selector selector = new SimpleSelector(null, null, "cola");
-        StmtIterator iter = _model.listStatements(selector);
-        if (iter.hasNext()) {
-            System.out.println("The database contains colas:");
-            while (iter.hasNext()) {
-                System.out.println("  " + iter.nextStatement());
-            }
-        } else {
-            System.out.println("find 0 entries in database");
+    public void addToOntology(ImageClasificationEventResultEntry[] entryList, int id){
+        for (ImageClasificationEventResultEntry entry :entryList) {
+            addToOntology(entry, id);
         }
-        return iter.hasNext();
     }
 
+    public void addToOntology(ImageClasificationEventResultEntry entry, int imageId){
+        OntClass product = _model.getOntClass(iri + "#Product");
+        Individual individual =_model.createIndividual(iri +"#" + entry.Id, product);
 
-    public void findInvalidPositions(ImagePreprocessingEvent data){
-        for (ImageClasificationEventResultEntry entry : data.Entries){
-            Resource resource = _model.getResource("http://productScanner/product/" + entry.Category + "/rules");
-            StmtIterator iter= resource.listProperties();
+        //setup image id
+        Property hasImageId = _model.createProperty(iri + "#imageId");
+        individual.addProperty(hasImageId, String.valueOf(imageId), XSDDatatype.XSDint);
+
+        //setup name
+        Property hasName = _model.createProperty(iri + "#productName");
+        individual.addProperty(hasName, entry.Category, XSDDatatype.XSDstring);
+
+        //setup position
+        Property hasPositionYMin = _model.createProperty(iri + "#positionYMin");
+        individual.addProperty(hasPositionYMin, String.valueOf(entry.Position[0]), XSDDatatype.XSDdouble);
+
+        Property hasPositionXMin = _model.createProperty(iri + "#positionXMin");
+        individual.addProperty(hasPositionXMin, String.valueOf(entry.Position[1]), XSDDatatype.XSDdouble);
+
+        Property hasPositionYMax = _model.createProperty(iri + "#positionYMax");
+        individual.addProperty(hasPositionYMax, String.valueOf(entry.Position[2]), XSDDatatype.XSDdouble);
+
+        Property hasPositionXmax = _model.createProperty(iri + "#positionXMax");
+        individual.addProperty(hasPositionXmax, String.valueOf(entry.Position[3]), XSDDatatype.XSDdouble);
+    }
+
+    public void startResoing(){
+        _model.prepare();
+    }
+
+    public ImagePreprocessingEventResult getResult(ImageClasificationEventResultEntry[] entryList, int id){
+        ImagePreprocessingEventResult preprocesingResult = new ImagePreprocessingEventResult();
+        preprocesingResult.Id = id;
+
+        for (ImageClasificationEventResultEntry entry: entryList) {
+            Resource reasonerResource = _model.getResource(iri + "#" +  entry.Id);
+            StmtIterator iter = reasonerResource.listProperties();
+
+            ImagePreprocessingEventResultEntry dataEntry = new ImagePreprocessingEventResultEntry();
+            dataEntry.Id = entry.Id;
+
             while (iter.hasNext()) {
-                System.out.println("    " + iter.nextStatement()
-                        .getObject()
-                        .toString());
+
+                Statement stmt      = iter.nextStatement();  // get next statement
+                Property predicate = stmt.getPredicate();   // get the predicate
+                RDFNode object    = stmt.getObject();      // get the object
+                String predicateString = EscapeReasonerResult(predicate.toString());
+
+                switch (predicateString){
+                    case "differentFrom":
+                    case "sameAs":
+                    case "imageId":
+                    case "positionYMax":
+                    case "positionYMin":
+                    case "positionXMax":
+                    case "positionXMin":
+                        continue;
+                    case "type":
+                        String value = EscapeReasonerResult(object.toString());
+                        if(value.equals("Thing")){
+                            continue;
+                        }
+                        dataEntry.Types.add(value);
+                        break;
+                    default:
+                        dataEntry.Data.put(
+                                predicateString,
+                                EscapeReasonerResult(object.toString()));
+                        break;
+                }
             }
-            System.out.println(resource);
-//            Selector selector = new SimpleSelector(null, property, (RDFNode) null);
-//            StmtIterator iter = _model.listStatements(selector);
-//            if(!iter.hasNext()){
-//                continue;
-//            }
-//            while(iter.hasNext()){
-//                System.out.println("  " + iter.nextStatement());
-//            }
-
-
+            preprocesingResult.Data.add(dataEntry);
         }
-        return;
+        return preprocesingResult;
+    }
+
+    private String EscapeReasonerResult(String result){
+        int indexOfHash = result.lastIndexOf("#");
+        // +1 because we want to ignore #
+        return  result.substring(indexOfHash +1);
     }
 }

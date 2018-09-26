@@ -119,6 +119,7 @@ W powyższej tabeli nie została opisana żadna biblioteka, która generuje wido
 \end{center}
 
 Aplikacja mobilna została stworzona przy użyciu języka TypeScript. Zostało w tym celu użyte środowisko Visual Studio Code oraz narzędzie webpack, które umożliwia transpilację do plików wynikowych CSS oraz JavaScript. Wszystkie niezbędne biblioteki do uruchomienia aplikacji mobilnej znajdują się w pliku package.json. Aby kod mógł zostać uruchomiony na urządzeniu mobilnym, niezbędne jest dostarczenie dodatkowych jego zależności takich jak Android-SDK. Konieczne do zainstalowania zależności są uwarunkowane docelową platformą mobilną. Wymogiem niezbędnym do komunikacji pomiędzy serwerem a urządzeniem mobilnym jest połączenie aplikacji internetowej oraz mobilnej do tej samej sieci. W przypadku wdrożenia produkcyjnego oraz użycie aplikacji internetowej w Internecie nie ma potrzeby użycia tej samej sieci WiFi.
+\newpage
 
 
 \begin{center}
@@ -170,6 +171,12 @@ Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznych. W
 		Przetwarzanie reguł semantycznych
 		
 		& Jena jest biblioteką umożliwiającą tworzenie sieci semantycznych oraz budowanie relacji pomiędzy danymi. Została wykorzystana w celu przetwarzania istniejącej ontologii. \\ \hline
+
+
+		\hline Openllet Owlapi &
+		Wykorzystanie mechanizmu wnioskującego Pellet
+		
+		& Openllet Owlapi umożliwia przetwarzanie ontologii przy użyciu mechanizmu wnioskującego "Pellet". Użycie tego mechanizmu jest niezbędne ze względu na stworzone reguły SWRL. Domyślnie mechanizm nie jest dostępny w bibliotece Jena.  \\ \hline		
 		
 		\hline Jackson &
 		Serializacja oraz deserializacja JSON
@@ -195,6 +202,7 @@ Stworzony system zakłada konieczność integracji wielu środowisk uruchomienio
 Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
 
 W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
+\newpage
 
 
 \begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
@@ -278,7 +286,6 @@ services.AddCors();
 services.AddServices();
 services.AddRepositories();
 services.RegisterEventBus(Configuration);
-
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -294,7 +301,6 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
 	};
 });
-
 services.AddMvc(options =>
 {
 	options.Filters.Add(typeof(HttpGlobalExceptionFilter));
@@ -306,7 +312,6 @@ services.AddSignalR();
 services.AddMapperConfiguration();
 var container = new ContainerBuilder();
 container.Populate(services);
-
 return new AutofacServiceProvider(container.Build());
 \end{lstlisting}
 
@@ -334,6 +339,7 @@ public static class ServiceConfiguration
 \end{lstlisting}
 
 Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP, należało stworzyć klasę dziedziczącą z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
+\newpage
 
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
  public class ValidateModelStateFilter : ActionFilterAttribute
@@ -503,10 +509,9 @@ Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalno
 	string jwtKey = _configuration["Jwt:Key"];
 	byte[] keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 	var key = new SymmetricSecurityKey(keyBytes);
-	var creds = new SigningCredentials(key, 
+	var creds = new SigningCredentials(key,
 		SecurityAlgorithms.HmacSha256);
-	var claims = new List<Claim>
-	{
+	var claims = new List<Claim> {
 		new Claim(JwtRegisteredClaimNames.Sub, $"{user.Id}"),
 		new Claim(JwtRegisteredClaimNames.Jti, $"{Guid.NewGuid()}"),
 		new Claim(ClaimTypes.NameIdentifier, user.UserName)
@@ -517,8 +522,7 @@ Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalno
 		_configuration["Jwt:Issuer"],
 		_configuration["Jwt:Issuer"],
 		expires: DateTime.Now.AddMinutes(expirationTime),
-		claims: claims,
-		signingCredentials: creds);
+		claims: claims, signingCredentials: creds);
 	
 	return new JwtSecurityTokenHandler().WriteToken(token);
 }
@@ -561,10 +565,12 @@ public authenticate(
 @Injectable()
 export class PhotoService {
 	constructor(
-	private readonly apiService: ApiService,
-	private readonly camera: Camera,
-	public http: HttpClient) { }	
-	public async takePhoto(sourceType: number): Promise<any> {
+		private readonly apiService: ApiService,
+		private readonly camera: Camera,
+		public http: HttpClient) { }	
+		public async takePhoto(sourceType: number)
+		: Promise<any> {
+	
 		const options: CameraOptions = {
 			quality: 50,
 			destinationType: this.camera.DestinationType.DATA_URL,
@@ -575,25 +581,31 @@ export class PhotoService {
 			sourceType:sourceType,
 			saveToPhotoAlbum: false
 		};		
+		
 		return this.camera.getPicture(options);
 	} ...
 }
 \end{lstlisting} 
 
-Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu poniżej. Wymienione funkcje znajdują się w serwisie PhotoService.
+Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu \ref{httpRequestWithImage}. Wymienione funkcje znajdują się w serwisie PhotoService, który dostępny jest w pozostałych klasach poprzez zastosowanie wzorca odwróconego sterowania.
+\newpage
 
-\begin{lstlisting}[caption=Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.]
+\begin{lstlisting}[caption={Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.},label={httpRequestWithImage}]
 public sendPhoto(file: File) {
+
 	const formData: FormData = new FormData();
 	formData.append('file', file, "product-scanner.jpeg");
 	const headers = new HttpHeaders({
 		'Authorization': `Bearer ${this.apiService.token}`
 	});
+	
 	return this.http.post<any>(
 		this.apiService.photoUploadUrl, 
 		formData, { headers: headers });
 }
+
 public toFile(photoImage: string) {
+
 	return (fetch(photoImage)
 	.then(function (res) { return res.arrayBuffer(); })
 	.then(function (buf) { return new File([buf], 
@@ -601,7 +613,7 @@ public toFile(photoImage: string) {
 	);
 }
 \end{lstlisting} 
-\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego, zanim zostanie poddane przetwarzaniu przez algorytm uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymany obraz jest zapisywany na dysku twardym serwera, a~następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania.
+\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego, zanim zostanie poddane przetwarzaniu przez algorytm uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. Do obiektu można przekazać więcej niż jedno zdjęcie, jednak w tym przypadku nie zostało to wykorzystane. Założono, że użytkownik przekaże do kontrolera tylko jeden plik, a reszta z nich ewentualnie zostanie zignorowana. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymany obraz jest zapisywany na dysku twardym serwera, a~następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania. Zastosowanie asynchronicznej metody pozwala na wykorzystanie czasu procesora w trakcie oczekiwania na rezultat na inne żądania. 
 
 \begin{lstlisting}[caption=Akcja zapisu zdjęcia.]
 [HttpPost("")]
@@ -624,7 +636,8 @@ public async Task<IActionResult> Create(IFormFile file)
 \end{lstlisting} 
 
 \item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia  rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, okreslającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
-\\
+\newpage
+
 \begin{lstlisting}[caption={Metoda publikacji wiadomości.}, label={messagePublish}]
 public void Publish(IntegrationEvent @event)
 {
@@ -761,7 +774,7 @@ Wynik otrzymany na obiekcie biblioteki Tensorflow z metody run zostaje zapisywan
 
 \item \textbf{Przekazanie danych w czasie rzeczywistym oraz przesłanie wiadomości do mikroserwisu reguł semantycznych} - Przetworzenie obrazu umożliwia wygenerowanie pierwszej części informacji na temat zdjęcia. Użytkownik wysyłając zdjęcie do serwera czeka na dane, a aplikacja mobilna pokazuje ekran ładowania. Przesłane zdjęcie wraz z podstawowymi informacjami zostaną pokazane w momencie rozesłania danych do klientów z wykorzystaniem klienta SignalR. Tym samym zaraz po wykonaniu przesłania danych, wywoływany jest mikroserwis reguł semantycznych. Całość logiki odbywa się w klasie przechwytującej odpowiedzi wysłane na kolejkę przy użyciu odpowiedniego klucza routingu.
 
-\begin{lstlisting}[caption={Przekazanie danych do aplikacji mobilnej oraz .}]
+\begin{lstlisting}[caption={Przekazanie danych do aplikacji mobilnej oraz mikroserwisu reguł semantycznych.}]
 public async Task Handle(ImageClasificationResultEvent @event)
 {
 	var photoViewModel = _mapper.Map<PhotoViewModel>(@event);
@@ -779,5 +792,102 @@ public async Task Handle(ImageClasificationResultEvent @event)
 	_eventBus.Publish(data);
 }
 \end{lstlisting}
+
+\item \textbf{Tworzenie nowych indywidułów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych zostaje przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
+
+
+\begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}]
+private OntModel _model = ModelFactory
+	.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+private final String iri = "http://www.product-scanner/ontology";
+
+public  WebSemanticService() {	loadData(); }
+
+private void loadData() {
+	_model.read("knowledge-base.owl" , "OWL/XML-ABBREV");
+}
+
+\end{lstlisting}
+Na podstawie listy wykrytych przedmiotów na obrazie zostaje stworzone indywiduum dodane do ontologii. Dla każdej własności obiektu ImageClasificationEventResultEntry zostaje utworzone odpowiednia właściwość. Dzięki nim mechanizm ontologii potrafi przyporządkować odpowiednie klasy lub reguły.
+\begin{lstlisting}[caption={Dodanie danych do ontologii.}]
+
+public void addToOntology(
+	ImageClasificationEventResultEntry entry, int imageId){
+	OntClass product = _model.getOntClass(iri + "#Product");
+	String name = iri +"#" + entry.Id;
+	Individual individual =_model.createIndividual(name, product);
+	
+	Property hasImageId = _model.createProperty(iri + "#imageId");
+	String id=  String.valueOf(imageId);
+	individual.addProperty(hasImageId, id , XSDDatatype.XSDint);
+...
+}
+\end{lstlisting}
+
+Aby wykonać operacje wnioskowania przy użyciu ontologii należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyc metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstaje słownik danych, który następnie zostanie wysłany przy pomocy wiadomości RabbitMQ.
+
+\begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}]
+
+public Map<Integer, Map<String, Object>>
+ getResult(List<ImageClasificationEventResultEntry> entryList){
+	Map<Integer, Map<String, Object>> result = new HashMap<>();
+	for (ImageClasificationEventResultEntry entry: entryList) {
+		String uri =iri + "#" +  entry.Id;
+		Resource reasonerResource = _model.getResource(uri);
+		StmtIterator iter = reasonerResource.listProperties();
+		while (iter.hasNext()) {
+			Statement stmt = iter.nextStatement(); 
+			Property predicate = stmt.getPredicate();  
+			RDFNode object = stmt.getObject();    
+			....
+\end{lstlisting}
+
+\item \textbf{Reguły SWRL ontologii} - Dodane dane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkuje do danych wejściowych między innymi pozycję przedmiotu, wykona wstępną walidację lub przypisze inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawiera wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściowości znajduje się na rysunku \ref{fig:dataproperties}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/dataproperties}
+	\caption[Zbiór wszystkich właściwości istniejących obiektów]{}
+	\label{fig:dataproperties}
+\end{figure}
+
+
+
+Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji, przypisuje odpowiednią klasę ontologii. 
+
+\begin{lstlisting}[caption={Przypisanie klasy do indywiduum.}]
+ Rule: equal(?c, "cola"), productName(?p, ?c), 
+		 Product(?p) -> CocaCola(?p)
+\end{lstlisting}
+
+Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonych minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right Middle Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
+
+\begin{lstlisting}[caption={Przypisanie pozycji LeftPosition do indywidua na podstawie właściwości XMin.}]
+Rule: Product(?p), positionXMin(?p, ?pXMin), 
+		 lessThan(?pXMin, 0.25) -> hasPosition(?p, LeftPosition)
+\end{lstlisting}
+
+Każdy z tworzonych indywiduów dodatkowo posiada właściwość imageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna ponieważ, w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem siecii, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
+
+\begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie}]
+Rule: CocaColaZero(?cz), Pepsi(?p), imageId(?cz, ?czId), 
+		 imageId(?p, ?pId), swrlb:equal(?pId, ?czId) 
+		 -> Invalid(?cz), Invalid(?p), 
+		 hasPositionMessage(?p, CocaColaOnTheSameScreenWithPepsi),
+		 hasPositionMessage(?cz, CocaColaOnTheSameScreenWithPepsi)
+\end{lstlisting}
+
+W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny, stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
+
+\begin{lstlisting}[caption={Reguła sprawdzająca bliską odległość środka chemicznego od napoju}]
+Rule: Chemicals(?c), Drinks(?d), imageId(?c, ?cId), 
+		 imageId(?d, ?dId), swrlb:equal(?dId, ?cId), 
+		 positionXMin(?d, ?dPosX), positionXMax(?c, ?cPosX),
+		 subtract(?posX, ?dPosX, ?cPosX), lessThan(?posX, 0.7) 
+		 -> Invalid(?c), Invalid(?d),
+		  isCloseToChemicals(?d, ChemicalCloseToProduct), 
+		  isCloseToProduct(?c, ChemicalCloseToProduct)
+\end{lstlisting}
+
 
 \end{itemize}

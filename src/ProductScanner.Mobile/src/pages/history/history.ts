@@ -4,6 +4,7 @@ import { PhotoService } from '../../providers/photo-service/photo-service';
 import { PhotoDetailViewModel } from '../../model/photoDetailViewModel';
 import { ApiService } from '../../providers/api-service/api-service';
 import { ExceptionFormater } from '../../helpers/exception-formater';
+import { toUploadDateString } from '../../helpers/date-helper';
 
 @IonicPage()
 @Component({
@@ -38,7 +39,6 @@ export class HistoryPage {
   
 
   public getPhotoUrl(id: number): string {
-    console.log("photoUrl");
     return `${this.apiService.apiBaseUrl}api/photo/${id}/image`;
   }
 
@@ -56,7 +56,7 @@ export class HistoryPage {
     this.photoService.getPhotos(this.page, this.limit)
       .subscribe(
         (data) => {
-          this.photos = data;
+          this.photos = data.filter(n => n.hourAgo = toUploadDateString(n.uploadDate));
           this._loader.dismiss();
         },
         (ex) => {

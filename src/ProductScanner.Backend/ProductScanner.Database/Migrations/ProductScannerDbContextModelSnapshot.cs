@@ -15,7 +15,7 @@ namespace ProductScanner.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -179,6 +179,25 @@ namespace ProductScanner.Database.Migrations
                     b.ToTable("Photo");
                 });
 
+            modelBuilder.Entity("ProductScanner.Database.Entities.PhotoData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PhotoId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
+
+                    b.ToTable("PhotoData");
+                });
+
             modelBuilder.Entity("ProductScanner.Database.Entities.PhotoObject", b =>
                 {
                     b.Property<int>("Id")
@@ -189,13 +208,13 @@ namespace ProductScanner.Database.Migrations
 
                     b.Property<int>("PhotoId");
 
-                    b.Property<double>("PositionXL");
+                    b.Property<double>("PositionXMax");
 
-                    b.Property<double>("PositionXR");
+                    b.Property<double>("PositionXMin");
 
-                    b.Property<double>("PositionYL");
+                    b.Property<double>("PositionYMax");
 
-                    b.Property<double>("PositionYR");
+                    b.Property<double>("PositionYMin");
 
                     b.Property<double>("Score");
 
@@ -204,6 +223,23 @@ namespace ProductScanner.Database.Migrations
                     b.HasIndex("PhotoId");
 
                     b.ToTable("PhotoObject");
+                });
+
+            modelBuilder.Entity("ProductScanner.Database.Entities.PhotoType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PhotoId");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
+
+                    b.ToTable("PhotoType");
                 });
 
             modelBuilder.Entity("ProductScanner.Database.Identity.ApplicationIdentityRole", b =>
@@ -284,10 +320,26 @@ namespace ProductScanner.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ProductScanner.Database.Entities.PhotoData", b =>
+                {
+                    b.HasOne("ProductScanner.Database.Entities.PhotoObject", "Photo")
+                        .WithMany("PhotoData")
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ProductScanner.Database.Entities.PhotoObject", b =>
                 {
                     b.HasOne("ProductScanner.Database.Entities.Photo", "Photo")
                         .WithMany("PhotoObjects")
+                        .HasForeignKey("PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ProductScanner.Database.Entities.PhotoType", b =>
+                {
+                    b.HasOne("ProductScanner.Database.Entities.PhotoObject", "Photo")
+                        .WithMany("PhotoTypes")
                         .HasForeignKey("PhotoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

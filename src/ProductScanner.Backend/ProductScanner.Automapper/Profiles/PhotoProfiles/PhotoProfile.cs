@@ -21,7 +21,7 @@ namespace ProductScanner.Automapper.Profiles.PhotoProfiles
             CreateMap<ImageClasificationResultEvent, PhotoViewModel>()
                 .ForMember(m => m.UserId, p => p.Ignore())
                 .ForMember(m => m.PhotoObjects,
-                    p => p.MapFrom(s => s.Result));
+                    p => p.MapFrom(s => s.Data));
         }
     }
 }

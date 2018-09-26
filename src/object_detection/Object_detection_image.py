@@ -20,7 +20,6 @@ from utils import visualization_utils as vis_util
 class ObjectDetection:
     # Name of the directory containing the object detection module we're using
     MODEL_NAME = 'inference_graph'
-    IMAGE_NAME = 'test1.jpg'
     NUM_CLASSES = 3
 
     def __init__(self):
@@ -99,6 +98,7 @@ class ObjectDetection:
             use_normalized_coordinates=True,
             line_thickness=8,
             min_score_thresh=0.80)
+
         if show_image:
             cv2.imshow('Object detector', image)
             cv2.waitKey(0)
@@ -112,8 +112,7 @@ class ObjectDetection:
                 classes=np.squeeze(classes).astype(np.int32),
                 category_index=self.category_index,
                 positions=np.squeeze(boxes),
-                source_path=path_to_image
-            )
+                source_path=path_to_image)
 
     def save(self, path_to_image, image):
         save_path = self.get_save_path(path_to_image)
@@ -131,7 +130,7 @@ class ObjectDetection:
 def main():
     o = ObjectDetection()
     current_directory = os.getcwd()
-    path_to_image = os.path.join(current_directory, 'test_images', 'test2.jpg')
+    path_to_image = os.path.join(current_directory, 'test_images', 'test4.jpg')
     o.analyse(path_to_image, True)
 
 

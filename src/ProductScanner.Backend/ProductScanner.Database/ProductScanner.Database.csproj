@@ -6,11 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180825010851_PhotoObjects.cs" />
+    <Compile Remove="Migrations\20180924201437_PhotoReasonerData.cs" />
+    <Compile Remove="Migrations\20180924205226_PhotoReasonerData.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />
   </ItemGroup>
 </Project>

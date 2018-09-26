@@ -2,7 +2,7 @@
   <img [src]="photoUrl(photo.id)">
 
   <ion-card-content>
-    <p>Find {{photo.photoObjects.length}} invalid objects!</p>
+    <p>Find {{photo.photoObjects.length}} objects!</p>
   </ion-card-content>
 
   <ion-row>
@@ -18,10 +18,10 @@
         <div (click)="details()">Check details</div>
       </button>
     </ion-col>
-    <!-- <ion-col center text-center>
+    <ion-col center text-center>
       <ion-note>
-        {{hoursAgo()}}
+        {{photo.houraAgo}}
       </ion-note>
-    </ion-col> -->
+    </ion-col>
   </ion-row>
 </ion-card>
