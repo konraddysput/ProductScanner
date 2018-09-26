@@ -202,7 +202,6 @@ Stworzony system zakłada konieczność integracji wielu środowisk uruchomienio
 Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
 
 W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
-\newpage
 
 
 \begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
@@ -587,8 +586,7 @@ export class PhotoService {
 }
 \end{lstlisting} 
 
-Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu \ref{httpRequestWithImage}. Wymienione funkcje znajdują się w serwisie PhotoService, który dostępny jest w pozostałych klasach poprzez zastosowanie wzorca odwróconego sterowania.
-\newpage
+Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu \ref{httpRequestWithImage}. Wymienione funkcje znajdują się w serwisie PhotoService, który dostępny jest w~pozostałych klasach poprzez zastosowanie wzorca odwróconego sterowania.
 
 \begin{lstlisting}[caption={Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.},label={httpRequestWithImage}]
 public sendPhoto(file: File) {
@@ -793,7 +791,7 @@ public async Task Handle(ImageClasificationResultEvent @event)
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywidułów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych zostaje przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
 
 
 \begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}]
@@ -808,7 +806,7 @@ private void loadData() {
 }
 
 \end{lstlisting}
-Na podstawie listy wykrytych przedmiotów na obrazie zostaje stworzone indywiduum dodane do ontologii. Dla każdej własności obiektu ImageClasificationEventResultEntry zostaje utworzone odpowiednia właściwość. Dzięki nim mechanizm ontologii potrafi przyporządkować odpowiednie klasy lub reguły.
+Na podstawie listy wykrytych przedmiotów na obrazie zostaje stworzone indywiduum dodane do ontologii. Dla każdej własności obiektu ImageClasificationEventResultEntry została utworzona odpowiednia właściwość. Dzięki nim mechanizm ontologii potrafi przyporządkować odpowiednie klasy lub reguły.
 \begin{lstlisting}[caption={Dodanie danych do ontologii.}]
 
 public void addToOntology(
@@ -824,7 +822,7 @@ public void addToOntology(
 }
 \end{lstlisting}
 
-Aby wykonać operacje wnioskowania przy użyciu ontologii należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyc metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstaje słownik danych, który następnie zostanie wysłany przy pomocy wiadomości RabbitMQ.
+Aby wykonać operację wnioskowania przy użyciu ontologii, należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ.
 
 \begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}]
 
@@ -842,7 +840,7 @@ public Map<Integer, Map<String, Object>>
 			....
 \end{lstlisting}
 
-\item \textbf{Reguły SWRL ontologii} - Dodane dane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkuje do danych wejściowych między innymi pozycję przedmiotu, wykona wstępną walidację lub przypisze inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawiera wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściowości znajduje się na rysunku \ref{fig:dataproperties}.
+\item \textbf{Reguły SWRL ontologii} - Dane dodane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkował do danych wejściowych między innymi pozycję przedmiotu, wykonał wstępną walidację lub przypisał inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawierało wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w~celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściowości znajduje się na rysunku \ref{fig:dataproperties}.
 
 \begin{figure}
 	\centering
@@ -853,21 +851,21 @@ public Map<Integer, Map<String, Object>>
 
 
 
-Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji, przypisuje odpowiednią klasę ontologii. 
+Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji - przypisuje odpowiednią klasę ontologii. 
 
 \begin{lstlisting}[caption={Przypisanie klasy do indywiduum.}]
  Rule: equal(?c, "cola"), productName(?p, ?c), 
 		 Product(?p) -> CocaCola(?p)
 \end{lstlisting}
 
-Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonych minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right Middle Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
+Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonego minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right, Middle. Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
 
 \begin{lstlisting}[caption={Przypisanie pozycji LeftPosition do indywidua na podstawie właściwości XMin.}]
 Rule: Product(?p), positionXMin(?p, ?pXMin), 
 		 lessThan(?pXMin, 0.25) -> hasPosition(?p, LeftPosition)
 \end{lstlisting}
 
-Każdy z tworzonych indywiduów dodatkowo posiada właściwość imageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna ponieważ, w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem siecii, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
+Każdy z tworzonych indywiduów dodatkowo posiada właściwość imageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna, ponieważ w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny, wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem sieci, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
 
 \begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie}]
 Rule: CocaColaZero(?cz), Pepsi(?p), imageId(?cz, ?czId), 
@@ -877,7 +875,7 @@ Rule: CocaColaZero(?cz), Pepsi(?p), imageId(?cz, ?czId),
 		 hasPositionMessage(?cz, CocaColaOnTheSameScreenWithPepsi)
 \end{lstlisting}
 
-W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny, stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
+W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
 
 \begin{lstlisting}[caption={Reguła sprawdzająca bliską odległość środka chemicznego od napoju}]
 Rule: Chemicals(?c), Drinks(?d), imageId(?c, ?cId), 
