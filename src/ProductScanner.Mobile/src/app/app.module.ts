@@ -28,6 +28,7 @@ import { PhotoService } from '../providers/photo-service/photo-service';
 import { HubService } from '../providers/hub-service/hub-service';
 import { ApiService } from '../providers/api-service/api-service';
 import { ReportPage } from '../pages/report/report';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ReportPage } from '../pages/report/report';
     PhotoDetailComponent
   ],
   imports: [
+    ChartsModule,
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp)
