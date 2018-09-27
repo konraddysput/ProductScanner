@@ -8,6 +8,7 @@ import {Camera} from '@ionic-native/camera';
 // pages
 import { ContactPage } from '../pages/contact/contact';
 import { HistoryPage } from '../pages/history/history'
+
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from "../pages/login/login";
@@ -26,6 +27,7 @@ import { AuthService } from '../providers/auth-service/auth-service';
 import { PhotoService } from '../providers/photo-service/photo-service';
 import { HubService } from '../providers/hub-service/hub-service';
 import { ApiService } from '../providers/api-service/api-service';
+import { ReportPage } from '../pages/report/report';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { ApiService } from '../providers/api-service/api-service';
     ContactPage,
     HomePage,
     TabsPage,
+    ReportPage,
     PhotoDetailComponent
   ],
   imports: [
@@ -54,6 +57,7 @@ import { ApiService } from '../providers/api-service/api-service';
     RegisterPage,
     HistoryPage,
     ContactPage,
+    ReportPage,
     HomePage,
     TabsPage
   ],
