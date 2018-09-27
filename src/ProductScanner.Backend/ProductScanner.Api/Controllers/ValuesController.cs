@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProductScanner.Gateway.Events;
 using ProductScanner.Gateway.Interfaces;
 using System.Collections.Generic;
 
@@ -19,6 +20,8 @@ namespace ProductScanner.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            var report = new ReportEvent();
+            _eventBus.Publish(report);
             return new string[] { "value1", "value2" };
         }
     }

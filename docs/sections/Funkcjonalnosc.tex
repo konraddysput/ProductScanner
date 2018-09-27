@@ -22,5 +22,13 @@ Wykorzystanie biblioteki Tensorflow na systemach operacyjnych Windows z językie
 
 Tak jak w przypadku biblioteki CNTK oraz usługi Computer Vision w celu dokonania klasyfikacji przedmiotu wymagane jest stworzenie modelu. Możemy dokonać tego poprzez dostarczenie zdjęć z opisanymi przedmiotami. Duża społeczność zadbała o liczne narzędzia służące do wygenerowania opisów zdjęć w formacie dostosowanym do biblioteki Tensorflow. Otrzymane pliki opisowe stanowią wejście algorytmu tworzenia modelu, dzięki któremu następnie dokonywana jest klasyfikacja przedmiotów. Proces trenowania zbioru danych był znacznie dłuższy niż w przypadku usług chmurowych, ale wyniki przetwarzania obrazu dla tych samych danych wejściowych były znacznie lepsze. Dzięki temu podczas testowania rozwiązania otrzymano wyniki klasyfikacji z precyzją przekraczającą 90\%.
 
-Interfejs programistyczny biblioteki Tensorflow zapewnił tworzenie skryptów odpowiedzialnych za detekcję przedmiotów znajdujących się na obrazie. Biblioteka ta umożliwia uzyskanie informacji o pozycji oraz klasyfikację obiektu. Dostarczona przez autorów dokumentacja usprawniła naukę sposobu jej działania oraz płynną implementację założeń projektowych. Bardzo duże środowisko programistyczne oraz duża liczba przykładów jej wykorzystania były głównymi czynnikami, którymi sugerowano się przy wyborze biblioteki. W tym celu dane niezbędne do przetwarzania reguł semantycznych zostały uzupełnione o wynik przetwarzania biblioteki Tensorflow.
+Interfejs programistyczny biblioteki Tensorflow zapewnił tworzenie skryptów odpowiedzialnych za detekcję przedmiotów znajdujących się na obrazie. Biblioteka ta umożliwia uzyskanie informacji o pozycji oraz klasyfikację obiektu. Było to możliwe dzięki zastosowaniu sieci neuronowej Faster R-CNN \cite{fasterrcnn}, która eliminuje problem szybkości przetwarzania obrazów występuujący w poprzednich wersjach: Fast R-CNN \cite{fastrcnn} oraz R-CNN. Jej działanie możemy opisać za pomocą poszczególnych kroków:
+
+\begin{itemize}[noitemsep]
+	\item zamiana obrazu przy użyciu konwolucyjnej sieci neuronowej na mapę cech,
+	\item analiza mapy cech poprzez wykorzystanie okna o zdefiniowanym wymiarze. Dzięki temu wydobywate są fragmenty cech, które stanowią wejście do kolejnych warstw sieci neuronowej,
+	\item  przekazanie wybranych fragmentów do kolejnej warstwy sieci neuronowej, która ma na celu wykonanie klasyfikacji oraz regresji (której wynikiem są współrzędne poszukiwanego przedmiotu).
+\end{itemize} 
+
+Dostarczona przez autorów dokumentacja usprawniła naukę sposobu jej działania oraz płynną implementację założeń projektowych. Bardzo duża społeczność programistów oraz duża liczba przykładów jej wykorzystania były głównymi czynnikami, którymi sugerowano się przy wyborze biblioteki. W tym celu dane niezbędne do przetwarzania reguł semantycznych zostały uzupełnione o wynik przetwarzania biblioteki Tensorflow.
 }

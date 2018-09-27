@@ -1,7 +1,7 @@
 \section{Podział projektu}
 {Wykorzystanie wielu języków programowania (Java, C\#, Python, JavaScript, Android, TypeScript) wymagało podziału projektu ze względu na użyte technologie oraz ich zastosowania w aplikacji. Miało to duży wpływ między innymi na szybszą fazę wytwarzania oprogramowania, jak i łatwość zrozumienia kodu. Wykorzystanie innej koncepcji mogłoby spowodować bardzo wolne działanie środowiska programistycznego lub problemy z późniejszą naprawą błędów. Każda z aplikacji poprzez strukturę katalogową lub podprojektową wydzielała logiczne części podprojektu. Tabela \ref{architecture} przedstawia szczegółowy podział użytych technologii niezbędnych do stworzenia systemu.
 	
-		\begin{table}[htbp]
+	\begin{table}[!htb]
 		\caption{Podział technologii}
 		\label{architecture}
 		\begin{center}
@@ -17,12 +17,11 @@
 			\end{tabular}
 		\end{center}
 	\end{table}	
-	
-	
+
 Projekt zarządzający komunikacją pomiędzy aplikacją mobilną a mikroserwisami wymagał dodatkowego użycia podmodułów. Warstwy aplikacji w~tym przypadku tworzyły logiczną całość aplikacji internetowej oraz ułatwiały wprowadzanie nowych zmian lub zrozumienie kodu przez innych. Tabela \ref{project-architecture} przedstawia opis poszczególnych modułów systemu.
 
 
-\begin{table}[htbp]
+\begin{table}[!htb]
 	\caption{Opis poszczególnych modułów aplikacji}
 	\label{project-architecture}
 	\begin{center}
@@ -46,16 +45,27 @@ Projekt zarządzający komunikacją pomiędzy aplikacją mobilną a mikroserwisa
 	\end{center}
 \end{table}	
 
-W związku z podziałem projektu na podprojekty oraz podmoduły można wyróżnić rozbudowaną architekturę systemu oraz widoczny zakres obowiązków poszczególnych podprojektów. Szczegółowy opis ich architektury wraz z~wykorzystaną technologią został zamieszczony w kolejnych podrozdziałach.}
+W związku z podziałem projektu na podprojekty oraz podmoduły można wyróżnić rozbudowaną architekturę systemu oraz widoczny zakres obowiązków poszczególnych podprojektów. Szczegółowy opis ich architektury wraz z~wykorzystaną technologią został zamieszczony w kolejnych podrozdziałach.
+
+}
 
 
 \section{Komunikacja}
 {Wykorzystanie wielu technologii oraz języków programowania uniemożliwiało użycie wzorca projektowego zwanego monolitem. Zakłada on między innymi przepływ danych w obrębie jednej aplikacji, co w tym przypadku spowodowałoby duże problemy z obsługą błędów, przetwarzaniem wyników bibliotek oraz zwiększyłoby znacząco czas wytwarzania oprogramowania. W związku z~tym zdecydowano się na zastosowanie architektury mikroserwisów, w których każda z aplikacji stanowi osobny niezależny byt w hierarchii. W przypadku gdy jedna z aplikacji zostanie wyłączona lub napotka na nieoczekiwany błąd uniemożliwiający jej pracę, całość projektu może dalej przetwarzać dane, a~użytkownik końcowy może nie dostrzec błędów. Wykorzystanie architektury mikroserwisów wymusza komunikację aplikacji przy pomocy wybranego protokołu komunikacyjnego, którym może być HTTP lub AMQP(Advanced Message Queuing Protocol)\cite{AMQP}. Jednym z priorytetów stawianych podczas projektowania aplikacji była szybkość przetwarzania danych. W związku z tym uznano, że protokół AMQP, który jest przystosowany do rozwiązań Internetu Rzeczy, umożliwi znacznie szybszą komunikację niż konieczność przetwarzania żądań HTTP. 
 	
 	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth,height=10cm]{"images/diagram przeplywu danych"}
+	\caption{Przepływ danych pomiędzy kolejnymi modułami aplikacji podczas wykonywania metody analizy zdjęcia.}
+	\label{fig:diagram-przeplywu-danych}
+\end{figure}
 Rozwiązanie oparte o architekturę rozproszoną mikroserwisów pozwala nie tylko na wykorzystanie dowolnego języka programowania lub środowiska uruchomieniowego. Dzięki niemu możliwe jest zwiększenie mocy obliczeniowej dostępnej podczas przetwarzania danych w aplikacji poprzez wykorzystanie więcej niż jednej maszyny. W przypadku braku odpowiedniej ilości zasobów na jednym z komputerów architektura zakłada możliwość podpięcia kolejnych agentów, które mogą przetwarzać dane oraz dostarczyć rezultat. W tym przypadku, każdy z nich musi połączyć się do jednego centralnego węzła komunikacyjnego tworzonego przez RabbitMQ \cite{RabbitMQ} - systemu kolejkowego.
 
-Każdy z mikroserwisów korzysta z jednej zdefiniowanej kolejki, do której przesyłane są wiadomości wraz z danymi - product-scanner-api. Aby wiadomość trafiła do odpowiedniego mikroserwisu, wykorzystywany jest tak zwany routing-key, czyli wskazanie agentów, które nasłuchują w określonym celu. System oparty jest o konieczność potwierdzenia odebrania oraz przetworzenia danych przez pozostałe mikroserwisy. W przypadku napotkania awarii system spróbuje co najmniej dwa razy ponownie wysłać wiadomość. Dane przesyłane pomiędzy serwisami są przekazywane w postaci bajtów, w których znajduje się plik formatu JSON \cite{JSON}. 
+
+
+Każdy z mikroserwisów korzysta z jednej zdefiniowanej kolejki, do której przesyłane są wiadomości wraz z danymi - product-scanner-api. Aby wiadomość trafiła do odpowiedniego mikroserwisu, wykorzystywany jest tak zwany routing-key, czyli wskazanie agentów, które nasłuchują w określonym celu. System oparty jest o konieczność potwierdzenia odebrania oraz przetworzenia danych przez pozostałe mikroserwisy. W przypadku napotkania awarii system spróbuje co najmniej dwa razy ponownie wysłać wiadomość. Dane przesyłane pomiędzy serwisami są przekazywane w postaci bajtów, w których znajduje się plik formatu JSON \cite{JSON}. Przepływ danych pomiędzy kolejnymi modułami systemu ProductScanner został przedstawiony na rysunku \ref{fig:diagram-przeplywu-danych}.
+
 }
 	
 	
@@ -79,7 +89,7 @@ Tworzenie aplikacji mobilnej przy użyciu biblioteki Angular wymusza na programi
 }
 \section{Mikroserwis przetwarzania obrazu}
 { Aplikacje używające algorytmów uczenia maszynowego korzystają z wcześniej stworzonych modeli, w których zawarte są dane oraz reguły wykorzystywane przez bibliotekę Tensorflow. W przypadku mikroserwisu do przetwarzania obrazu model zawiera informacje dotyczące klasyfikacji przedmiotów znajdujących się na obrazach. Zdjęcia, które posłużyły jako wejście aplikacji, zostały umieszczone na repozytorium w katalogu mikroserwisu do przetwarzania obrazu w folderze images. Ze względu na sposób przetwarzania obrazu model użyty do klasyfikacji musi zostać wczytany do pamięci oraz wykorzystywany przy każdym wywołaniu mikroserwisu. Zostało to wymuszone między innymi poprzez wywoływanie metod przetwarzania obrazu w zdarzeniach otrzymywanych przez klienta kolejki RabbitMQ. Otrzymanie wiadomości wraz z danymi do interpretacji umożliwia wywołanie metod wnioskujących i klasyfikujących. Efektem uzyskanych operacji jest zdjęcie wynikowe z wykrytymi przedmiotami i ich opisem oraz dane dotyczące ich położenia. Zakończenie działania mikroserwisu skutkuje przygotowaniem wiadomości wysyłanej do aplikacji internetowej wraz z informacją o~znalezionych przedmiotach, ich położeniu względem osi X i Y oraz ocenie dokonanej klasyfikacji. Dane te mogą posłużyć do przeprowadzenia wnioskowania przy użyciu ontologii zdefiniowanej w mikroserwisie reguł semantycznych.
-\newpage
+	
 W celu demonstracji działania mikroserwisu zostaną zaprezentowane zdjęcia pokazujące sposób działania algorytmu. Poniższe obrazy przedstawiają produkty w różnych warunkach użytkowania. Zdjęcia zostały wykonane z uwzględnieniem niekorzystnych warunków panujących w sklepach. Przykładowe dane wejściowe dla algorytmu zostały przedstawione na rysunku \ref{beforeClasification}.
 
 \begin{figure}[htb]
@@ -117,7 +127,7 @@ Ontologia przygotowana w programie Protege zawiera podstawowe elementy badane w 
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=0.5\linewidth]{images/ontology}
+	\includegraphics[width=0.4\linewidth]{images/ontology}
 	\caption[Ontologia]{Ontologia mikroserwisu reguł semantycznych.}
 	\label{ontology}
 \end{figure}
