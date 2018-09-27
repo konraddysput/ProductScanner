@@ -15,6 +15,7 @@ namespace ProductScanner.Gateway.Hubs
             IPhotoObjectService photoObjectService,
             IEventBus eventBus)
         {
+            _eventBus = eventBus;
             _photoObjectService = photoObjectService;
         }
         public async Task DataReady(int id)
@@ -28,7 +29,7 @@ namespace ProductScanner.Gateway.Hubs
             await Clients.Caller.SendAsync("DataReady", id, any);
         }
 
-        public void RefreshReports()
+        public async Task RefreshReports()
         {
             var report = new ReportEvent();
             _eventBus.Publish(report);
