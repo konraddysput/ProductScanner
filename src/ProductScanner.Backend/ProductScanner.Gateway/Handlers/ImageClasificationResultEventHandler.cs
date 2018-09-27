@@ -14,7 +14,6 @@ namespace ProductScanner.Gateway.Handlers
 {
     public class ImageClasificationResultEventHandler : IIntegrationEventHandler<ImageClasificationResultEvent>
     {
-        private readonly IHubContext<PreprocesingHub> _hub;
         private readonly IPhotoObjectService _photoObject;
         private readonly IPhotoService _photoService;
         private readonly IMapper _mapper;
@@ -28,7 +27,6 @@ namespace ProductScanner.Gateway.Handlers
             IHubContext<PreprocesingHub> hub,
             IMapper mapper)
         {
-            _hub = hub;
             _photoObject = photoObjectService;
             _photoService = photoService;
             _eventBus = eventBus;
@@ -47,7 +45,6 @@ namespace ProductScanner.Gateway.Handlers
             photoViewModel.UserId = model.UserId;
             await _photoService.Update(photoViewModel);
             await _photoService.SaveChanges();
-           
 
             //convert data to model available for java API
             var photos = _photoObject.Get()

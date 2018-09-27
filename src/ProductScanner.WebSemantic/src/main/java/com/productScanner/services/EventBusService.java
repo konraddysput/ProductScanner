@@ -16,7 +16,7 @@ public class EventBusService {
     private final String QUEUE_NAME = "preprocesing-api-java";
     private final String RECEIVE_ROUTING_KEY= "ImagePreprocessingEvent";
     private final String REPORT_ROUTING_KEY = "ReportEvent";
-    private final String REPORT_RESULT_ROUTING_KEY ="ReportResutltEvent";
+    private final String REPORT_RESULT_ROUTING_KEY ="ReportResultEvent";
     private final String SEND_ROUTING_KEY= "ImagePreprocessingResultEvent";
     private final String EXCHANGE_NAME = "product-scanner-event-bus";
 
@@ -43,8 +43,8 @@ public class EventBusService {
                         _service.startResoing();
                         ReportEventResult reportResult = new ReportEventResult();
 
-                        reportResult.totalNumberOfIndividuals = _service.getTotalNumberOfIndividuals();
-                        reportResult.totalNumberOfInvalidIndividuals= _service.getTotalNumberOfInvalidIndividuals();
+                        reportResult.TotalNumberOfIndividuals = _service.getTotalNumberOfIndividuals();
+                        reportResult.TotalNumberOfInvalidIndividuals = _service.getTotalNumberOfInvalidIndividuals();
                         reportResult.DetectedProducts= _service.getNumberOfDetectedIndividuals();
                         byte[] reportBytes = new ObjectMapper().writeValueAsString(reportResult).getBytes("utf-8");
 

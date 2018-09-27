@@ -47,6 +47,7 @@ namespace ProductScanner.Gateway.Configuration
             services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
             services.AddTransient<ImageClasificationResultEventHandler>();
             services.AddTransient<ImagePreprocessingResultEventHandler>();
+            services.AddTransient<ReportEventHandler>();
             return services;
         }
 
@@ -57,6 +58,7 @@ namespace ProductScanner.Gateway.Configuration
 
             eventBus.Subscribe<ImageClasificationResultEvent, ImageClasificationResultEventHandler>();
             eventBus.Subscribe<ImagePreprocessingResultEvent, ImagePreprocessingResultEventHandler>();
+            eventBus.Subscribe<ReportResultEvent, ReportEventHandler>();
             return app;
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using ProductScanner.Gateway.Events;
+using ProductScanner.Gateway.Interfaces;
 using ProductScanner.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -7,8 +9,11 @@ namespace ProductScanner.Gateway.Hubs
     public class PreprocesingHub : Hub
     {
         private readonly IPhotoObjectService _photoObjectService;
+        private readonly IEventBus _eventBus;
 
-        public PreprocesingHub(IPhotoObjectService photoObjectService)
+        public PreprocesingHub(
+            IPhotoObjectService photoObjectService,
+            IEventBus eventBus)
         {
             _photoObjectService = photoObjectService;
         }
@@ -21,6 +26,12 @@ namespace ProductScanner.Gateway.Hubs
         {
             var any = await _photoObjectService.Any(n => n.PhotoId == id);
             await Clients.Caller.SendAsync("DataReady", id, any);
+        }
+
+        public void RefreshReports()
+        {
+            var report = new ReportEvent();
+            _eventBus.Publish(report);
         }
     }
 }
