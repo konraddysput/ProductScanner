@@ -39,7 +39,7 @@ public class WebSemanticService {
 
     public void save() {
         try (PrintWriter out = new PrintWriter(ontologyFileName)) {
-            _model.write(out, "OWL/XML-ABBREV");
+            _model.write(out);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

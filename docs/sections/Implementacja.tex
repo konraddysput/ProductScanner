@@ -886,6 +886,59 @@ Rule: Chemicals(?c), Drinks(?d), imageId(?c, ?cId),
 		  isCloseToChemicals(?d, ChemicalCloseToProduct), 
 		  isCloseToProduct(?c, ChemicalCloseToProduct)
 \end{lstlisting}
+\item \textbf{Generowanie raportów} - każdorazowe wywołanie mechanizmów wnioskujących powoduje zapisanie nowo dodanych indywiduów. Dzięki tej system ProductScanner posiada możliwość generowania raportów na podstawie zgromadzonych danych w ontologii. W tym celu użyto języka SPARQL, który pozwolił na stworzenie zpaytań wywoływanych z interfejsu JENA. Przykład sposobu otrzymywania danych niezbednych do wygenerowania raportów został przedstawiony w listingu \ref{reportGeneration}
+
+\begin{lstlisting}[caption={Wykonywania zapytania SPARQL na istniejącej bazie wiedzy.}, label={reportGeneration}]
+private Map<String, Integer> readIndividualCounter(String query)
+{
+	Query query = QueryFactory.create(query);
+	QueryExecution qexec = SparqlDLExecutionFactory
+		.create(query, _model);
+	HashMap<String, Integer> result = new HashMap<>();
+	ResultSet resultSet = qexec.execSelect();
+	while (resultSet.hasNext()) {
+		QuerySolution soln = resultSet.nextSolution();
+		System.out.println(soln.toString());
+		String key =soln.getResource("name").toString();
+		String name = EscapeReasonerResult(key);
+		String valueString = soln.getLiteral("total").toString();
+		String escapedValue = GetNumberFromResult(valueString);
+		result.put(name, Integer.parseInt(escapedValue));
+	}
+	return result;
+}
+\end{lstlisting}
+
+Przedstawiona metoda wymaga przekazania jako parametr funkcji zapytania SPARQL stworzonego wcześniej w programie. W tym przypadku wymaga, aby w otrzymanym wyniku znajdowały się właściwości "name" oraz "total". Metoda została użyta w celu wykonania zapytania zliczającego ilość indywiduów poszczególnych klas produktów. Dzięki temu użytkownik zna podział produktów wykrytych na zdjęciach. Zapytanie SPARQL przekazane do metody \ref{reportGeneration} zostało przedstawione w listingu \ref{sparqlCountProducts}.
+
+Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych dotyczących ilości niepoprawnie ułożonych sklasyfikowancyh przedmiotów oraz o ogólnej ilości indywiduów klasy Product. W zapytaniu SPARQL została przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedyńczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduuów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
+
+\begin{lstlisting}[caption={Zapytanie SPARQL zliczające ilość sklasyfikowanych indywiduów.}, label={sparqlCountProducts}]
+SELECT ?y (count(?y) as ?total)
+WHERE {
+{	?x a ont:CocaCola. 
+	?x rdf:type ?y. 
+	?y rdfs:subClassOf ont:CocaCola} UNION 
+{ 	?x a ont:Pepsi.   
+	?x rdf:type ?y.  
+	?y rdfs:subClassOf ont:Pepsi} UNION 
+{	?x a ont:CocaColaZero.  
+	?x rdf:type ?y. 
+	?y rdfs:subClassOf ont:CocaColaZero} .
+}
+group by ?y
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Zliczenie niepoprawnie ułożonych przedmiotów}, label={countInvalidProducts}]
+SELECT (count(?individuals) as ?total)
+WHERE {
+?cls rdfs:subClassOf ont:Invalid.
+?individuals a ?cls.
+?individuals a ont:Product}
+\end{lstlisting}
+
+
 
 
 \end{itemize}
