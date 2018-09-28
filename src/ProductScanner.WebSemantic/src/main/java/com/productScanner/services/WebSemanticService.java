@@ -114,7 +114,7 @@ public class WebSemanticService {
         Individual individual = _model.createIndividual(iri + "#" + entry.Id, product);
 
         //setup image id
-        Property hasImageId = _model.createProperty(iri + "#imageId");
+        Property hasImageId = _model.createProperty(iri + "#hasImageId");
         individual.addProperty(hasImageId, String.valueOf(imageId), XSDDatatype.XSDint);
 
         //setup name
@@ -160,7 +160,7 @@ public class WebSemanticService {
                 switch (predicateString) {
                     case "differentFrom":
                     case "sameAs":
-                    case "imageId":
+                    case "hasImageId":
                     case "positionYMax":
                     case "positionYMin":
                     case "positionXMax":
