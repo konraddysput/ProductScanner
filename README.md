@@ -4,19 +4,25 @@ Product scanner is an application that allows you to write custom rules between 
 # Author
 Konrad Dysput (konrad.dysput@gmail.com)
 
-# Stucture
-* docs - project documentation (pl language)
-* scripts - usefull scripts for fresh clone repository
-* src - source directory - all microservices are available here
+# Structure
+* docs - project documentation (pl language),
+* scripts - usefull scripts for fresh clone repository,
+* src - applicaiton source code directory.
 
 # Technologies
-* Ionic/Cordova - Mobile phone application,
+* Ionic Cordova - Mobile phone application,
+     - Android,
+     - Angualr 5.
 * NodeJS - utility scripts,
 * Java - Web semantic rules,
-* .NET Core - Web API,
+* ASP.NET Core - Web API,
+     - Docker,
+     - SignalR,
+     - Entity Framework,
+     - Automapper,
+     - RabbitMQ,
+     - MS SQL.
 * Python and Tensorflow - object detection
-* Docker - docker
-
 
 # Resources to learn:
 * Tensorflow object detection tutorial: 
