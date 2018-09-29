@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductScanner.Gateway.Interfaces;
 using System.Collections.Generic;
 
 namespace ProductScanner.Api.Controllers
@@ -8,13 +7,6 @@ namespace ProductScanner.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly IEventBus _eventBus;
-
-        public ValuesController(IEventBus eventBus)
-        {
-            _eventBus = eventBus;
-        }
-
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

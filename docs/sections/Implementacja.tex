@@ -9,9 +9,9 @@ W celu realizacji poszczególnych założeń projektowych został wykonany zło�
 \end{itemize}
 W tym celu skorzystano ze środowisk programistycznych: Visual Studio, IntelliJ, Pycharm oraz Visual Studio Code. W celu przygotowania aplikacji wykorzystano system operacyjny Windows 10.
 
-Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbędne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skrytpów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
+Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbędne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skryptów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
 
-Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żadanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
+Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żądanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
 
 
 \section{Biblioteki}
@@ -23,12 +23,12 @@ W celu stworzenia systemu skorzystano z szerokiego zakresu bibliotek. Dodano je 
 	\item PIP oraz Anaconda dla mikroserwisu przetwarzania obrazu w środowisku Python,
 	\item Nuget dla aplikacji internetowej w ASP.NET Core.
 \end{itemize}
-
+żądanie 
 Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez menadżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython} oraz \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach oraz opis ich użycia w przygotowaniu aplikacji.
 
 \begin{center}
     \begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
-   	\caption{Zbiór wykorzystanych bibliotek w aplikacji internetowej}
+   	\caption{Zbiór wykorzystanych bibliotek w aplikacji internetowej.}
    	\label{librariesDotNet} \\
     %header
     \hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
@@ -80,7 +80,7 @@ W powyższej tabeli nie została opisana żadna biblioteka, która generuje wido
 
 \begin{center}
 	\begin{longtable}{ | p{1.7cm} | p{2cm} | p{3.5cm} | p{6cm} |}
-		\caption{Zbiór wykorzystanych bibliotek w aplikacji mobilnej}
+		\caption{Zbiór wykorzystanych bibliotek w aplikacji mobilnej.}
 		\label{librariesMobile} \\
 		%header
 		\hline Nazwa & Typ  & Cel & Opis \\ \hline    
@@ -124,7 +124,7 @@ Aplikacja mobilna została stworzona przy użyciu języka TypeScript. Zostało w
 
 \begin{center}
 	\begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
-		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie przetwarzania obrazu}
+		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie przetwarzania obrazu.}
 		\label{librariesPython} \\
 		%header
 		\hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
@@ -161,7 +161,7 @@ Mikroserwis nie komunikuje się bezpośrednio z serwisem reguł semantycznych. W
 
 \begin{center}
 	\begin{longtable}{ | p{3.1cm} | p{4cm} | p{6.5cm} |}
-		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie reguł semantycznych}
+		\caption{Zbiór wykorzystanych bibliotek w mikroserwisie reguł semantycznych.}
 		\label{librariesJava} \\
 		%header
 		\hline Nazwa \newline Biblioteki & Cel & Opis \\ \hline    
@@ -201,8 +201,7 @@ Stworzony system zakłada konieczność integracji wielu środowisk uruchomienio
 
 Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
 
-W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego sie w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
-\newpage
+W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego się w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
 
 
 \begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
@@ -214,7 +213,7 @@ $ set PYTHONPATH=C:\tensorflow\models;
 	C:\tensorflow\models\research\slim
 \end{lstlisting}
 
-Programiści, którzy chcą uruchomić bibliotekę korzystając z kodu źródłowego dołączonego wraz z biblioteką Tensorflow, dodatkowo muszą wykonać budowę plików Protobuf. W tym celu należy zrealizować komendę protoc w~folderze research katalogu modles z parametrami określającymi ścieżki docelowe wygenerowanych plików ".proto". Zbudowane pliki dołączone wraz z biblioteką mogę generować ewentualne błędy na różnych dystrybucjach oprogramowania lub systemach operacyjnych. Listing \ref{protobufInstallation} przedstawia przykładowe wygenerowanie plików ".proto".
+Programiści, którzy chcą uruchomić bibliotekę korzystając z kodu źródłowego dołączonego wraz z biblioteką Tensorflow, dodatkowo muszą wykonać budowę plików Protobuf. W tym celu należy zrealizować komendę protoc w~folderze research katalogu models z parametrami określającymi ścieżki docelowe wygenerowanych plików ".proto". Zbudowane pliki dołączone wraz z biblioteką mogę generować ewentualne błędy na różnych dystrybucjach oprogramowania lub systemach operacyjnych. Listing \ref{protobufInstallation} przedstawia przykładowe wygenerowanie plików ".proto".
 
 \begin{lstlisting}[caption={generowanie plików protobuf.}, label={protobufInstallation} ]
 $ cd C:\tensorflow\models\research
@@ -224,7 +223,7 @@ $ python setup.py build
 $ python setup.py install
 \end{lstlisting}
 
-Wygenerowanie plików protobuf jest ostatnim krokiem niezbędnym do rozpoczęcia nauki modelu klasyfikacji przedmiotów na obrazie. W celu stworzenia niezbędnych danych opisujących obiekty na zdjęciach użyto narzędzia LabelImg, które jest projektem ogólnodostępnym na publicznym repozytorium Github. W celu wyuczenia modelu sklasyfikowano przedmioty znajdujące się na zdjęciach z katalogu images. Wymagało to dla każdego obrazu zaznaczenia prostokątem pozycji przedmiotu oraz jego klasyfikacji - na przykład puszka pepsi. Dane wejściowe zostały podzielone na dwa zbiory. Pierwszy znich zawiera zdjęcia, które posłużą do nauki modelu. W drugim znajdują się obrazy testujące nauczony model. W trakcie przetwarzania zdjęć natrafiono na problem wysokiej rozdzielczości aparatu. Zauważono, że im wyższa jakość zdjęcia tym dłuższy czas przetwarzania modelu. W tym celu zastosowano skrypt pogarszający jakość zdjęć. 
+Wygenerowanie plików protobuf jest ostatnim krokiem niezbędnym do rozpoczęcia nauki modelu klasyfikacji przedmiotów na obrazie. W celu stworzenia niezbędnych danych opisujących obiekty na zdjęciach użyto narzędzia LabelImg, które jest projektem ogólnodostępnym na publicznym repozytorium Github. W celu wyuczenia modelu sklasyfikowano przedmioty znajdujące się na zdjęciach z katalogu images. Wymagało to dla każdego obrazu zaznaczenia prostokątem pozycji przedmiotu oraz jego klasyfikacji - na przykład puszka pepsi. Dane wejściowe zostały podzielone na dwa zbiory. Pierwszy z nich zawiera zdjęcia, które posłużą do nauki modelu. W drugim znajdują się obrazy testujące nauczony model. W trakcie przetwarzania zdjęć natrafiono na problem wysokiej rozdzielczości aparatu. Zauważono, że im wyższa jakość zdjęcia tym dłuższy czas przetwarzania modelu. W tym celu zastosowano skrypt pogarszający jakość zdjęć. 
 
 Przygotowanie zdjęć do procesu nauki modelu jest bardzo istotnym elementem konfiguracji. W zależności od przygotowanych obrazów oraz dokładności ich opisu algorytm uczenia maszynowego stworzy mniej lub bardziej dokładny model. W przypadku zaawansowanych rozwiązań stopień pewności rozwiązania na poziomie 95\% może wydawać się dużym sukcesem. Łatwo wyobrazić sobie system, który poprzez pomyłkę może doprowadzić do szkody lub wygenerowania niepoprawnych danych. Przed uruchomieniem algorytmu uczenia programista musi wygenerować TFRecords, czyli konkatenację plików XML z~informacjami na temat wskazanego przedmiotu na zdjęciach do pliku CSV. W tym celu użyto skryptu, nazywającego się xml\_to\_csv.py. Jego wynikiem będzie utworzenie plików zawierających dane testowe oraz treningowe w formacie CSV. Ostatnim elementem niezbędnym do poprawnego interpretowania wyników uczenia maszynowego jest mapowanie klasyfikatorów algorytmu w~postaci tekstu na klasyfikatory w postaci liczb. W tym celu należy edytować pliki generate\_tfrecord.py oraz labelmap z katalogu training i dostosować strukturę klasyfikowanych plików do klasyfikatorów ze zdjęć. Aby rozpocząć naukę modelu zastosowano skrypt z listingu \ref{machineLearning}. W przypadku nauki modelu używanego w oprogramowaniu, algorytm przetwarzał dane około 2 godziny. 
 
@@ -587,10 +586,9 @@ export class PhotoService {
 }
 \end{lstlisting} 
 
-Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu \ref{httpRequestWithImage}. Wymienione funkcje znajdują się w serwisie PhotoService, który dostępny jest w pozostałych klasach poprzez zastosowanie wzorca odwróconego sterowania.
-\newpage
+Metoda zamiany zdjęcia w obiekt tablicy bajtów oraz tworząca zapytanie HTTP kierowane do serwera została przedstawiona w listingu \ref{httpRequestWithImage}. Wymienione funkcje znajdują się w serwisie PhotoService, który dostępny jest w~pozostałych klasach poprzez zastosowanie wzorca odwróconego sterowania.
 
-\begin{lstlisting}[caption={Zamiana base64 na tablicę bajtów oraz przesłanie zdjecia przy użyciu obiektu form data.},label={httpRequestWithImage}]
+\begin{lstlisting}[caption={Zamiana base64 na tablicę bajtów oraz przesłanie zdjęcia przy użyciu obiektu form data.},label={httpRequestWithImage}]
 public sendPhoto(file: File) {
 
 	const formData: FormData = new FormData();
@@ -635,7 +633,7 @@ public async Task<IActionResult> Create(IFormFile file)
 }
 \end{lstlisting} 
 
-\item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia  rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, okreslającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
+\item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia  rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, określającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
 \newpage
 
 \begin{lstlisting}[caption={Metoda publikacji wiadomości.}, label={messagePublish}]
@@ -711,7 +709,7 @@ class Communication:
 		self.channel.start_consuming()
 \end{lstlisting}
 
-Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwie callback. Jeżeli aplikacja intenetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
+Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwie callback. Jeżeli aplikacja internetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
 
 
 
@@ -731,7 +729,7 @@ def callback(self, ch, method, properties, data):
 	)
 \end{lstlisting}
 
-Analizując kod należy zwrócić uwagę na inicjalizację obiektu ObjectDetection. Instancja klasy istnieje przez cały czas działania mikroserwisu. Jej definicja zawiera kosztowny czasowowo proces inicjalizacji obiektów biblioteki Tensorflow. Są one niezbędne do detekcji przedmiotów ze zdjęcia. Inicjalizacja między innymi wczytuje graf detekcji przediotów, możliwe klasyfikatory z pliku xml oraz model Tensorflow do pamięci aplikacji. Kolejne obrazy poddawane analizie nie potrzebują ponownego ładowania obiektów. W metodzie inicjalizacyjnej zostały uwzględnione wszystkie metody nie wymagające dostępu do ścieżki do pliku.
+Analizując kod należy zwrócić uwagę na inicjalizację obiektu ObjectDetection. Instancja klasy istnieje przez cały czas działania mikroserwisu. Jej definicja zawiera kosztowny czasowowo proces inicjalizacji obiektów biblioteki Tensorflow. Są one niezbędne do detekcji przedmiotów ze zdjęcia. Inicjalizacja między innymi wczytuje graf detekcji przedmiotów, możliwe klasyfikatory z pliku xml oraz model Tensorflow do pamięci aplikacji. Kolejne obrazy poddawane analizie nie potrzebują ponownego ładowania obiektów. W metodzie inicjalizacyjnej zostały uwzględnione wszystkie metody nie wymagające dostępu do ścieżki do pliku.
 \newline
 \begin{lstlisting}[caption={Fragment inicjalizacji obiektów biblioteki Tensorflow.}]
 detection_graph = tf.Graph()
@@ -744,7 +742,7 @@ with detection_graph.as_default():
 	
 	self.sess = tf.Session(graph=detection_graph)
 \end{lstlisting}
-\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostac poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbe elementów (num). Dodatkowo w~wyniku wykonania metody algorytm zapisuje wynikowe zdjecie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
+\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostać poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbę elementów (num). Dodatkowo w~wyniku wykonania metody algorytm zapisuje wynikowe zdjęcie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
 \newline
 
 \begin{lstlisting}[caption={Detekcja przedmiotów na obrazie.}]
@@ -793,7 +791,7 @@ public async Task Handle(ImageClasificationResultEvent @event)
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywidułów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych zostaje przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
 
 
 \begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}]
@@ -808,7 +806,7 @@ private void loadData() {
 }
 
 \end{lstlisting}
-Na podstawie listy wykrytych przedmiotów na obrazie zostaje stworzone indywiduum dodane do ontologii. Dla każdej własności obiektu ImageClasificationEventResultEntry zostaje utworzone odpowiednia właściwość. Dzięki nim mechanizm ontologii potrafi przyporządkować odpowiednie klasy lub reguły.
+Na podstawie listy wykrytych przedmiotów na obrazie zostaje stworzone indywiduum dodane do ontologii. Dla każdej własności obiektu ImageClasificationEventResultEntry została utworzona odpowiednia właściwość. Dzięki nim mechanizm ontologii potrafi przyporządkować odpowiednie klasy lub reguły.
 \begin{lstlisting}[caption={Dodanie danych do ontologii.}]
 
 public void addToOntology(
@@ -817,14 +815,14 @@ public void addToOntology(
 	String name = iri +"#" + entry.Id;
 	Individual individual =_model.createIndividual(name, product);
 	
-	Property hasImageId = _model.createProperty(iri + "#imageId");
+	Property hasImageId = _model.createProperty(iri + "#hasImageId");
 	String id=  String.valueOf(imageId);
 	individual.addProperty(hasImageId, id , XSDDatatype.XSDint);
 ...
 }
 \end{lstlisting}
 
-Aby wykonać operacje wnioskowania przy użyciu ontologii należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyc metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstaje słownik danych, który następnie zostanie wysłany przy pomocy wiadomości RabbitMQ.
+Aby wykonać operację wnioskowania przy użyciu ontologii, należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ.
 
 \begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}]
 
@@ -842,52 +840,97 @@ public Map<Integer, Map<String, Object>>
 			....
 \end{lstlisting}
 
-\item \textbf{Reguły SWRL ontologii} - Dodane dane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkuje do danych wejściowych między innymi pozycję przedmiotu, wykona wstępną walidację lub przypisze inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawiera wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściowości znajduje się na rysunku \ref{fig:dataproperties}.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\linewidth]{images/dataproperties}
-	\caption[Zbiór wszystkich właściwości istniejących obiektów]{}
-	\label{fig:dataproperties}
-\end{figure}
+\item \textbf{Reguły SWRL ontologii} - Dane dodane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkował do danych wejściowych między innymi pozycję przedmiotu, wykonał wstępną walidację lub przypisał inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawierało wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w~celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściwości znajduje się na rysunku \ref{fig:dataproperties} w punkcie b).
 
 
-
-Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji, przypisuje odpowiednią klasę ontologii. 
+Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji - przypisuje odpowiednią klasę ontologii. 
 
 \begin{lstlisting}[caption={Przypisanie klasy do indywiduum.}]
  Rule: equal(?c, "cola"), productName(?p, ?c), 
 		 Product(?p) -> CocaCola(?p)
 \end{lstlisting}
 
-Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonych minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right Middle Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
+Aby określić pozycję przedmiotu na zdjęciu zostały stworzone reguły, które sprawdzają odległość punktów X lub Y względem określonego minimum. W tym celu do klasy o nazwie Position stworzono indywidua - Bottom, Top, Left, Right, Middle. Przedstawiona poniżej reguła SWRL przestawia przyporządkowanie istniejącego indywidua pozycji.
 
 \begin{lstlisting}[caption={Przypisanie pozycji LeftPosition do indywidua na podstawie właściwości XMin.}]
 Rule: Product(?p), positionXMin(?p, ?pXMin), 
 		 lessThan(?pXMin, 0.25) -> hasPosition(?p, LeftPosition)
 \end{lstlisting}
 
-Każdy z tworzonych indywiduów dodatkowo posiada właściwość imageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna ponieważ, w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem siecii, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
+Każdy z tworzonych indywiduów dodatkowo posiada właściwość hasImageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna, ponieważ w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny, wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W przypadku gdyby identyfikator obrazu nie został uwzględniony w procesie wnioskowania wówczas analizowana byłaby pozycja wszystkich dostępnych indywiduów. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem sieci, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
 
-\begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie}]
-Rule: CocaColaZero(?cz), Pepsi(?p), imageId(?cz, ?czId), 
-		 imageId(?p, ?pId), swrlb:equal(?pId, ?czId) 
+\begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie.}]
+Rule: CocaColaZero(?cz), Pepsi(?p), hasImageId(?cz, ?czId), 
+		 hasImageId(?p, ?pId), swrlb:equal(?pId, ?czId) 
 		 -> Invalid(?cz), Invalid(?p), 
 		 hasPositionMessage(?p, CocaColaOnTheSameScreenWithPepsi),
 		 hasPositionMessage(?cz, CocaColaOnTheSameScreenWithPepsi)
 \end{lstlisting}
 
-W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny, stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
+W przypadku sklasyfikowania przedmiotu na obrazie jako produkt chemiczny stworzono regułę, która sprawdza czy jest on z dala od napojów. Miałaby ona między innymi wyeliminować szkodliwe ułożenie chemii, która mogłaby mieć wpływ na napoje. W tym celu reguła sprawdzi odległość pomiędzy analizowanymi produktami oraz przynależność do zdjęcia.
 
-\begin{lstlisting}[caption={Reguła sprawdzająca bliską odległość środka chemicznego od napoju}]
-Rule: Chemicals(?c), Drinks(?d), imageId(?c, ?cId), 
-		 imageId(?d, ?dId), swrlb:equal(?dId, ?cId), 
+\begin{lstlisting}[caption={Reguła sprawdzająca bliską odległość środka chemicznego od napoju.}]
+Rule: Chemicals(?c), Drinks(?d), hasImageId(?c, ?cId), 
+		 hasImageId(?d, ?dId), swrlb:equal(?dId, ?cId), 
 		 positionXMin(?d, ?dPosX), positionXMax(?c, ?cPosX),
 		 subtract(?posX, ?dPosX, ?cPosX), lessThan(?posX, 0.7) 
 		 -> Invalid(?c), Invalid(?d),
 		  isCloseToChemicals(?d, ChemicalCloseToProduct), 
 		  isCloseToProduct(?c, ChemicalCloseToProduct)
 \end{lstlisting}
+\item \textbf{Generowanie raportów} - każdorazowe wywołanie mechanizmów wnioskujących powoduje zapisanie nowo dodanych indywiduów. Dzięki temu system ProductScanner posiada możliwość generowania raportów na podstawie zgromadzonych danych w ontologii. W tym celu użyto języka SPARQL, który pozwolił na stworzenie zapytań wywoływanych z interfejsu JENA. Przykład otrzymywania danych niezbędnych do wygenerowania raportów został przedstawiony w listingu \ref{reportGeneration}
+
+\begin{lstlisting}[caption={Wykonywania zapytania SPARQL na istniejącej bazie wiedzy.}, label={reportGeneration}]
+private Map<String, Integer> readIndividualCounter(String query)
+{
+	Query query = QueryFactory.create(query);
+	QueryExecution qexec = SparqlDLExecutionFactory
+		.create(query, _model);
+	HashMap<String, Integer> result = new HashMap<>();
+	ResultSet resultSet = qexec.execSelect();
+	while (resultSet.hasNext()) {
+		QuerySolution soln = resultSet.nextSolution();
+		System.out.println(soln.toString());
+		String key =soln.getResource("name").toString();
+		String name = EscapeReasonerResult(key);
+		String valueString = soln.getLiteral("total").toString();
+		String escapedValue = GetNumberFromResult(valueString);
+		result.put(name, Integer.parseInt(escapedValue));
+	}
+	return result;
+}
+\end{lstlisting}
+
+Przedstawiona metoda wymaga przekazania jako parametr funkcji zapytania SPARQL stworzonego wcześniej w programie. Funkcja zakłada, że w otrzymanym wyniku znajdują się właściwości "name" oraz "total". Metoda została użyta w celu wykonania zapytania zliczającego ilość indywiduów poszczególnych klas produktów. Dzięki temu użytkownik zna podział sklasyfikowanych elementów wykrytych na zdjęciach. Zapytanie SPARQL przekazane do metody z "readIndividualCounter" zostało przedstawione w listingu \ref{sparqlCountProducts}.
+
+Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych określających ilość niepoprawnie ułożonych przedmiotów względem wszystkich produktów klasy Product. W zapytaniu SPARQL zostało przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedyńczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduuów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
+
+\begin{lstlisting}[caption={Zapytanie SPARQL zliczające ilość sklasyfikowanych indywiduów.}, label={sparqlCountProducts}]
+SELECT ?y (count(?y) as ?total)
+WHERE {
+{	?x a ont:CocaCola. 
+	?x rdf:type ?y. 
+	?y rdfs:subClassOf ont:CocaCola} UNION 
+{ 	?x a ont:Pepsi.   
+	?x rdf:type ?y.  
+	?y rdfs:subClassOf ont:Pepsi} UNION 
+{	?x a ont:CocaColaZero.  
+	?x rdf:type ?y. 
+	?y rdfs:subClassOf ont:CocaColaZero} .
+}
+group by ?y
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Zliczenie niepoprawnie ułożonych przedmiotów.}, label={countInvalidProducts}]
+SELECT (count(?individuals) as ?total)
+WHERE {
+?cls rdfs:subClassOf ont:Invalid.
+?individuals a ?cls.
+?individuals a ont:Product}
+\end{lstlisting}
+
+
 
 
 \end{itemize}

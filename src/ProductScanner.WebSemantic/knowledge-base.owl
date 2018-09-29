@@ -83,9 +83,9 @@
     
 
 
-    <!-- http://www.product-scanner/ontology#imageId -->
+    <!-- http://www.product-scanner/ontology#hasImageId -->
 
-    <owl:DatatypeProperty rdf:about="http://www.product-scanner/ontology#imageId">
+    <owl:DatatypeProperty rdf:about="http://www.product-scanner/ontology#hasImageId">
         <rdfs:domain rdf:resource="http://www.product-scanner/ontology#Product"/>
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     </owl:DatatypeProperty>
@@ -305,7 +305,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ChemicalCloseToProduct">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-        <description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Chemicals can&apos;t be close to products like drinks. Its really dangerous</description>
+        <description>Chemicals can&apos;t be close to products like drinks. Its really dangerous</description>
     </owl:NamedIndividual>
     
 
@@ -313,8 +313,8 @@
     <!-- http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi">
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</productName>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</hasImageId>
+        <productName>cola</productName>
     </owl:NamedIndividual>
     
 
@@ -323,12 +323,12 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#Domestos">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</hasImageId>
         <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.75</positionXMax>
         <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.6</positionXMin>
         <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
         <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</positionYMin>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">domestos</productName>
+        <productName>domestos</productName>
     </owl:NamedIndividual>
     
 
@@ -337,7 +337,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#DomestosLeftPosition">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</imageId>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</hasImageId>
         <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.3</positionXMax>
         <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</positionXMin>
     </owl:NamedIndividual>
@@ -371,10 +371,10 @@
     <!-- http://www.product-scanner/ontology#Pepsi -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#Pepsi">
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</imageId>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</hasImageId>
         <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.55</positionXMax>
         <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</positionXMin>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</productName>
+        <productName>pepsi</productName>
     </owl:NamedIndividual>
     
 
@@ -383,7 +383,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#PepsiAndColaOnTheSameScreen">
         <rdf:type rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-        <description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pepsi cannot be close to CocaCola because Coca Cola receive rights to be far away from Pepsi products</description>
+        <description>Pepsi cannot be close to CocaCola because Coca Cola receive rights to be far away from Pepsi products</description>
     </owl:NamedIndividual>
     
 
@@ -391,10 +391,10 @@
     <!-- http://www.product-scanner/ontology#PepsiCloseToDomestosRightPosition -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#PepsiCloseToDomestosRightPosition">
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</imageId>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">2</hasImageId>
         <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionXMax>
         <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.33</positionXMin>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pepsi</productName>
+        <productName>pepsi</productName>
     </owl:NamedIndividual>
     
 
@@ -418,8 +418,8 @@
     <!-- http://www.product-scanner/ontology#ValidCocaCola -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ValidCocaCola">
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</imageId>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cola</productName>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</hasImageId>
+        <productName>cola</productName>
     </owl:NamedIndividual>
     
 
@@ -427,8 +427,358 @@
     <!-- http://www.product-scanner/ontology#ValidColaZero -->
 
     <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#ValidColaZero">
-        <imageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</imageId>
-        <productName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">colazero</productName>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">4</hasImageId>
+        <productName>colazero</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#100 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#100">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">28</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.99</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.85</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.55</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.4</positionYMin>
+        <productName>colazero</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#76 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#76">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.44</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#77 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#77">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.58</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.41</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#78 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#78">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.45</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.39</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.42</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#79 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#79">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">22</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.44</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.35</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.42</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#80 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#80">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">22</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.31</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.94</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#81 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#81">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">22</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.31</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.24</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.41</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#82 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#82">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">23</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.44</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.35</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.42</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#83 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#83">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">23</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.31</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.14</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.94</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#84 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#84">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">23</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.31</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.24</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.41</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#85 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#85">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">24</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.6</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.56</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.31</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#86 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#86">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">24</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.88</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.62</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.59</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.34</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#87 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#87">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">24</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.79</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.16</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.95</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.56</positionYMin>
+        <productName>colazero</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#88 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#88">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">25</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.73</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.66</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.71</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.38</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#89 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#89">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">25</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.54</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.46</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.74</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.36</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#90 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#90">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">26</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.44</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#91 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#91">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">26</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.58</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.41</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#92 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#92">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">26</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.45</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.39</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.42</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#93 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#93">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">27</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.7</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.44</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#94 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#94">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">27</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.58</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.5</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.78</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.41</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#95 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#95">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">27</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.45</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.39</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.8</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.42</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#96 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#96">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">28</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.33</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.22</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.54</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.36</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#97 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#97">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">28</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.45</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.32</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.55</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.36</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#98 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#98">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">28</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.72</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.58</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.54</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.37</positionYMin>
+        <productName>cola</productName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.product-scanner/ontology#99 -->
+
+    <owl:NamedIndividual rdf:about="http://www.product-scanner/ontology#99">
+        <rdf:type rdf:resource="http://www.product-scanner/ontology#Product"/>
+        <hasImageId rdf:datatype="http://www.w3.org/2001/XMLSchema#int">28</hasImageId>
+        <positionXMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.58</positionXMax>
+        <positionXMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.45</positionXMin>
+        <positionYMax rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.56</positionYMax>
+        <positionYMin rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.36</positionYMin>
+        <productName>cola</productName>
     </owl:NamedIndividual>
     
 
@@ -441,16 +791,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <rdf:Description rdf:about="urn:swrl#c">
-        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
-    </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#d">
-        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
-    </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#cId">
-        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
-    </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#dId">
+    <rdf:Description rdf:about="urn:swrl#posX">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description rdf:about="urn:swrl#dPosX">
@@ -459,13 +800,22 @@
     <rdf:Description rdf:about="urn:swrl#cPosX">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#posX">
+    <rdf:Description rdf:about="urn:swrl#c">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
-    <rdf:Description rdf:about="urn:swrl#p">
+    <rdf:Description rdf:about="urn:swrl#cId">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#d">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#dId">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description rdf:about="urn:swrl#pId">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#p">
         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
     </rdf:Description>
     <rdf:Description rdf:about="urn:swrl#cz">
@@ -503,9 +853,10 @@
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                         <rdf:first>
                             <rdf:Description>
-                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Pepsi"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#cz"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#czId"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -513,10 +864,12 @@
                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                 <rdf:first>
                                     <rdf:Description>
-                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#cz"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#czId"/>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
+                                        <swrl:arguments rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="urn:swrl#pId"/>
+                                            <rdf:Description rdf:about="urn:swrl#czId"/>
+                                        </swrl:arguments>
                                     </rdf:Description>
                                 </rdf:first>
                                 <rdf:rest>
@@ -524,10 +877,9 @@
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                         <rdf:first>
                                             <rdf:Description>
-                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Pepsi"/>
                                                 <swrl:argument1 rdf:resource="urn:swrl#p"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#pId"/>
                                             </rdf:Description>
                                         </rdf:first>
                                         <rdf:rest>
@@ -535,12 +887,10 @@
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                 <rdf:first>
                                                     <rdf:Description>
-                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                                                        <swrl:arguments rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="urn:swrl#pId"/>
-                                                            <rdf:Description rdf:about="urn:swrl#czId"/>
-                                                        </swrl:arguments>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#pId"/>
                                                     </rdf:Description>
                                                 </rdf:first>
                                                 <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -559,9 +909,10 @@
                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                 <rdf:first>
                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#cz"/>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasPositionMessage"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                        <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi"/>
                     </rdf:Description>
                 </rdf:first>
                 <rdf:rest>
@@ -571,7 +922,7 @@
                             <rdf:Description>
                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
                                 <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#cz"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -581,7 +932,7 @@
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
                                         <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasPositionMessage"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#cz"/>
                                         <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi"/>
                                     </rdf:Description>
                                 </rdf:first>
@@ -590,10 +941,9 @@
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                         <rdf:first>
                                             <rdf:Description>
-                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasPositionMessage"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#cz"/>
-                                                <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#CocaColaOnTheSameScreenWithPepsi"/>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#p"/>
                                             </rdf:Description>
                                         </rdf:first>
                                         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -1427,9 +1777,13 @@
                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                 <rdf:first>
                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#subtract"/>
+                        <swrl:arguments rdf:parseType="Collection">
+                            <rdf:Description rdf:about="urn:swrl#posX"/>
+                            <rdf:Description rdf:about="urn:swrl#cPosX"/>
+                            <rdf:Description rdf:about="urn:swrl#dPosX"/>
+                        </swrl:arguments>
                     </rdf:Description>
                 </rdf:first>
                 <rdf:rest>
@@ -1437,9 +1791,10 @@
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                         <rdf:first>
                             <rdf:Description>
-                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Drinks"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMin"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#cPosX"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -1448,9 +1803,9 @@
                                 <rdf:first>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#cId"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMax"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#dPosX"/>
                                     </rdf:Description>
                                 </rdf:first>
                                 <rdf:rest>
@@ -1459,9 +1814,9 @@
                                         <rdf:first>
                                             <rdf:Description>
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#dId"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#cId"/>
                                             </rdf:Description>
                                         </rdf:first>
                                         <rdf:rest>
@@ -1469,12 +1824,10 @@
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                 <rdf:first>
                                                     <rdf:Description>
-                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                                                        <swrl:arguments rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="urn:swrl#dId"/>
-                                                            <rdf:Description rdf:about="urn:swrl#cId"/>
-                                                        </swrl:arguments>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#dId"/>
                                                     </rdf:Description>
                                                 </rdf:first>
                                                 <rdf:rest>
@@ -1482,10 +1835,9 @@
                                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                         <rdf:first>
                                                             <rdf:Description>
-                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMin"/>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
                                                                 <swrl:argument1 rdf:resource="urn:swrl#c"/>
-                                                                <swrl:argument2 rdf:resource="urn:swrl#cPosX"/>
                                                             </rdf:Description>
                                                         </rdf:first>
                                                         <rdf:rest>
@@ -1493,10 +1845,9 @@
                                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                                 <rdf:first>
                                                                     <rdf:Description>
-                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMax"/>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Drinks"/>
                                                                         <swrl:argument1 rdf:resource="urn:swrl#d"/>
-                                                                        <swrl:argument2 rdf:resource="urn:swrl#dPosX"/>
                                                                     </rdf:Description>
                                                                 </rdf:first>
                                                                 <rdf:rest>
@@ -1505,11 +1856,10 @@
                                                                         <rdf:first>
                                                                             <rdf:Description>
                                                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#subtract"/>
+                                                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
                                                                                 <swrl:arguments rdf:parseType="Collection">
-                                                                                    <rdf:Description rdf:about="urn:swrl#posX"/>
-                                                                                    <rdf:Description rdf:about="urn:swrl#cPosX"/>
-                                                                                    <rdf:Description rdf:about="urn:swrl#dPosX"/>
+                                                                                    <rdf:Description rdf:about="urn:swrl#dId"/>
+                                                                                    <rdf:Description rdf:about="urn:swrl#cId"/>
                                                                                 </swrl:arguments>
                                                                             </rdf:Description>
                                                                         </rdf:first>
@@ -1600,9 +1950,13 @@
                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                 <rdf:first>
                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#subtract"/>
+                        <swrl:arguments rdf:parseType="Collection">
+                            <rdf:Description rdf:about="urn:swrl#posX"/>
+                            <rdf:Description rdf:about="urn:swrl#dPosX"/>
+                            <rdf:Description rdf:about="urn:swrl#cPosX"/>
+                        </swrl:arguments>
                     </rdf:Description>
                 </rdf:first>
                 <rdf:rest>
@@ -1610,9 +1964,10 @@
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                         <rdf:first>
                             <rdf:Description>
-                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Drinks"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#cId"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -1621,9 +1976,9 @@
                                 <rdf:first>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#cId"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#dId"/>
                                     </rdf:Description>
                                 </rdf:first>
                                 <rdf:rest>
@@ -1631,10 +1986,9 @@
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                         <rdf:first>
                                             <rdf:Description>
-                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#dId"/>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Chemicals"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
                                             </rdf:Description>
                                         </rdf:first>
                                         <rdf:rest>
@@ -1642,12 +1996,10 @@
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                 <rdf:first>
                                                     <rdf:Description>
-                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                                                        <swrl:arguments rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="urn:swrl#dId"/>
-                                                            <rdf:Description rdf:about="urn:swrl#cId"/>
-                                                        </swrl:arguments>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMin"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#dPosX"/>
                                                     </rdf:Description>
                                                 </rdf:first>
                                                 <rdf:rest>
@@ -1655,10 +2007,9 @@
                                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                         <rdf:first>
                                                             <rdf:Description>
-                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMin"/>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Drinks"/>
                                                                 <swrl:argument1 rdf:resource="urn:swrl#d"/>
-                                                                <swrl:argument2 rdf:resource="urn:swrl#dPosX"/>
                                                             </rdf:Description>
                                                         </rdf:first>
                                                         <rdf:rest>
@@ -1666,10 +2017,12 @@
                                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                                 <rdf:first>
                                                                     <rdf:Description>
-                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMax"/>
-                                                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
-                                                                        <swrl:argument2 rdf:resource="urn:swrl#cPosX"/>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
+                                                                        <swrl:arguments rdf:parseType="Collection">
+                                                                            <rdf:Description rdf:about="urn:swrl#dId"/>
+                                                                            <rdf:Description rdf:about="urn:swrl#cId"/>
+                                                                        </swrl:arguments>
                                                                     </rdf:Description>
                                                                 </rdf:first>
                                                                 <rdf:rest>
@@ -1677,13 +2030,10 @@
                                                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                                         <rdf:first>
                                                                             <rdf:Description>
-                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                                                <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#subtract"/>
-                                                                                <swrl:arguments rdf:parseType="Collection">
-                                                                                    <rdf:Description rdf:about="urn:swrl#posX"/>
-                                                                                    <rdf:Description rdf:about="urn:swrl#dPosX"/>
-                                                                                    <rdf:Description rdf:about="urn:swrl#cPosX"/>
-                                                                                </swrl:arguments>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#positionXMax"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl#cPosX"/>
                                                                             </rdf:Description>
                                                                         </rdf:first>
                                                                         <rdf:rest>
@@ -1753,8 +2103,8 @@
                                 <rdf:first>
                                     <rdf:Description>
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#isCloseToChemicals"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#isCloseToProduct"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
                                         <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#ChemicalCloseToProduct"/>
                                     </rdf:Description>
                                 </rdf:first>
@@ -1764,8 +2114,8 @@
                                         <rdf:first>
                                             <rdf:Description>
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#isCloseToProduct"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#isCloseToChemicals"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
                                                 <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#ChemicalCloseToProduct"/>
                                             </rdf:Description>
                                         </rdf:first>
@@ -1815,9 +2165,12 @@
                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                 <rdf:first>
                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Pepsi"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
+                        <swrl:arguments rdf:parseType="Collection">
+                            <rdf:Description rdf:about="urn:swrl#pId"/>
+                            <rdf:Description rdf:about="urn:swrl#cId"/>
+                        </swrl:arguments>
                     </rdf:Description>
                 </rdf:first>
                 <rdf:rest>
@@ -1825,9 +2178,10 @@
                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                         <rdf:first>
                             <rdf:Description>
-                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#CocaCola"/>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
                                 <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#cId"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -1835,10 +2189,9 @@
                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                 <rdf:first>
                                     <rdf:Description>
-                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#cId"/>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Pepsi"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
                                     </rdf:Description>
                                 </rdf:first>
                                 <rdf:rest>
@@ -1847,7 +2200,7 @@
                                         <rdf:first>
                                             <rdf:Description>
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#imageId"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasImageId"/>
                                                 <swrl:argument1 rdf:resource="urn:swrl#p"/>
                                                 <swrl:argument2 rdf:resource="urn:swrl#pId"/>
                                             </rdf:Description>
@@ -1857,12 +2210,9 @@
                                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                                 <rdf:first>
                                                     <rdf:Description>
-                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
-                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#equal"/>
-                                                        <swrl:arguments rdf:parseType="Collection">
-                                                            <rdf:Description rdf:about="urn:swrl#pId"/>
-                                                            <rdf:Description rdf:about="urn:swrl#cId"/>
-                                                        </swrl:arguments>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#CocaCola"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
                                                     </rdf:Description>
                                                 </rdf:first>
                                                 <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
@@ -1881,9 +2231,10 @@
                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                 <rdf:first>
                     <rdf:Description>
-                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
-                        <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasPositionMessage"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                        <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#PepsiAndColaOnTheSameScreen"/>
                     </rdf:Description>
                 </rdf:first>
                 <rdf:rest>
@@ -1893,7 +2244,7 @@
                             <rdf:Description>
                                 <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
                                 <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#p"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
                             </rdf:Description>
                         </rdf:first>
                         <rdf:rest>
@@ -1912,10 +2263,9 @@
                                         <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
                                         <rdf:first>
                                             <rdf:Description>
-                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
-                                                <swrl:propertyPredicate rdf:resource="http://www.product-scanner/ontology#hasPositionMessage"/>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.product-scanner/ontology#Invalid"/>
                                                 <swrl:argument1 rdf:resource="urn:swrl#p"/>
-                                                <swrl:argument2 rdf:resource="http://www.product-scanner/ontology#PepsiAndColaOnTheSameScreen"/>
                                             </rdf:Description>
                                         </rdf:first>
                                         <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>

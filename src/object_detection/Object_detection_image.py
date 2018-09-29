@@ -130,7 +130,7 @@ class ObjectDetection:
 def main():
     o = ObjectDetection()
     current_directory = os.getcwd()
-    path_to_image = os.path.join(current_directory, 'test_images', 'test4.jpg')
+    path_to_image = os.path.join(current_directory, 'test_images', 'test1.jpg')
     o.analyse(path_to_image, True)
 
 

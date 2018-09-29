@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProductScanner.Gateway.Events
+﻿namespace ProductScanner.Gateway.Events
 {
     public class ImageClasificationEvent : IntegrationEvent
     {

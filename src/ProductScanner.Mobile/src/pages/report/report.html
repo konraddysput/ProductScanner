@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>report</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h1>Product classification:</h1>
+  <div style="display: block">
+    <canvas baseChart
+                [data]="productNameData"
+                [labels]="productNameLabels"
+                [chartType]="doughnutChartType"></canvas>
+  </div>
+
+  <h1>Validation ration:</h1>
+  <div style="display: block">
+    <canvas baseChart
+                [data]="validationData"
+                [labels]="validationLabels"
+                [chartType]="doughnutChartType"></canvas>
+  </div>
+</ion-content>
