@@ -2,7 +2,7 @@
 {Wykorzystanie wielu języków programowania (Java, C\#, Python, JavaScript, Android, TypeScript) wymagało podziału projektu ze względu na użyte technologie oraz ich zastosowania w aplikacji. Miało to duży wpływ między innymi na szybszą fazę wytwarzania oprogramowania, jak i łatwość zrozumienia kodu. Wykorzystanie innej koncepcji mogłoby spowodować bardzo wolne działanie środowiska programistycznego lub problemy z późniejszą naprawą błędów. Każda z aplikacji poprzez strukturę katalogową lub podprojektową wydzielała logiczne części podprojektu. Tabela \ref{architecture} przedstawia szczegółowy podział użytych technologii niezbędnych do stworzenia systemu.
 	
 	\begin{table}[!htb]
-		\caption{Podział technologii}
+		\caption{Podział technologii.}
 		\label{architecture}
 		\begin{center}
 			\begin{tabular}{ | p{4cm}| p{3cm} | p{6cm} |}
@@ -22,7 +22,7 @@ Projekt zarządzający komunikacją pomiędzy aplikacją mobilną a mikroserwisa
 
 
 \begin{table}[!htb]
-	\caption{Opis poszczególnych modułów aplikacji}
+	\caption{Opis poszczególnych modułów aplikacji.}
 	\label{project-architecture}
 	\begin{center}
 		\begin{tabular}{ | p{3cm}| p{3cm} | p{6cm} |}
@@ -39,7 +39,7 @@ Projekt zarządzający komunikacją pomiędzy aplikacją mobilną a mikroserwisa
 			\hline Moduł modeli & Biblioteka klas & Moduł zawierający przetwarzane modele aplikacji.\\ \hline
 			
 			
-			\hline Moduł konwersji danych & Biblioteka klas & Moduł zawierający logikę umożliwiającą konwersję modeli przetwarzanych przez aplikację na modele bazodanowe lub komunikacyjne wykorzystywane przez Mikroserwisy\\ \hline
+			\hline Moduł konwersji danych & Biblioteka klas & Moduł zawierający logikę umożliwiającą konwersję modeli przetwarzanych przez aplikację na modele bazodanowe lub komunikacyjne wykorzystywane przez mikroserwisy\\ \hline
 
 		\end{tabular}
 	\end{center}
@@ -56,7 +56,7 @@ W związku z podziałem projektu na podprojekty oraz podmoduły można wyróżni
 	
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.9\linewidth,height=10cm]{"images/diagram przeplywu danych"}
+	\includegraphics[width=0.9\linewidth,height=8cm]{"images/diagram przeplywu danych"}
 	\caption{Przepływ danych pomiędzy kolejnymi modułami aplikacji podczas wykonywania metody analizy zdjęcia.}
 	\label{fig:diagram-przeplywu-danych}
 \end{figure}
@@ -64,8 +64,13 @@ Rozwiązanie oparte o architekturę rozproszoną mikroserwisów pozwala nie tylk
 
 
 
-Każdy z mikroserwisów korzysta z jednej zdefiniowanej kolejki, do której przesyłane są wiadomości wraz z danymi - product-scanner-api. Aby wiadomość trafiła do odpowiedniego mikroserwisu, wykorzystywany jest tak zwany routing-key, czyli wskazanie agentów, które nasłuchują w określonym celu. System oparty jest o konieczność potwierdzenia odebrania oraz przetworzenia danych przez pozostałe mikroserwisy. W przypadku napotkania awarii system spróbuje co najmniej dwa razy ponownie wysłać wiadomość. Dane przesyłane pomiędzy serwisami są przekazywane w postaci bajtów, w których znajduje się plik formatu JSON \cite{JSON}. Przepływ danych pomiędzy kolejnymi modułami systemu ProductScanner został przedstawiony na rysunku \ref{fig:diagram-przeplywu-danych}.
-
+Każdy z mikroserwisów korzysta z jednej zdefiniowanej kolejki, do której przesyłane są wiadomości wraz z danymi - product-scanner-api. Aby wiadomość trafiła do odpowiedniego mikroserwisu, wykorzystywany jest tak zwany routing-key, czyli wskazanie agentów, które nasłuchują w określonym celu. System oparty jest o konieczność potwierdzenia odebrania oraz przetworzenia danych przez pozostałe mikroserwisy. W przypadku napotkania awarii system spróbuje co najmniej dwa razy ponownie wysłać wiadomość. Dane przesyłane pomiędzy serwisami są przekazywane w postaci bajtów, w których znajduje się plik formatu JSON \cite{JSON}. Przepływ danych pomiędzy kolejnymi modułami systemu ProductScanner został przedstawiony na rysunku \ref{fig:diagram-przeplywu-danych}. Opisywana architektura systemu została przedstawiona na rysunku \ref{fig:sysArchitecture}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth, height=5cm]{images/architecture}
+	\caption{Architektura systemu.}
+	\label{fig:sysArchitecture}
+\end{figure}
 }
 	
 	
@@ -123,15 +128,20 @@ W celu wnioskowania oraz dopasowywania odpowiednich reguł, które muszą spełn
 
 Wnioskowanie przeprowadzone na istniejącym zbiorze danych wywoływane jest po wywołaniu zdarzenia wraz z danymi otrzymanymi z mikroserwisu przetworzenia obrazu. Elementem wywołującym zdarzenie jest aplikacja internetowa. Klasyfikatory otrzymane z analizy obrazu dodawane są do istniejącej ontologii, a następnie przeprowadzane jest na nich wnioskowanie. Umożliwi to automatyczne dopasowanie zbioru reguł oraz detekcje czy wszystkie istniejące reguły zostały spełnione na obrazie. Wynikiem działania mikroserwisu jest zbiór informacji o regułach, w których wystąpiła anomalia. Brak odpowiedzi serwisu, który mógłby być spowodowany chwilową niedostępnością serwera, nie powoduje braku możliwości wyświetlenia rezultatu przetwarzania użytkownikowi. Na ekranie telefonu komórkowego wówczas zostanie pokazana informacja o wykrytych przedmiotach. 
 
-Ontologia przygotowana w programie Protege zawiera podstawowe elementy badane w przykładowej aplikacji. Została ona przedstawiona na rysunku \ref{ontology}. Do stworzonego modelu powstało wiele reguł przy użyciu języka SWRL.Dodatkowo zapytania zostały wzbogacone o właściwości danych (Data properties) oraz o istniejące indywidua. Bardzo dobrym przykładem jest wskazanie pozycji przedmiotu na obrazie. Reguła poza badaniem pozycji przy użyciu stałych dopasowuje obiekt istniejącej klasy Position - przykładowo "BottomPosition", oznaczająca dolne regiony obrazu. Mikroserwis podczas przetwarzania otrzymanych danych wykorzystuje interfejs programistyczny biblioteki JENA. Dzięki niemu dodawane są indywidua oraz przetwarzana jest istniejąca ontologia wraz z nowym zbiorem informacji. Wynik zostaje przekształcony do postaci słownika zawierającego identyfikator obrazka oraz poszczególne cechy przedmiotu. Przetwarzanie ontologii ze względu na zapytania SWRL jest wykonywane przy użyciu mechanizmu "Pellet".
+Ontologia przygotowana w programie Protege zawiera podstawowe elementy badane w przykładowej aplikacji. Została ona przedstawiona na rysunku \ref{fig:dataproperties} w punkcie a. Do stworzonego modelu powstało wiele reguł przy użyciu języka SWRL.Dodatkowo zapytania zostały wzbogacone o właściwości danych (Data properties) oraz o istniejące indywidua. Bardzo dobrym przykładem jest wskazanie pozycji przedmiotu na obrazie. Reguła poza badaniem pozycji przy użyciu stałych dopasowuje obiekt istniejącej klasy Position - przykładowo "BottomPosition", oznaczająca dolne regiony obrazu. Mikroserwis podczas przetwarzania otrzymanych danych wykorzystuje interfejs programistyczny biblioteki JENA. Dzięki niemu dodawane są indywidua oraz przetwarzana jest istniejąca ontologia wraz z nowym zbiorem informacji. Wynik zostaje przekształcony do postaci słownika zawierającego identyfikator obrazka oraz poszczególne cechy przedmiotu. Przetwarzanie ontologii ze względu na zapytania SWRL jest wykonywane przy użyciu mechanizmu "Pellet".
+
+\begin{figure}[h]
+	\centering
+	\subfloat[Ontologia mikroserwisu reguł semantycznych.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/ontology}}
+	\quad
+	\subfloat[Zbiór wszystkich właściwości istniejących obiektów.]{\label{odnosnik}
+		\includegraphics[width=0.4\textwidth]{images/dataproperties}}
+	\caption{Ontologia mikroserwisu reguł semantycznych.}
+	\label{fig:dataproperties}
+\end{figure}
+
 
 Każdorazowe wykorzystanie ontologii zapisuje nowo dodane indywidua. Dzięki temu, użytkownik aplikacji może skorzystać z zakładki raportów, w której zostały przygotowane statystyki dotyczące analizowanych przedmiotów. Każdorazowe sprawdzenie wyników raportów powoduje analizę ontologii poprzez wykorzystanie zapytań SPARQL, w interfejsie programistycznym biblioteki JENA. Użycie mechanizmu wnioskowania "Pellet" wymusiło dostosowanie zapytań do istniejących metod interfejsu programistycznego. Było to niezbędne ze względu na niepoprawne zachowanie biblioteki w przypadku zapytań grupujących dane.
-
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=0.4\linewidth]{images/ontology}
-	\caption[Ontologia]{Ontologia mikroserwisu reguł semantycznych.}
-	\label{ontology}
-\end{figure}
 
 }
