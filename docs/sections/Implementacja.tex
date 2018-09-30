@@ -9,7 +9,7 @@ W celu realizacji poszczególnych założeń projektowych został wykonany zło�
 \end{itemize}
 W tym celu skorzystano ze środowisk programistycznych: Visual Studio, IntelliJ, Pycharm oraz Visual Studio Code. W celu przygotowania aplikacji wykorzystano system operacyjny Windows 10.
 
-Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbędne jest skorzystanie z konsoli, aby wywołać polecenie kompilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skryptów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
+Aplikacja mobilna korzysta z widoków stworzonych przy pomocy języków: TypeScript, JavaScript, SCSS oraz HTML. Za tworzenie skrytpu wynikowego interpretowanego przez urządzenie mobilne odpowiedzialna jest biblioteka webpack. Do jej uruchomienia niezbędne jest skorzystanie z konsoli, aby wywołać polecenie transpilacji. Dodatkowo jej działanie umożliwia diagnozowanie błędów aplikacji poprzez mapowanie wykonywanej linii kodu języka JavaScript na jej odpowiednik w TypeScript. Wersja produkcyjna aplikacji umożliwia skorzystanie z okrojonej wersji skryptów oraz styli. Jest to możliwe dzięki mechanizmowi minifikacji.
 
 Aplikacja wymaga posiadania na komputerze zainstalowanego silnika bazodanowego MS SQL Server lub jego uruchomienie poprzez użycie plików Docker. System zakłada komunikację przy wykorzystaniu kolejki. W tym celu wymagany jest dostęp do oprogramowania RabbitMQ. Pomocnymi narzędziami używanymi do analizowania pracy programu jest rozszerzenie Postman\cite{Postman} do przeglądarki internetowej Google Chrome lub pakiet Fiddler\cite{Fiddler}. Dzięki nim programista może wysłać żądanie do serwera na odpowiedni adres URL z określonymi danymi. Mikroserwisy zostały stworzone jako aplikacje konsolowe, które nasłuchują na przychodzące żądania. W przypadku serwera www, konieczne jest jego uruchomienie przy pomocy serwera proxy Nginx lub IIS.
 
@@ -23,7 +23,7 @@ W celu stworzenia systemu skorzystano z szerokiego zakresu bibliotek. Dodano je 
 	\item PIP oraz Anaconda dla mikroserwisu przetwarzania obrazu w środowisku Python,
 	\item Nuget dla aplikacji internetowej w ASP.NET Core.
 \end{itemize}
-żądanie 
+
 Zbiór bibliotek użytych w każdym z projektów znajduje się w plikach interpretowanych przez menadżerów paczek (np. package.json). W przypadku aplikacji dotyczącej przetwarzania obrazu niezbędne pakiety instalacyjne znajdują się pliku README.md. Zbiór najważniejszych bibliotek oraz ich przeznaczenie znajduje się w tabelach \ref{librariesDotNet}, \ref{librariesMobile}, \ref{librariesPython} oraz \ref{librariesJava}. Każda z nich przedstawia wykorzystane paczki w poszczególnych projektach oraz opis ich użycia w przygotowaniu aplikacji.
 
 \begin{center}
@@ -202,7 +202,7 @@ Stworzony system zakłada konieczność integracji wielu środowisk uruchomienio
 Programista pobierając repozytorium z kodem posiada część informacji niezbędnych do uruchomienia i pomyślnego przetwarzania obrazu. Jest to spowodowane dużą ilością wygenerowanych plików oraz ich rozmiarem. Dobre praktyki wskazują, aby takie pliki nie były umieszczane na repozytorium kodu. Sam projekt został stworzony na podstawie istniejącego przykładu dostarczonego wraz z biblioteką Tensorflow. 
 
 W celu uruchomienia mikroserwisu należy zainstalować wszystkie biblioteki wymienione w tabeli \ref{librariesPython} przy użyciu polecenia pip lub conda. Komendy należy uruchomić za pomocą konsoli - na przykład CMD lub Powershell\cite{Powershell} w~Systemie Windows 10. Biblioteki wykorzystują dane znajdujące się w zmiennej systemowej PYTHONPATH. W tym celu należy dodać ścieżkę do katalogu models, research oraz slim (znajdującego się w folderze research). Wyjście z~wirtualnego środowiska Python może spowodować wyczyszczenie zmiennych środowiskowych. Aktywacje wirtualnego środowiska anacondy, instalację bibliotek oraz eksport zmiennych środowiskowych została przedstawiona w listingu \ref{terminalConfiguration}. Kolejne wiersze konsoli zostały oddzielone przy użyciu znaku \$.
-
+\newpage
 
 \begin{lstlisting}[caption={Instalacja bibliotek.}, label={terminalConfiguration} ]
 $ activate dev
@@ -235,6 +235,16 @@ $ python train.py
 	 	training/faster_rcnn_inception_v2_productscanner.config
 \end{lstlisting}
 
+Proces trenowania modelu wraz z kolejnymi przejściami algorytmu generuje plik z identyfikatorem przejścia w nazwie. Ostatni wygenerowany rezultat służy do wygenerowania grafu, używanego przez bibliotekę Tensorflow do powiązania przedmiotów na aktualnym zdjęciem z nauczonym modelem. W tym celu z folderu object\_detection należy wybrać numer ostatniego pliku "model.cktp-XXXX" oraz wykonać polecenie z listingu \ref{frozenGraph}.
+
+\begin{lstlisting}[caption={Wygenerowanie grafu modelu uczenia.}, label={frozenGraph} ]
+$ python export_inference_graph.py 
+--input_type image_tensor 
+--pipeline_config_path 
+	training/faster_rcnn_inception_v2_productscanner.config 
+--trained_checkpoint_prefix training/model.ckpt-XXXX 
+--output_directory inference_graph
+\end{lstlisting}
 
 Stworzenie modelu jest czynnością opcjonalną. Repozytorium projektu zawiera już wygenerowane pliki w odpowiednich katalogach projektowych. Zostały w nich  przedstawione czynności, które programista może podjąć, aby ewentualnie rozszerzyć projekt o dodatkowe modele. Niezbędne w tym przypadku jest uruchomienie serwera bazodanowego oraz systemu kolejkowego RabbitMQ. W tym celu na rzecz wytwarzania oprogramowania przygotowano pliki Docker. Zawierają one definicję niezbędnych kontenerów z oprogramowaniem, które mogą zostać uruchomione bez konieczności instalacji ich na stacji roboczej. W tym celu należy za pomocą oprogramowania docker oraz konsoli Powershell wykonać polecenie:
 
@@ -255,6 +265,7 @@ $ docker-compose -f ./docker-compose-dev.yml down
 \section{Konfiguracja}
 
 Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomości do pozostałych mikroserwisów. Ponadto konfiguracja zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz jej konfiguracji. Wszystkie wymienione założenia sprawiają, że konieczna jest zaawansowana konfiguracja aplikacji. W tym celu w projektach ASP.NET Core dokonano zaawansowanych konfiguracji klasy Startup.cs. W metodzie ConfigueServices stworzono kod, który inicjalizuje struktury bazodanowe oraz który został przedstawiony w listingu \ref{databaseConfiguration}. 
+\newpage
 
 \begin{lstlisting}[caption={Konfiguracja bazy danych oraz obiektu komunikacji bazodanowej.},label={databaseConfiguration} ]
 string connectionString = 
@@ -280,6 +291,14 @@ services.AddDefaultIdentity<ApplicationUser>(options =>
 
 Dalsza implementacja metody zakłada stworzenie obiektów odwróconego sterowania (Dependency Injection) oraz konfigurację między innymi autoryzacji lub komunikacji w czasie rzeczywistym. Dane niezbędne do skonfigurowania poszczególnych obiektów - na przykład parametrów autoryzacji, zostały wczytane z pliku appsettings.json. Plik ten znajduje się w folderze domowym aplikacji internetowej. Poza konfiguracją zabezpieczeń aplikacji, znajdują się w nim między innymi parametry połączenia z bazą danych, oprogramowaniem RabbitMQ oraz ustawienia poziomu logowania. Użycie pliku konfiguracyjnego jest dobrą praktyką pomocną przy dokonywaniu wdrożeń. Umożliwia ona między innymi dostosowanie aplikacji bez jej dodatkowej rekompilacji. Kod przedstawiający konfigurację serwisów oraz autoryzacji został przedstawiony w listingu \ref{dependencyInjectionAndConfiguration}. 
 
+Niektóre z metod wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
+\begin{itemize}[noitemsep]
+	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych,
+	\item AddServices, która zawiera wszystkie serwisy przechowujące logikę biznesową aplikacji,
+	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów,
+	\item AddMapperConfiguration(), ktora inicjalizuje bibliotekę Automapper wraz ze wszystkimi profilami mapowania.
+\end{itemize}
+Przykładowa metoda rozszerzeń została przedstawiona na listingu \ref{extensionMethod}.
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
 services.AddCors();
 services.AddServices();
@@ -290,9 +309,6 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 {
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = true,
-		ValidateAudience = true,
-		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = Configuration["Jwt:Issuer"],
 		ValidAudience = Configuration["Jwt:Issuer"],
@@ -304,9 +320,7 @@ services.AddMvc(options =>
 {
 	options.Filters.Add(typeof(HttpGlobalExceptionFilter));
 	options.Filters.Add(typeof(ValidateModelStateFilter));
-})
-.SetCompatibilityVersion(CompatibilityVersion.Version\_2\_1);
-
+}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 services.AddSignalR();
 services.AddMapperConfiguration();
 var container = new ContainerBuilder();
@@ -314,31 +328,23 @@ container.Populate(services);
 return new AutofacServiceProvider(container.Build());
 \end{lstlisting}
 
-Niektóre z metod wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
-\begin{itemize}[noitemsep]
-	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych,
-	\item AddServices, która zawiera wszystkie serwisy przechowujące logikę biznesową aplikacji,
-	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów,
-	\item AddMapperConfiguration(), ktora inicjalizuje bibliotekę Automapper wraz ze wszystkimi profilami mapowania.
-\end{itemize}
 
 
-\begin{lstlisting}[caption={Metoda rozszerzeń umożliwiająca dodanie serwisów do mechanizmów odwróconego sterowania.} ]
-public static class ServiceConfiguration
+\begin{lstlisting}[caption={Metoda rozszerzeń umożliwiająca dodanie serwisów do mechanizmów odwróconego sterowania.},label={extensionMethod}  ]
+public static IServiceCollection 
+	AddServices(this IServiceCollection services)
 {
-	public static IServiceCollection AddServices
-		(this IServiceCollection services)
-	{
-		services.AddScoped<IJwtService, JwtService>();
-		services.AddScoped<IPhotoService, PhotoService>();
-		services.AddScoped<IPhotoObjectService, PhotoObjectService>();
-		return services;
-	}
+	services.AddScoped<IJwtService, JwtService>();
+	services.AddScoped<IPhotoService, PhotoService>();
+	services.AddScoped<IPhotoObjectService, PhotoObjectService>();
+	services.AddScoped<IPhotoDataService, PhotoDataService>();
+	services.AddScoped<IPhotoTypeService, PhotoTypeService>();
+	
+	return services;
 }
 \end{lstlisting}
 
 Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP, należało stworzyć klasę dziedziczącą z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
-\newpage
 
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
  public class ValidateModelStateFilter : ActionFilterAttribute
@@ -356,7 +362,7 @@ Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zal
 \end{lstlisting}
 
 Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu do agentów nasłuchujących w kolejce. Metoda RegisterEventBus(Configuration) dodana do serwisów w konfiguracji aplikacji dodaje do niej klienta RabbitMQ. Jego metoda inicjalizująca zakłada dodanie zdarzeń w~przypadku otrzymania danych oraz zablokowanie lub zamknięcie połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że aktualnie mikroserwis, do którego chcemy wysłać wiadomość, może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. W związku z tym konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie określonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
-
+\newpage
 
 \begin{lstlisting}[caption={Metoda połączenia klienta RabbitMQ.} ]
 lock (sync_root)
@@ -473,6 +479,7 @@ public class EventBusService {
 	}
 \end{lstlisting}
 Aplikacja mobilna komunikuje się z serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania stron, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego się w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas stroną startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji.
+\newpage
 \begin{lstlisting}[caption={Generowanie strony w zależności od tokenu znajdującego sie w pamięci urządzenia.}]
 
 @Component({
@@ -634,15 +641,12 @@ public async Task<IActionResult> Create(IFormFile file)
 \end{lstlisting} 
 
 \item \textbf{Rozsyłanie wiadomości} - Interfejs obiektu klient RabbitMQ umożliwia  rozsyłanie wiadomości do innych mikroserwisów. Tworzone wiadomości muszą dziedziczyć po klasie IntegrationEvent. Klasa ta zawiera deklarację zmiennej Id, która jest wymagana w dowolnej komunikacji pomiędzy komponentami systemu. Metoda Publish klienta RabitMq jest odpowiedzialna za rozesłanie wiadomości. Typ obiektu przekazanego przez programistę do funkcji umożliwi wskazanie klucza routingu, określającego odbiorców wiadomości. Rozpoznanie typu obiektu zostało dokonane przy użyciu refleksji. Wiadomości wysyłane są w postaci zakodowanego formatu JSON w Base64. Algorytm dodatkowo wyposażony jest w dodatkowy interfejs ponownego wysłania wiadomości w przypadku napotkania błędu. Zostało to zrealizowane przy zastosowaniu biblioteki Polly. Sposób publikacji wiadomości przy użyciu klienta RabbitMQ znajduje się w linii 31 w listingu \ref{messagePublish}. 
-\newpage
 
 \begin{lstlisting}[caption={Metoda publikacji wiadomości.}, label={messagePublish}]
 public void Publish(IntegrationEvent @event)
 {
 	if (!_persistentConnection.IsConnected)
-	{
 	_persistentConnection.TryConnect();
-	}
 
 	var policy = RetryPolicy.Handle<BrokerUnreachableException>()
 		.Or<SocketException>()
@@ -665,8 +669,7 @@ public void Publish(IntegrationEvent @event)
 		policy.Execute(() =>
 		{
 			var properties = channel.CreateBasicProperties();
-			properties.DeliveryMode = 2;
-	
+			properties.DeliveryMode = 2;	
 			channel.BasicPublish(exchange: BROKER_NAME,
 				routingKey: eventName,
 				mandatory: true,
@@ -791,10 +794,10 @@ public async Task Handle(ImageClasificationResultEvent @event)
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
+\newpage
 
-
-\begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}]
+\begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}, label={initOntology}]
 private OntModel _model = ModelFactory
 	.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 private final String iri = "http://www.product-scanner/ontology";
@@ -822,9 +825,10 @@ public void addToOntology(
 }
 \end{lstlisting}
 
-Aby wykonać operację wnioskowania przy użyciu ontologii, należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ.
+Aby wykonać operację wnioskowania przy użyciu ontologii, należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ. Opisana metoda została przedstawiona w listingu \ref{getOntologyData}.
+\newpage
 
-\begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}]
+\begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}, label={getOntologyData}]
 
 public Map<Integer, Map<String, Object>>
  getResult(List<ImageClasificationEventResultEntry> entryList){
@@ -903,6 +907,8 @@ private Map<String, Integer> readIndividualCounter(String query)
 
 Przedstawiona metoda wymaga przekazania jako parametr funkcji zapytania SPARQL stworzonego wcześniej w programie. Funkcja zakłada, że w otrzymanym wyniku znajdują się właściwości "name" oraz "total". Metoda została użyta w celu wykonania zapytania zliczającego ilość indywiduów poszczególnych klas produktów. Dzięki temu użytkownik zna podział sklasyfikowanych elementów wykrytych na zdjęciach. Zapytanie SPARQL przekazane do metody z "readIndividualCounter" zostało przedstawione w listingu \ref{sparqlCountProducts}.
 
+Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych określających ilość niepoprawnie ułożonych przedmiotów względem wszystkich produktów klasy Product. W zapytaniu SPARQL zostało przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedynczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
+
 \begin{lstlisting}[caption={Zapytanie SPARQL zliczające ilość sklasyfikowanych indywiduów.}, label={sparqlCountProducts}]
 SELECT ?y (count(?y) as ?total)
 WHERE { 
@@ -918,10 +924,6 @@ WHERE {
 }
 group by ?y
 \end{lstlisting}
-
-Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych określających ilość niepoprawnie ułożonych przedmiotów względem wszystkich produktów klasy Product. W zapytaniu SPARQL zostało przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedynczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
-
-
 
 \begin{lstlisting}[caption={Zliczenie niepoprawnie ułożonych przedmiotów.}, label={countInvalidProducts}]
 SELECT (count(?individuals) as ?total)
