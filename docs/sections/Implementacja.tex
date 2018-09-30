@@ -231,11 +231,11 @@ Przygotowanie zdjęć do procesu nauki modelu jest bardzo istotnym elementem kon
 $ python train.py 
 	--logtostderr 
 	--train_dir=training/
-	 --pipeline_config_path=
+	--pipeline_config_path=
 	 	training/faster_rcnn_inception_v2_productscanner.config
 \end{lstlisting}
 
-Proces trenowania modelu wraz z kolejnymi przejściami algorytmu generuje plik z identyfikatorem przejścia w nazwie. Ostatni wygenerowany rezultat służy do wygenerowania grafu, używanego przez bibliotekę Tensorflow do powiązania przedmiotów na aktualnym zdjęciem z nauczonym modelem. W tym celu z folderu object\_detection należy wybrać numer ostatniego pliku "model.cktp-XXXX" oraz wykonać polecenie z listingu \ref{frozenGraph}.
+Proces trenowania modelu wraz z kolejnymi przejściami algorytmu generuje plik z identyfikatorem przejścia w nazwie. Ostatni wygenerowany rezultat służy do wygenerowania grafu, używanego przez bibliotekę Tensorflow do powiązania przedmiotów na aktualnym zdjęciu z nauczonym modelem. W tym celu z folderu object\_detection należy wybrać numer ostatniego pliku "model.cktp-XXXX" oraz wykonać polecenie z listingu \ref{frozenGraph}.
 
 \begin{lstlisting}[caption={Wygenerowanie grafu modelu uczenia.}, label={frozenGraph} ]
 $ python export_inference_graph.py 
@@ -264,7 +264,7 @@ $ docker-compose -f ./docker-compose-dev.yml down
 
 \section{Konfiguracja}
 
-Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomości do pozostałych mikroserwisów. Ponadto konfiguracja zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz jej konfiguracji. Wszystkie wymienione założenia sprawiają, że konieczna jest zaawansowana konfiguracja aplikacji. W tym celu w projektach ASP.NET Core dokonano zaawansowanych konfiguracji klasy Startup.cs. W metodzie ConfigueServices stworzono kod, który inicjalizuje struktury bazodanowe oraz który został przedstawiony w listingu \ref{databaseConfiguration}. 
+Aplikacja internetowa ze względu na charakter jaki pełni w oprogramowaniu musi zapewnić interfejs komunikacji HTTP oraz możliwość rozsyłania wiadomości do pozostałych mikroserwisów. Ponadto charakterystyka projektu zakłada możliwość komunikacji z urządzeniami zewnętrznymi, co wymusza wsparcie dla CORS. Aplikacja internetowa zakłada istnienie bazy danych oraz serwera RabbitMQ. W tym celu w projkecie ASP.NET Core wywołano metody konfiguracyjne w klasie Startup.cs. W metodzie ConfigueServices stworzono kod, który inicjalizuje używane usługi. Został on przedstawiony w listingu \ref{databaseConfiguration}. 
 \newpage
 
 \begin{lstlisting}[caption={Konfiguracja bazy danych oraz obiektu komunikacji bazodanowej.},label={databaseConfiguration} ]
@@ -291,11 +291,11 @@ services.AddDefaultIdentity<ApplicationUser>(options =>
 
 Dalsza implementacja metody zakłada stworzenie obiektów odwróconego sterowania (Dependency Injection) oraz konfigurację między innymi autoryzacji lub komunikacji w czasie rzeczywistym. Dane niezbędne do skonfigurowania poszczególnych obiektów - na przykład parametrów autoryzacji, zostały wczytane z pliku appsettings.json. Plik ten znajduje się w folderze domowym aplikacji internetowej. Poza konfiguracją zabezpieczeń aplikacji, znajdują się w nim między innymi parametry połączenia z bazą danych, oprogramowaniem RabbitMQ oraz ustawienia poziomu logowania. Użycie pliku konfiguracyjnego jest dobrą praktyką pomocną przy dokonywaniu wdrożeń. Umożliwia ona między innymi dostosowanie aplikacji bez jej dodatkowej rekompilacji. Kod przedstawiający konfigurację serwisów oraz autoryzacji został przedstawiony w listingu \ref{dependencyInjectionAndConfiguration}. 
 
-Niektóre z metod wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
+Niektóre z funkcji wykonywanych na obiekcie services stanowią metody rozszerzeń stworzone na obiekcie ServiceProvider. Do ich grona należą metody:
 \begin{itemize}[noitemsep]
 	\item AddRepositories(), której celem jest dodanie wszystkich istniejących repozytoriów dostępów do danych,
 	\item AddServices, która zawiera wszystkie serwisy przechowujące logikę biznesową aplikacji,
-	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów,
+	\item RegisterEventBus(Configuration), która tworzy połączenie z oprogramowaniem RabbitMQ oraz rejestruje obiekt umożliwiający wysyłanie wiadomości do mikroserwisów lub ich odbiór,
 	\item AddMapperConfiguration(), ktora inicjalizuje bibliotekę Automapper wraz ze wszystkimi profilami mapowania.
 \end{itemize}
 Przykładowa metoda rozszerzeń została przedstawiona na listingu \ref{extensionMethod}.
@@ -344,7 +344,7 @@ public static IServiceCollection
 }
 \end{lstlisting}
 
-Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo dodaje dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP, należało stworzyć klasę dziedziczącą z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
+Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zależności od żądań HTTP, dodatkowo zawiera dwa filtry. Zostały one dodane w celu stworzenia generycznych odpowiedzi w przypadku napotkania błędu oraz dokonywania walidacji modelu wejściowego. W tym celu aby stworzyć filtr, który będzie wywoływany przed lub po przetworzeniu żądania HTTP, należało stworzyć klasę dziedziczącą z ActionFilterAttribute. Stworzony filtr powinien nadpisywać jedną z metod dostępnych w klasie bazowej, aby był on egzekwowany przy przetwarzaniu żądań HTTP. Przykładowy filtr umożliwiający walidację danych znajduje się w listingu poniżej.
 
 \begin{lstlisting}[caption={Stworzenie obiektów odwróconego sterowania.},label={dependencyInjectionAndConfiguration} ]
  public class ValidateModelStateFilter : ActionFilterAttribute
@@ -361,7 +361,7 @@ Metoda AddMvc, która ma za zadanie wywoływanie odpowiednich kontrolerów w zal
 }
 \end{lstlisting}
 
-Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu do agentów nasłuchujących w kolejce. Metoda RegisterEventBus(Configuration) dodana do serwisów w konfiguracji aplikacji dodaje do niej klienta RabbitMQ. Jego metoda inicjalizująca zakłada dodanie zdarzeń w~przypadku otrzymania danych oraz zablokowanie lub zamknięcie połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że aktualnie mikroserwis, do którego chcemy wysłać wiadomość, może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. W związku z tym konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie określonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
+Aplikacja internetowa w celu komunikacji z innymi mikroserwisami używa oprogramowania RabbitMQ. Za jego pomocą rozsyła wiadomości przy użyciu klucza routingu do agentów nasłuchujących w kolejce. Metoda RegisterEventBus dodana do serwisów w konfiguracji aplikacji tworzy klienta RabbitMQ. Jego metoda inicjalizująca zakłada dodanie zdarzeń w~przypadku otrzymania danych oraz funkcje zablokowania lub zamknięcie połączenia. W przypadku komunikacji przy użyciu kolejki możemy oczekiwać, że mikroserwis, do którego chcemy wysłać wiadomość, może być niedostępny. Mogłoby to być spowodowane zbyt dużym obciążeniem lub chwilową niedostępnością serwera. Konfiguracja klienta RabbitMQ zakłada polityki bezpieczeństwa w przypadku napotkania błędów. Dzięki temu, po upływie określonego czasu oprogramowanie wznowi połączenia z kolejką lub wyśle ponownie wiadomość do niedostępnego wcześniej mikroserwisu.
 \newpage
 
 \begin{lstlisting}[caption={Metoda połączenia klienta RabbitMQ.} ]
@@ -434,15 +434,14 @@ class Communication:
 
 \end{lstlisting}
 
-W przypadku mikroserwisu reguł semantycznych użyto biblioteki rabbitmq znalezionej w repozytorium bibliotek Maven. Aby jej użyć dodano definicję biblioteki do pliku pom.xml, który zawiera konfigurację wszystkich zależności aplikacji. Zmienne klienta RabbitMQ tak jak w przypadku mikroserwisu przetwarzania obrazu, przechowywane są w stałych zmiennych. W celu uruchomienia mikroserwisu należy wysłać wiadomość na klucz routingu "ImagePreprocessingEvent".
+W przypadku mikroserwisu reguł semantycznych użyto biblioteki rabbitmq znalezionej w repozytorium bibliotek Maven. Aby jej użyć dodano definicję biblioteki do pliku pom.xml, który zawiera spis wszystkich zależności aplikacji. Parametry połączenia klienta RabbitMQ tak jak w przypadku mikroserwisu przetwarzania obrazu, przechowywane są w stałych zmiennych. W celu uruchomienia mikroserwisu należy wysłać wiadomość na klucz routingu "ImagePreprocessingEvent". Mikroserwis zakłada również możliwość komunikacji w celu otrzymania statystyk istniejącej ontologii. Jeżeli program odbierze wiadomość o kluczu routingu "ReportEvent".
 \begin{lstlisting}[caption={Klient RabbitMQ dla mikroserwisu reguł semantycznych.}]
 public class EventBusService {
-	private  Channel _channel;
-	
+	private  Channel _channel;	
 	private WebSemanticService _service;
 	
 	public  EventBusService() 
-		throws TimeoutException, IOException, IllegalAccessException{
+		throws TimeoutException, IOException {
 		setupExchange(getConnectionFactory());
 		_service = new WebSemanticService();
 	}
@@ -457,7 +456,7 @@ public class EventBusService {
 			 handling algorithm
 			}
 		};
-		_channel.basicConsume(QUEUE_NAME, true, consumer);
+		_channel.basicConsume(QUE_NAME, true, consumer);
 		System.out.println(" [*] Waiting for logs.");
 	}
 	
@@ -466,21 +465,22 @@ public class EventBusService {
 		Connection connection = factory.newConnection();
 		_channel= connection.createChannel();
 		_channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-		_channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-		_channel.queueBind(QUEUE_NAME, 
-			EXCHANGE_NAME, 
-			RECEIVE_ROUTING_KEY);
+		_channel.queueDeclare(QUE_NAME, false, false, false, null);
+		_channel.queueBind(QUE_NAME, EXCHANGE_NAME, REC_KEY);
+		_channel.queueBind(QUE_NAME, EXCHANGE_NAME, REPORT_KEY);
 	}
 	
 	private ConnectionFactory getConnectionFactory(){
 		ConnectionFactory factory = new ConnectionFactory();
-		...
+		factory.setHost("localhost");
+		factory.setUsername("node");
+		factory.setPassword("node");
 		return factory;
 	}
 \end{lstlisting}
-Aplikacja mobilna komunikuje się z serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania stron, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego się w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas stroną startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji.
+Aplikacja mobilna komunikuje się z serwerem ASP.NET Core przy użyciu protokołu HTTP. W tym przypadku konfiguracja szablonu projektowego Ionic ograniczyła się do wskazania widoków, komponentów oraz serwisów w pliku app.module, używanego przez bibliotekę Angular 5. Strona startowa aplikacji mobilnej jest generowana w zależności od tokenu znajdującego się w lokalnej pamięci urządzenia. Jeżeli użytkownik nie zalogował się, wówczas stroną startową jest zakładka logowania i rejestracji. W innym przypadku, jeżeli token istnieje, wówczas generowany jest główny widok aplikacji. Wybór generowanego widoku w zależności od tokenu został przedstawiony w listingu \ref{viewGeneration}.
 \newpage
-\begin{lstlisting}[caption={Generowanie strony w zależności od tokenu znajdującego sie w pamięci urządzenia.}]
+\begin{lstlisting}[caption={Generowanie strony w zależności od tokenu znajdującego sie w pamięci urządzenia.}, label={viewGeneration}]
 
 @Component({
 	templateUrl: 'app.html'
@@ -507,7 +507,7 @@ export class MyApp {
 Niniejszy rozdział ma na celu przedstawienie sposobu implementacji funkcjonalności uwzględnionych w wymaganiach programu. Omawiane funkcje pokazują sposób komunikacji poszczególnych modułów oprogramowania. Metody nieomówione w dokumencie znajdują się w kodzie źródłowym aplikacji dołączonym w załączniku. W celu ich analizy należy udać się do katalogu src znajdującego się w folderze domowym projektu.
 \\
 \begin{itemize}
-\item \textbf{Logowanie z wykorzystaniem biblioteki JWT} - Mechanizm logowania wymaga wysłania do aplikacji internetowej z urządzenia mobilnego danych użytkownika i hasła. W tym celu aplikacja ASP.NET Core wykorzystuje bibliotekę Identity oraz JWT do tego by wygenerować token autoryzacji. Żądanie otrzymane w kontrolerze zostaje w nim przetworzone. Wykorzystano w tym celu istniejący serwis w bibliotece Identity, za pomocą którego wyszukany zostanie użytkownik o danej nazwie oraz haśle uzyskanym z~funkcji skrótu. W przypadku gdy użytkownik istnieje serwis biblioteki JWT wygeneruje token autoryzacyjny. Zostały w nim umieszczone informacje o identyfikatorze, nazwie oraz rolach użytkownika w systemie.
+\item \textbf{Logowanie z wykorzystaniem biblioteki JWT} - Mechanizm logowania wymaga wysłania do aplikacji internetowej z urządzenia mobilnego nazwy użytkownika i hasła. W tym celu aplikacja ASP.NET Core wykorzystuje bibliotekę Identity oraz JWT do tego by wygenerować token autoryzacji. Wykorzystano w tym celu istniejący serwis w bibliotece Identity, za pomocą którego wyszukany zostanie użytkownik o danej nazwie oraz haśle uzyskanym z~funkcji skrótu. W przypadku gdy użytkownik istnieje serwis biblioteki JWT wygeneruje token autoryzacyjny. Zostały w nim umieszczone informacje o identyfikatorze, nazwie oraz rolach użytkownika w systemie.
 
 \begin{lstlisting}[caption=Metoda generująca token JWT.]
  public string GenerateToken(ApplicationUser user)
@@ -618,7 +618,7 @@ public toFile(photoImage: string) {
 	);
 }
 \end{lstlisting} 
-\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego, zanim zostanie poddane przetwarzaniu przez algorytm uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. Do obiektu można przekazać więcej niż jedno zdjęcie, jednak w tym przypadku nie zostało to wykorzystane. Założono, że użytkownik przekaże do kontrolera tylko jeden plik, a reszta z nich ewentualnie zostanie zignorowana. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymany obraz jest zapisywany na dysku twardym serwera, a~następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w kontrolerze w konstruktorze. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania. Zastosowanie asynchronicznej metody pozwala na wykorzystanie czasu procesora w trakcie oczekiwania na rezultat na inne żądania. 
+\item \textbf{Zapis zdjęcia} - Otrzymane zdjęcie z urządzenia mobilnego, zanim zostanie poddane przetwarzaniu przez algorytm uczenia maszynowego zostaje zapisane w aplikacji internetowej. Kontroler w ASP.NET Core umożliwia przyjęcie zdjęcia umieszczonego w formData przy użyciu obiektu IFormFile. Do obiektu można przekazać więcej niż jedno zdjęcie, jednak w tym przypadku nie zostało to wykorzystane. Założono, że użytkownik przekaże do kontrolera tylko jeden plik, a reszta z nich ewentualnie zostanie zignorowana. W przypadku gdy akcja kontrolera zostanie wywołana bez żadnych parametrów wówczas serwer zwróci HTTP status 400 oznaczający wysłanie złego żądania. Otrzymany obraz jest zapisywany na dysku twardym serwera, a~następnie otrzymana ścieżka jest dodana do encji w bazie danych przechowującej informacje o aktualnym zdjęciu. Po pomyślnym zapisie danych rozsyłane są wiadomości w celu przetworzenia otrzymanego obrazu przy użyciu klienta RabbitMQ. Instancja obiektu menadżera kolejki została zapisana w konstruktorze kontrolera. Było to możliwe dzięki zastosowaniu wzoru odwróconego sterowania. Zastosowanie asynchronicznej metody pozwala na wykorzystanie czasu procesora w trakcie oczekiwania na rezultat na inne żądania. 
 
 \begin{lstlisting}[caption=Akcja zapisu zdjęcia.]
 [HttpPost("")]
@@ -679,7 +679,7 @@ public void Publish(IntegrationEvent @event)
 	}
 }
 \end{lstlisting}
-\item \textbf{Odbiór wiadomości w środowisku uruchomieniowym Python} - Metody przetwarzania obrazu uruchamiane są wraz z otrzymaniem danych z~aplikacji internetowych. Zawartość wiadomości pochodzi z żądania HTTP wraz ze zdjęciem wysłanym z urządzenia mobilnego do serwera. Następnie dane przetworzone oraz zapisane przez aplikację internetową tworzą wiadomość niezbędną do uruchomienia algorytmów przetwarzania obrazu. Mikroserwis oraz aplikacja internetowa korzystają z plików zapisanych na tym samym dysku twardym. Kolejne iteracje oprogramowania zakładają stworzenie interfejsu dostępu do plików przy pomocy nierelacyjnej bazy danych. W związku z tym w otrzymywanej wiadomości znajduje się ścieżka do pliku, który musi zostać poddany przetwarzaniu. Mikroserwis przyjmuje wiadomości z kluczem routingu ImageClasificationEvent. Jego nazwa jest odpowiednikiem nazwy klasy, stworzonej w celu wysłania wiadomości z~aplikacji internetowej. 
+\item \textbf{Odbiór wiadomości w środowisku uruchomieniowym Python} - Metody przetwarzania obrazu uruchamiane są wraz z otrzymaniem danych z~aplikacji internetowych. Zawartość wiadomości pochodzi z żądania HTTP wraz ze zdjęciem wysłanym z urządzenia mobilnego do serwera. Następnie dane przetworzone oraz zapisane przez aplikację internetową tworzą wiadomość niezbędną do uruchomienia algorytmów przetwarzania obrazu. Mikroserwis oraz aplikacja internetowa korzystają z plików zapisanych na tym samym dysku twardym. Kolejne iteracje oprogramowania zakładają stworzenie interfejsu dostępu do plików przy pomocy nierelacyjnej bazy danych. Ze względu na miejsce zapisu zdjęć, w otrzymywanej wiadomości znajduje się ścieżka do pliku, który musi zostać poddany przetwarzaniu. Mikroserwis przyjmuje wiadomości z kluczem routingu ImageClasificationEvent. Jego nazwa jest odpowiednikiem nazwy klasy, stworzonej w celu wysłania wiadomości z~aplikacji internetowej. 
 
 \begin{lstlisting}[caption={Połączenie do kolejki RabbitMQ.}]
 class Communication:
@@ -712,8 +712,7 @@ class Communication:
 		self.channel.start_consuming()
 \end{lstlisting}
 
-Klasa Communication przetwarza wiadomości przy użyciu przekazanej metody o nazwie callback. Jeżeli aplikacja internetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis oraz deserializacji wiadomości na obiekt.
-
+Klasa Communication przetwarza otrzymane wiadomości przy użyciu delegaty o nazwie callback. Jeżeli aplikacja internetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis w celu dokonania deserializacji na obiekt.
 
 
 \begin{lstlisting}[caption={Odbieranie wiadomości w środowisku Python.}]
@@ -745,7 +744,7 @@ with detection_graph.as_default():
 	
 	self.sess = tf.Session(graph=detection_graph)
 \end{lstlisting}
-\item \textbf{Detekcja przedmiotów na zdjęciu} - w celu detekcji wczytywane jest zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostać poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbę elementów (num). Dodatkowo w~wyniku wykonania metody algorytm zapisuje wynikowe zdjęcie. Jest ono tworzone na podstawie uzyskanych danych z klasyfikacji. Obraz dodatkowo wyposażony jest w prostokąty, które wskazują sklasyfikowane przedmioty oraz ich klasyfikator.
+\item \textbf{Detekcja przedmiotów na zdjęciu} - Algorytm detekcji przedmiotów wczytuje zdjęcie znajdujące się w ścieżce przekazanej w argumencie funkcji. Obiekt zdjęcia tworzony jest z wykorzystaniem biblioteki OpenCV. Zmienna image przechowuje bufor wczytanego obrazu, którego macierz jest rozszerzana przy użyciu metody expand\_dims. Tak zapisany obraz może zostać poddany analizie z wykorzystaniem stworzonego modelu. W tym celu została użyta metoda run na obiekcie modelu tensorflow sess. Warto podkreślić, że efektem wykonania metody jest otrzymanie współrzędnych obrazu (box), oceny prawdopodobieństwa dobrania poprawnego wyniku (score), klasyfikatory (classes) oraz całkowitą liczbę elementów (num). Dodatkowo w~wyniku wykonania metody algorytm zapisuje wynikowe zdjęcie. Zawiera ono prostokąty, wskazujące na sklasyfikowane przedmioty oraz ich klasyfikator.
 \newline
 
 \begin{lstlisting}[caption={Detekcja przedmiotów na obrazie.}]
@@ -780,21 +779,25 @@ public async Task Handle(ImageClasificationResultEvent @event)
 {
 	var photoViewModel = _mapper.Map<PhotoViewModel>(@event);
 	var model = await _photoService.Get(photoViewModel.Id);
-	if (model == null)
-	{
-		return;
-	}
+	if (model == null) return;
 	
 	photoViewModel.UserId = model.UserId;
 	await _photoService.Update(photoViewModel);
 	await _photoService.SaveChanges();
 	await _hub.Clients.All.SendAsync("DataReady", model.Id, true);
-	var data = _mapper.Map<ImagePreprocessingEvent>(model);
-	_eventBus.Publish(data);
+	var photos = _photoObject.Get()
+		.Where(n => n.PhotoId == @event.Id);
+	var data = _mapper
+	.Map<IEnumerable<ImageClasificationEventResultEntry>>(photos);
+	var webSemanticEvent = new ImagePreprocessingEvent() {
+		Id = @event.Id,
+		Data = data
+	};	
+	_eventBus.Publish(webSemanticEvent);
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej do RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej z klienta RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
 \newpage
 
 \begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}, label={initOntology}]
@@ -844,7 +847,7 @@ public Map<Integer, Map<String, Object>>
 			....
 \end{lstlisting}
 
-\item \textbf{Reguły SWRL ontologii} - Dane dodane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkował do danych wejściowych między innymi pozycję przedmiotu, wykonał wstępną walidację lub przypisał inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawierało wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w~celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściwości znajduje się na rysunku \ref{fig:dataproperties} w punkcie b).
+\item \textbf{Reguły SWRL ontologii} - Dane dodane do ontologii przy użyciu interfejsu biblioteki JENA umożliwiają dokonanie wnioskowania. W tym celu przygotowano reguły SWRL do istniejących klas. Dzięki nim system wnioskujący przyporządkował do danych wejściowych między innymi pozycję przedmiotu, wykonał wstępną walidację lub przypisał inną klasę. Nowo stworzone indywiduum z interfejsu programistycznego zawiera wynik klasyfikacji przedmiotu, identyfikator analizowanego zdjęcia oraz jego pozycję na osi OXY (minimalną oraz maksymalną wartość na osi Y i X). Wartości te zostały przypisane do właściwości obiektu. Dodatkowo pozostałe istniejące indywidua mogą mieć właściwość o nazwie opis - description. Jest ona tworzona tylko w przypadku przypisania do indywiduum klasy Invalid w~celu wskazania opisu błędu. Zbiór wszystkich wykorzystanych właściwości znajduje się na rysunku \ref{fig:dataproperties} w punkcie b).
 
 
 Brak dostosowania odpowiedniej klasy na podstawie tych danych spowodowałby brak danych wyjściowych z przeprowadzonego wnioskowania. Byłoby to spowodowane nierozpoznaniem klasy produktu, która jest niezbędna przy przetwarzaniu indywiduów. W tym celu stworzono regułę SWRL, która na podstawie nazwy produktu - czyli wyniku klasyfikacji - przypisuje odpowiednią klasę ontologii. 
