@@ -903,23 +903,24 @@ private Map<String, Integer> readIndividualCounter(String query)
 
 Przedstawiona metoda wymaga przekazania jako parametr funkcji zapytania SPARQL stworzonego wcześniej w programie. Funkcja zakłada, że w otrzymanym wyniku znajdują się właściwości "name" oraz "total". Metoda została użyta w celu wykonania zapytania zliczającego ilość indywiduów poszczególnych klas produktów. Dzięki temu użytkownik zna podział sklasyfikowanych elementów wykrytych na zdjęciach. Zapytanie SPARQL przekazane do metody z "readIndividualCounter" zostało przedstawione w listingu \ref{sparqlCountProducts}.
 
-Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych określających ilość niepoprawnie ułożonych przedmiotów względem wszystkich produktów klasy Product. W zapytaniu SPARQL zostało przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedyńczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduuów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
-
 \begin{lstlisting}[caption={Zapytanie SPARQL zliczające ilość sklasyfikowanych indywiduów.}, label={sparqlCountProducts}]
 SELECT ?y (count(?y) as ?total)
-WHERE {
+WHERE { 
 {	?x a ont:CocaCola. 
-	?x rdf:type ?y. 
-	?y rdfs:subClassOf ont:CocaCola} UNION 
+?x rdf:type ?y. 
+?y rdfs:subClassOf ont:CocaCola} UNION 
 { 	?x a ont:Pepsi.   
-	?x rdf:type ?y.  
-	?y rdfs:subClassOf ont:Pepsi} UNION 
+?x rdf:type ?y.  
+?y rdfs:subClassOf ont:Pepsi} UNION 
 {	?x a ont:CocaColaZero.  
-	?x rdf:type ?y. 
-	?y rdfs:subClassOf ont:CocaColaZero} .
+?x rdf:type ?y. 
+?y rdfs:subClassOf ont:CocaColaZero} . 
 }
 group by ?y
 \end{lstlisting}
+
+Zmiana zachowania ciała metody wewnątrz pętli while umożliwi bardzo szybkie dostosowanie kolejnych zapytań. Dzięki temu było możliwe otrzymanie danych określających ilość niepoprawnie ułożonych przedmiotów względem wszystkich produktów klasy Product. W zapytaniu SPARQL zostało przedstawione wykorzystanie polecenia count. Jednak w przypadku otrzymania pojedynczego wyniku, biblioteka JENA generowała wartość równą null. W tym celu zliczono ilość wszystkich indywiduów oraz ich cech za pomocą wyfiltrowanych wyników z zapytania SPARQL, które zostało zaprezentowane na listingu \ref{countInvalidProducts}.
+
 
 
 \begin{lstlisting}[caption={Zliczenie niepoprawnie ułożonych przedmiotów.}, label={countInvalidProducts}]
