@@ -235,7 +235,7 @@ $ python train.py
 	 	training/faster_rcnn_inception_v2_productscanner.config
 \end{lstlisting}
 
-Proces trenowania modelu wraz z kolejnymi przejściami algorytmu generuje plik z identyfikatorem przejścia w nazwie. Ostatni wygenerowany rezultat służy do wygenerowania grafu, używanego przez bibliotekę Tensorflow do powiązania przedmiotów na aktualnym zdjęciu z nauczonym modelem. W tym celu z folderu object\_detection należy wybrać numer ostatniego pliku "model.cktp-XXXX" oraz wykonać polecenie z listingu \ref{frozenGraph}.
+Proces trenowania modelu wraz z kolejnymi przejściami algorytmu generuje plik z identyfikatorem przejścia w nazwie. Ostatni wygenerowany rezultat służy do wygenerowania grafu, używanego przez bibliotekę Tensorflow do powiązania przedmiotów na aktualnym zdjęciu z nauczonym modelem. W~tym celu z folderu object\_detection należy wybrać numer ostatniego pliku "model.cktp-XXXX" oraz wykonać polecenie z listingu \ref{frozenGraph}.
 
 \begin{lstlisting}[caption={Wygenerowanie grafu modelu uczenia.}, label={frozenGraph} ]
 $ python export_inference_graph.py 
@@ -712,7 +712,7 @@ class Communication:
 		self.channel.start_consuming()
 \end{lstlisting}
 
-Klasa Communication przetwarza otrzymane wiadomości przy użyciu delegaty o nazwie callback. Jeżeli aplikacja internetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci tablicy bajtów, w której znajduje się plik JSON. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy wcześniej dokonać zamiany na napis w celu dokonania deserializacji na obiekt.
+Klasa Communication przetwarza otrzymane wiadomości przy użyciu delegaty o nazwie callback. Jeżeli aplikacja internetowa wyśle wiadomość z odpowiednim kluczem routingu, wówczas zostanie ona wywołana przez klienta RabbitMQ. Dane przekazane w wiadomości są w postaci pliku JSON znajdującego się w tablicy bajtów. Aby przekazać informacje z wiadomości do algorytmów przetwarzania należy dokonać operacji deserializacji na napisie otrzymanym z bajtów wiadomości.
 
 
 \begin{lstlisting}[caption={Odbieranie wiadomości w środowisku Python.}]
@@ -797,7 +797,7 @@ public async Task Handle(ImageClasificationResultEvent @event)
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej z klienta RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii umożliwia wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pellet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane poprzez wysłanie wiadomości \mbox{z} klienta RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii umożliwia wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pellet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu oraz wczytanie ontologii z dysku zostało przedstawione w listingu \ref{initOntology}.
 \newpage
 
 \begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}, label={initOntology}]
