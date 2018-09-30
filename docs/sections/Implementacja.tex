@@ -797,7 +797,7 @@ public async Task Handle(ImageClasificationResultEvent @event)
 }
 \end{lstlisting}
 
-\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej z klienta RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii zakłada możliwość wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pallet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
+\item \textbf{Tworzenie nowych indywiduów ontologii} - dane do mikroserwisu reguł semantycznych zostały przekazane przy użyciu wiadomości wysłanej z klienta RabbitMQ. Otrzymany model danych został przekazany do serwisu przetwarzania reguł semantycznych. Jego konstruktor zakłada możliwość wczytania istniejącej ontologii z dysku. Ponadto obiekt ontologii umożliwia wykorzystania własnego mechanizmu wnioskującego. Ze względu na brak wsparcia dla narzędzia "Pellet", należało wskazać mechanizm biblioteki Openllet Owlapi. Inicjalizacja obiektu ontologii została przedstawiona w listingu \ref{initOntology}.
 \newpage
 
 \begin{lstlisting}[caption={Stworzenie instancji modelu ontologii.}, label={initOntology}]
@@ -819,16 +819,16 @@ public void addToOntology(
 	ImageClasificationEventResultEntry entry, int imageId){
 	OntClass product = _model.getOntClass(iri + "#Product");
 	String name = iri +"#" + entry.Id;
-	Individual individual =_model.createIndividual(name, product);
+	Individual ind =_model.createIndividual(name, product);
 	
-	Property hasImageId = _model.createProperty(iri + "#hasImageId");
+	Property imageId = _model.createProperty(iri+"#hasImageId");
 	String id=  String.valueOf(imageId);
-	individual.addProperty(hasImageId, id , XSDDatatype.XSDint);
+	ind.addProperty(imageId, id , XSDDatatype.XSDint);
 ...
 }
 \end{lstlisting}
 
-Aby wykonać operację wnioskowania przy użyciu ontologii, należy dokonać operacji przygotowania istniejącego modelu. Dzięki temu może posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pallet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło iri ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ. Opisana metoda została przedstawiona w listingu \ref{getOntologyData}.
+Aby wykonać operację wnioskowania przy użyciu ontologii, należy wywołać metodę przygotowania istniejącego modelu. Może temu posłużyć metoda prepare, która uruchomi mechanizm wnioskujący Pellet. Aby odczytać dane z nowo dodanych indywiduów, należy je ponownie odczytać z~modelu ontologii. W tym celu programista musi znać adres indywiduum. W związku z tym jako adres posłużyło IRI ontologii oraz identyfikator danej klasyfikacji. W wyniku konwersji powstał słownik danych, który następnie został wysłany przy pomocy wiadomości RabbitMQ. Opisana metoda została przedstawiona w listingu \ref{getOntologyData}.
 \newpage
 
 \begin{lstlisting}[caption={Otrzymanie wyników wnioskowania przeprowadzonych na ontologii.}, label={getOntologyData}]
@@ -864,7 +864,7 @@ Rule: Product(?p), positionXMin(?p, ?pXMin),
 		 lessThan(?pXMin, 0.25) -> hasPosition(?p, LeftPosition)
 \end{lstlisting}
 
-Każdy z tworzonych indywiduów dodatkowo posiada właściwość hasImageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna, ponieważ w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny, wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W przypadku gdyby identyfikator obrazu nie został uwzględniony w procesie wnioskowania wówczas analizowana byłaby pozycja wszystkich dostępnych indywiduów. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem sieci, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
+Każdy z tworzonych indywiduów dodatkowo posiada właściwość hasImageId będącą identyfikatorem analizowanego obrazu. Jest ona niezbędna, ponieważ w przypadku wnioskowania mającego na celu sprawdzenie czy obok produktu znajduje się inny, niezgodny, wówczas musielibyśmy rozróżnić już istniejące indywidua ontologii. W przypadku gdyby identyfikator obrazu nie został uwzględniony w procesie wnioskowania wówczas analizowana byłaby pozycja wszystkich dostępnych indywiduów. W tym celu przy sprawdzeniu odległości dwóch podmiotów klasyfikacji względem siebie, reguła SWRL dodatkowo sprawdza, czy należą do tego samego obrazu.
 
 \begin{lstlisting}[caption={Reguła sprawdzająca czy indywidua klas Pepsi oraz CocaColaZero znajdują się na tym samym obrazie.}]
 Rule: CocaColaZero(?cz), Pepsi(?p), hasImageId(?cz, ?czId), 
